@@ -3,786 +3,637 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#111">
+<meta name="theme-color" content="#f6f6f3">
 <title>NutriLens</title>
 
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-
 :root{
---bg:#f5f5f2;
---card:#fff;
---text:#171717;
---muted:#777;
---line:#e7e7e2;
---accent:#111;
---soft:#f0f0ed;
---ring:#111;
+  --bg:#f5f5f2;
+  --card:#fff;
+  --text:#171717;
+  --muted:#777;
+  --line:#e7e7e2;
+  --dark:#111;
+  --soft:#f0f0ed;
+  --blue:#8db9e8;
 }
-
 body{
-margin:0;
-background:var(--bg);
-color:var(--text);
-font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Arial,sans-serif;
-transition:.25s;
-background-size:cover;
-background-position:center;
-background-attachment:fixed
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Arial,sans-serif;
+  transition:.25s;
 }
-
-button,input{font:inherit}
+button,input,select{font:inherit}
 button{border:0;cursor:pointer}
 
 .app{
-max-width:620px;
-margin:auto;
-padding:18px 15px 110px;
-min-height:100vh
+  width:100%;
+  max-width:620px;
+  margin:auto;
+  padding:18px 15px 110px;
+  min-height:100vh;
 }
 
 /* HEADER */
 .header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:18px
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
 }
-
 .header h1{
-margin:0;
-font-size:28px;
-font-weight:850
+  margin:0;
+  font-size:28px;
+  font-weight:850
 }
-
 .header p{
-margin:5px 0;
-color:var(--muted);
-font-size:13px
+  margin:5px 0 0;
+  color:var(--muted);
+  font-size:13px
 }
-
 .icon{
-width:46px;
-height:46px;
-border-radius:50%;
-background:var(--card);
-border:1px solid var(--line);
-font-size:20px
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  background:var(--card);
+  border:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
 }
 
 /* DATE */
 .selected-date{
-background:var(--card);
-border:1px solid var(--line);
-border-radius:24px;
-padding:15px 18px;
-margin-bottom:13px;
-display:flex;
-justify-content:space-between;
-align-items:center
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:15px 18px;
+  margin-bottom:13px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
-
 .selected-date strong{font-size:16px}
-
 .selected-date span{
-display:block;
-color:var(--muted);
-font-size:12px;
-margin-top:3px
+  color:var(--muted);
+  font-size:12px;
+  display:block;
+  margin-top:4px;
 }
 
 /* SUMMARY */
 .summary{
-background:var(--card);
-border:1px solid var(--line);
-border-radius:28px;
-padding:20px;
-margin-bottom:13px
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:28px;
+  padding:22px;
+  margin-bottom:13px;
 }
-
 .summary-top{
-display:flex;
-justify-content:space-between;
-align-items:center
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
-
 .big{
-font-size:40px;
-font-weight:850
+  font-size:42px;
+  font-weight:850;
 }
-
 .big small{
-font-size:13px;
-color:var(--muted);
-font-weight:500
+  font-size:14px;
+  color:var(--muted);
+  font-weight:500;
 }
-
-/* CALORIE CIRCLE */
-.ring{
-width:118px;
-height:118px;
-border-radius:50%;
-display:grid;
-place-items:center;
-background:conic-gradient(
-var(--ring) var(--pct,0%),
-var(--soft) 0
-);
-position:relative;
-flex-shrink:0
-}
-
-.ring:after{
-content:"";
-position:absolute;
-inset:9px;
-background:var(--card);
-border-radius:50%
-}
-
-.ring-center{
-position:relative;
-z-index:1;
-text-align:center
-}
-
-.ring-center b{
-display:block;
-font-size:20px
-}
-
-.ring-center span{
-font-size:9px;
-color:var(--muted)
-}
-
 .progress{
-height:7px;
-background:var(--soft);
-border-radius:99px;
-margin:16px 0;
-overflow:hidden
+  height:9px;
+  background:#ededeb;
+  border-radius:99px;
+  margin:17px 0;
+  overflow:hidden;
 }
-
 .progress div{
-height:100%;
-width:0;
-background:var(--accent);
-border-radius:99px
+  height:100%;
+  width:0;
+  background:#111;
+  border-radius:99px;
+  transition:.35s;
 }
-
 .macros{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:8px
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
 }
-
 .macro{
-background:var(--soft);
-border-radius:17px;
-text-align:center;
-padding:11px 5px
+  background:var(--soft);
+  border-radius:17px;
+  text-align:center;
+  padding:12px 5px;
 }
-
 .macro b{
-display:block;
-font-size:15px
+  display:block;
+  font-size:15px
 }
-
 .macro span{
-font-size:10px;
-color:var(--muted)
+  font-size:10px;
+  color:var(--muted)
 }
 
 /* ADD */
 .add-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
 }
-
 .add-card{
-background:var(--card);
-border:1px solid var(--line);
-border-radius:22px;
-padding:17px;
-text-align:right
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:17px;
+  text-align:right;
 }
-
 .add-card .emoji{font-size:25px}
-
 .add-card b{
-display:block;
-margin-top:8px;
-font-size:14px
+  display:block;
+  margin-top:8px;
+  font-size:14px
 }
-
 .add-card span{
-font-size:11px;
-color:var(--muted)
+  font-size:11px;
+  color:var(--muted)
 }
 
-/* SECTIONS */
+/* SECTION */
 .section{margin-top:22px}
-
 .section-head{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:11px
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:11px;
 }
-
 .section-head h2{
-font-size:19px;
-margin:0
+  font-size:19px;
+  margin:0
 }
-
 .section-head button{
-background:none;
-color:var(--muted);
-font-size:12px
+  background:none;
+  color:var(--muted);
+  font-size:12px;
 }
 
 /* MEALS */
 .meals{
-display:flex;
-flex-direction:column;
-gap:10px
+  display:flex;
+  flex-direction:column;
+  gap:10px
 }
-
 .meal{
-display:flex;
-align-items:center;
-gap:12px;
-background:var(--card);
-border:1px solid var(--line);
-border-radius:23px;
-padding:11px
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:23px;
+  padding:11px;
 }
-
 .meal-img{
-width:68px;
-height:68px;
-border-radius:18px;
-object-fit:cover;
-background:#eee;
-flex-shrink:0
+  width:68px;
+  height:68px;
+  border-radius:18px;
+  object-fit:cover;
+  background:#eee;
+  flex-shrink:0;
 }
-
 .meal-info{
-flex:1;
-min-width:0
+  flex:1;
+  min-width:0
 }
-
 .meal-info b{
-display:block;
-font-size:15px;
-margin-bottom:5px
+  display:block;
+  font-size:15px;
+  margin-bottom:5px;
 }
-
 .meal-info span{
-color:var(--muted);
-font-size:11px
+  color:var(--muted);
+  font-size:11px;
 }
-
 .meal-cal{
-font-size:14px;
-font-weight:800;
-text-align:left
+  font-size:14px;
+  font-weight:800;
+  text-align:left;
 }
-
 .meal-cal small{
-display:block;
-color:var(--muted);
-font-size:9px;
-font-weight:500
+  display:block;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:500;
 }
 
 /* WATER */
 .water{
-background:var(--card);
-border:1px solid var(--line);
-border-radius:24px;
-padding:17px
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:17px;
 }
-
 .water-top{
-display:flex;
-justify-content:space-between;
-align-items:center
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
-
 .water-number{
-font-size:28px;
-font-weight:850
+  font-size:28px;
+  font-weight:850;
 }
-
 .water-number small{
-font-size:12px;
-color:var(--muted)
+  font-size:12px;
+  color:var(--muted)
 }
-
 .cups{
-display:flex;
-gap:7px;
-overflow-x:auto;
-padding:15px 0 5px
+  display:flex;
+  gap:7px;
+  overflow-x:auto;
+  padding:15px 0 5px;
 }
-
 .cup{
-min-width:37px;
-height:45px;
-border:2px solid #b9cee4;
-border-radius:10px 10px 14px 14px;
-background:#eef5fc
+  min-width:37px;
+  height:45px;
+  border:2px solid #b9cee4;
+  border-radius:10px 10px 14px 14px;
+  background:#eef5fc;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
-
-.cup.active{
-background:#9dc5eb
-}
+.cup.active{background:#9dc5eb}
 
 /* CALENDAR */
 .calendar{
-background:var(--card);
-border:1px solid var(--line);
-border-radius:25px;
-padding:16px 10px
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:25px;
+  padding:16px 10px;
 }
-
 .month-head{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:12px
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
 }
-
+.month-head b{font-size:16px}
 .month-head button{
-width:35px;
-height:35px;
-border-radius:50%;
-background:var(--soft)
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  background:var(--soft);
 }
-
 .calendar-grid{
-display:grid;
-grid-template-columns:repeat(7,1fr);
-gap:5px
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:5px;
 }
-
 .weekday{
-text-align:center;
-font-size:9px;
-color:var(--muted);
-padding-bottom:5px
+  text-align:center;
+  font-size:9px;
+  color:var(--muted);
+  padding-bottom:5px;
 }
-
 .date{
-height:44px;
-border-radius:15px;
-background:transparent;
-display:flex;
-align-items:center;
-justify-content:center;
-position:relative;
-font-size:13px
+  height:44px;
+  border-radius:15px;
+  background:transparent;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  font-size:13px;
 }
-
+.date:hover{background:var(--soft)}
 .date.today{font-weight:850}
-
 .date.selected{
-background:var(--accent);
-color:#fff
+  background:#111;
+  color:#fff;
 }
-
-.date.has-data:after{
-content:"";
-position:absolute;
-bottom:5px;
-width:4px;
-height:4px;
-border-radius:50%;
-background:#75a979
+.date.has-data::after{
+  content:"";
+  position:absolute;
+  bottom:5px;
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:#75a979;
 }
+.date.selected.has-data::after{background:#fff}
 
 /* NAV */
 .nav{
-position:fixed;
-z-index:20;
-bottom:11px;
-left:50%;
-transform:translateX(-50%);
-width:min(580px,calc(100% - 22px));
-display:flex;
-background:rgba(255,255,255,.94);
-backdrop-filter:blur(18px);
-border:1px solid var(--line);
-border-radius:25px;
-padding:7px;
-box-shadow:0 8px 30px rgba(0,0,0,.09)
+  position:fixed;
+  z-index:20;
+  bottom:11px;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(580px,calc(100% - 22px));
+  display:flex;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(18px);
+  border:1px solid var(--line);
+  border-radius:25px;
+  padding:7px;
+  box-shadow:0 8px 30px rgba(0,0,0,.09);
 }
-
 .nav button{
-flex:1;
-background:transparent;
-color:#777;
-border-radius:18px;
-padding:6px 2px;
-font-size:10px
+  flex:1;
+  background:transparent;
+  color:#777;
+  border-radius:18px;
+  padding:6px 2px;
+  font-size:10px;
 }
-
 .nav button div{
-font-size:20px;
-margin-bottom:3px
+  font-size:20px;
+  margin-bottom:3px
 }
-
 .nav button.active{
-background:var(--accent);
-color:white
+  background:#111;
+  color:white
 }
 
-/* OVERLAYS */
-.overlay,.side-bg{
-position:fixed;
-inset:0;
-z-index:50;
-background:rgba(0,0,0,.4);
-display:none
+/* OVERLAY */
+.overlay{
+  position:fixed;
+  inset:0;
+  z-index:50;
+  background:rgba(0,0,0,.4);
+  display:none;
+  align-items:flex-end;
 }
-
-.overlay.show,.side-bg.show{
-display:flex;
-align-items:flex-end
-}
-
+.overlay.show{display:flex}
 .sheet{
-width:100%;
-max-width:620px;
-margin:auto;
-max-height:91vh;
-overflow:auto;
-background:var(--card);
-border-radius:30px 30px 0 0;
-padding:20px 17px 30px;
-animation:up .25s ease
+  width:100%;
+  max-width:620px;
+  margin:auto;
+  max-height:91vh;
+  overflow:auto;
+  background:var(--card);
+  border-radius:30px 30px 0 0;
+  padding:20px 17px 30px;
+  animation:up .25s ease;
 }
-
 @keyframes up{
-from{transform:translateY(100%)}
-to{transform:translateY(0)}
+  from{transform:translateY(100%)}
+  to{transform:translateY(0)}
 }
-
 .handle{
-width:43px;
-height:5px;
-background:#ddd;
-border-radius:99px;
-margin:0 auto 18px
+  width:43px;
+  height:5px;
+  background:#ddd;
+  border-radius:99px;
+  margin:0 auto 18px;
 }
-
 .sheet h2{
-margin:0 0 17px
-}
-
-/* SEARCH */
-.search{
-position:relative;
-margin-bottom:12px
-}
-
-.search input{
-padding-right:43px
-}
-
-.search-icon{
-position:absolute;
-right:14px;
-top:12px
-}
-
-.categories,.restaurant-tabs{
-display:flex;
-gap:7px;
-overflow-x:auto;
-padding-bottom:5px;
-margin-bottom:12px
-}
-
-.cat,.restaurant-tab{
-white-space:nowrap;
-padding:9px 13px;
-background:var(--soft);
-border-radius:99px;
-font-size:11px
-}
-
-.cat.active,.restaurant-tab.active{
-background:var(--accent);
-color:#fff
-}
-
-/* FOOD */
-.food-results{
-display:flex;
-flex-direction:column;
-gap:8px
-}
-
-.food-item,.restaurant-card{
-padding:12px;
-background:var(--soft);
-border-radius:17px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px
-}
-
-.food-item b,.restaurant-card b{
-font-size:13px
-}
-
-.food-item span,.restaurant-card span{
-display:block;
-color:var(--muted);
-font-size:10px;
-margin-top:3px
-}
-
-.food-item button,.restaurant-card button{
-background:var(--accent);
-color:#fff;
-border-radius:12px;
-padding:8px 11px;
-font-size:11px
+  margin:0 0 17px
 }
 
 /* FORMS */
-.primary{
-width:100%;
-padding:15px;
-background:var(--accent);
-color:#fff;
-border-radius:17px;
-font-weight:700
-}
-
-.secondary{
-width:100%;
-padding:14px;
-background:var(--soft);
-border-radius:17px;
-margin-top:8px
-}
-
 label.small{
-display:block;
-color:var(--muted);
-font-size:11px;
-margin-bottom:6px
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:6px;
 }
-
+input,select{
+  width:100%;
+  padding:13px;
+  border:1px solid var(--line);
+  background:var(--soft);
+  border-radius:15px;
+  outline:none;
+}
 .form{margin-bottom:12px}
-
-input{
-width:100%;
-padding:13px;
-border:1px solid var(--line);
-background:var(--soft);
-border-radius:15px;
-outline:none
+.primary{
+  width:100%;
+  padding:15px;
+  background:#111;
+  color:white;
+  border-radius:17px;
+  font-weight:700;
+}
+.secondary{
+  width:100%;
+  padding:14px;
+  background:var(--soft);
+  border-radius:17px;
+  margin-top:8px;
 }
 
 /* PHOTO */
 .photo{
-height:165px;
-border:2px dashed #d2d2cc;
-border-radius:22px;
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-overflow:hidden;
-background:var(--soft);
-margin-bottom:14px
+  height:165px;
+  border:2px dashed #d2d2cc;
+  border-radius:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  overflow:hidden;
+  background:var(--soft);
+  margin-bottom:14px;
+}
+.photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
-.photo img{
-width:100%;
-height:100%;
-object-fit:cover
+/* SEARCH */
+.search{
+  position:relative;
+  margin-bottom:12px;
+}
+.search input{padding-right:43px}
+.search-icon{
+  position:absolute;
+  right:14px;
+  top:12px;
+  font-size:18px;
+}
+.categories{
+  display:flex;
+  gap:7px;
+  overflow-x:auto;
+  padding-bottom:5px;
+  margin-bottom:12px;
+}
+.cat{
+  white-space:nowrap;
+  padding:9px 13px;
+  background:var(--soft);
+  border-radius:99px;
+  font-size:11px;
+}
+.cat.active{
+  background:#111;
+  color:#fff
+}
+.food-results{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.food-item{
+  padding:12px;
+  background:var(--soft);
+  border-radius:17px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+.food-item b{font-size:13px}
+.food-item span{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:3px
+}
+.food-item button{
+  background:#111;
+  color:#fff;
+  border-radius:12px;
+  padding:8px 11px;
+  font-size:11px;
+}
+
+/* SIDE */
+.side-bg{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  z-index:40;
+  display:none;
+}
+.side-bg.show{display:block}
+.side{
+  position:absolute;
+  right:0;
+  top:0;
+  bottom:0;
+  width:min(340px,88%);
+  background:var(--card);
+  padding:23px 18px;
+  overflow:auto;
+  animation:side .25s ease;
+}
+@keyframes side{
+  from{transform:translateX(100%)}
+  to{transform:translateX(0)}
+}
+.side-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:22px;
+}
+.side-top h2{margin:0}
+.close{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:var(--soft);
+}
+.setting{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:14px 3px;
+  border-bottom:1px solid var(--line);
+}
+.setting-icon{
+  width:42px;
+  height:42px;
+  border-radius:14px;
+  background:var(--soft);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:19px;
+}
+.setting-text{flex:1}
+.setting-text b{
+  display:block;
+  font-size:13px
+}
+.setting-text span{
+  font-size:10px;
+  color:var(--muted)
+}
+.setting button{
+  background:#111;
+  color:#fff;
+  padding:8px 10px;
+  border-radius:11px;
+  font-size:10px;
 }
 
 /* EMPTY */
 .empty{
-text-align:center;
-background:var(--card);
-border:1px solid var(--line);
-border-radius:22px;
-padding:25px;
-color:var(--muted);
-font-size:13px
-}
-
-/* SIDE SETTINGS */
-.side-bg{
-align-items:stretch
-}
-
-.side{
-margin-right:auto;
-width:min(350px,88%);
-height:100%;
-background:var(--card);
-padding:23px 18px;
-overflow:auto;
-animation:side .25s
-}
-
-@keyframes side{
-from{transform:translateX(100%)}
-to{transform:translateX(0)}
-}
-
-.side-top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:18px
-}
-
-.side-top h2{margin:0}
-
-.close{
-width:40px;
-height:40px;
-border-radius:50%;
-background:var(--soft)
-}
-
-.setting{
-display:flex;
-align-items:center;
-gap:11px;
-padding:14px 3px;
-border-bottom:1px solid var(--line)
-}
-
-.setting-icon{
-width:42px;
-height:42px;
-border-radius:14px;
-background:var(--soft);
-display:grid;
-place-items:center;
-font-size:19px
-}
-
-.setting-text{flex:1}
-
-.setting-text b{
-display:block;
-font-size:13px
-}
-
-.setting-text span{
-font-size:10px;
-color:var(--muted)
-}
-
-.setting button{
-background:var(--accent);
-color:#fff;
-padding:8px 10px;
-border-radius:11px;
-font-size:10px
-}
-
-/* COLORS */
-.palette{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:8px;
-margin:12px 0
-}
-
-.swatch{
-height:36px;
-border-radius:12px;
-border:2px solid transparent
-}
-
-.swatch.active{
-border-color:var(--text);
-box-shadow:0 0 0 2px var(--card)
-}
-
-/* RESTAURANTS */
-.restaurant-menu{
-display:flex;
-flex-direction:column;
-gap:8px
-}
-
-.restaurant-title{
-padding:15px;
-background:var(--soft);
-border-radius:18px;
-margin-bottom:8px
-}
-
-.restaurant-title b{
-font-size:16px
-}
-
-.restaurant-title span{
-display:block;
-color:var(--muted);
-font-size:10px;
-margin-top:4px
+  text-align:center;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:25px;
+  color:var(--muted);
+  font-size:13px;
 }
 
 /* TOAST */
 .toast{
-position:fixed;
-z-index:100;
-top:18px;
-left:50%;
-transform:translate(-50%,-20px);
-background:#111;
-color:#fff;
-padding:11px 17px;
-border-radius:14px;
-font-size:12px;
-opacity:0;
-pointer-events:none;
-transition:.25s
+  position:fixed;
+  z-index:100;
+  top:18px;
+  left:50%;
+  transform:translate(-50%,-20px);
+  background:#111;
+  color:white;
+  padding:11px 17px;
+  border-radius:14px;
+  font-size:12px;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
 }
-
 .toast.show{
-opacity:1;
-transform:translate(-50%,0)
+  opacity:1;
+  transform:translate(-50%,0);
 }
 
 /* DARK */
 body.dark{
---bg:#101010;
---card:#1c1c1c;
---text:#f5f5f5;
---muted:#999;
---line:#303030;
---soft:#282828
+  --bg:#111;
+  --card:#1c1c1c;
+  --text:#f5f5f5;
+  --muted:#999;
+  --line:#303030;
+  --soft:#272727;
 }
-
 body.dark .nav{
-background:rgba(28,28,28,.94)
+  background:rgba(28,28,28,.94);
 }
-
-body.dark .cup{
-background:#202a34
+body.dark .nav button.active,
+body.dark .primary{
+  background:#fff;
+  color:#111;
 }
-
-body.dark .ring:after{
-background:var(--card)
+body.dark .progress{background:#333}
+body.dark .progress div{background:#fff}
+body.dark .cup{background:#202a34}
+body.dark .date.selected{
+  background:#fff;
+  color:#111
+}
+body.dark .date.selected.has-data::after{
+  background:#111
 }
 </style>
 </head>
@@ -792,1639 +643,1851 @@ background:var(--card)
 <div class="app">
 
 <header class="header">
-<div>
-<h1>NutriLens</h1>
-<p id="headerDate"></p>
-</div>
-<button class="icon" onclick="openSettings()">⚙️</button>
+  <div>
+    <h1>NutriLens</h1>
+    <p id="headerDate"></p>
+  </div>
+  <button class="icon" onclick="openSettings()">⚙️</button>
 </header>
 
 <div class="selected-date">
-<div>
-<strong id="selectedDateText"></strong>
-<span id="selectedDateSub"></span>
+  <div>
+    <strong id="selectedDateText"></strong>
+    <span id="selectedDateSub"></span>
+  </div>
+
+  <button
+    onclick="goToday()"
+    style="background:var(--soft);padding:8px 12px;border-radius:12px;font-size:11px">
+    اليوم
+  </button>
 </div>
 
-<button onclick="goToday()" style="background:var(--soft);padding:8px 12px;border-radius:12px;font-size:11px">
-اليوم
-</button>
-</div>
-
-<!-- SUMMARY -->
 <section class="summary">
 
-<div class="summary-top">
+  <div class="summary-top">
 
-<div>
-<div class="big">
-<span id="totalCalories">0</span>
-<small>سعرة</small>
-</div>
+    <div>
 
-<div style="font-size:11px;color:var(--muted);margin-top:5px">
-إجمالي المسجل في هذا اليوم
-</div>
-</div>
+      <div class="big">
+        <span id="totalCalories">0</span>
+        <small>سعرة حرارية</small>
+      </div>
 
-<div class="ring" id="calRing">
-<div class="ring-center">
-<b id="ringNumber">0</b>
-<span>سعرة</span>
-</div>
-</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:5px">
+        إجمالي السعرات المسجلة في هذا اليوم
+      </div>
 
-</div>
+    </div>
 
-<div class="progress">
-<div id="progressBar"></div>
-</div>
+    <div style="font-size:43px">🍽️</div>
 
-<div class="macros">
+  </div>
 
-<div class="macro">
-<b id="protein">0g</b>
-<span>بروتين</span>
-</div>
+  <div class="progress">
+    <div id="progressBar"></div>
+  </div>
 
-<div class="macro">
-<b id="carbs">0g</b>
-<span>كربوهيدرات</span>
-</div>
+  <div class="macros">
 
-<div class="macro">
-<b id="fat">0g</b>
-<span>دهون</span>
-</div>
+    <div class="macro">
+      <b id="protein">0g</b>
+      <span>بروتين</span>
+    </div>
 
-</div>
+    <div class="macro">
+      <b id="carbs">0g</b>
+      <span>كربوهيدرات</span>
+    </div>
+
+    <div class="macro">
+      <b id="fat">0g</b>
+      <span>دهون</span>
+    </div>
+
+  </div>
 
 </section>
 
-<!-- MAIN OPTIONS -->
 <div class="add-grid">
 
-<button class="add-card" onclick="openDatabase()">
-<div class="emoji">🔎</div>
-<b>الأكلات</b>
-<span>قاعدة أكلات كبيرة</span>
-</button>
+  <button class="add-card" onclick="openDatabase()">
+    <div class="emoji">🔎</div>
+    <b>البحث عن وجبة</b>
+    <span>قاعدة بيانات كبيرة للأطعمة</span>
+  </button>
 
-<button class="add-card" onclick="openRestaurants()">
-<div class="emoji">🍴</div>
-<b>المطاعم</b>
-<span>العراقية و KFC</span>
-</button>
-
-<button class="add-card" onclick="openMealModal()">
-<div class="emoji">📸</div>
-<b>إضافة وجبة</b>
-<span>من الألبوم</span>
-</button>
-
-<button class="add-card" onclick="changeWater(1)">
-<div class="emoji">💧</div>
-<b>الماء</b>
-<span>إضافة كوب</span>
-</button>
+  <button class="add-card" onclick="openMealModal()">
+    <div class="emoji">📸</div>
+    <b>إضافة صورة لوجبة</b>
+    <span>اختيار صورة من ألبوم الصور</span>
+  </button>
 
 </div>
 
-<!-- MEALS -->
 <section class="section">
 
-<div class="section-head">
-<h2>وجبات اليوم</h2>
-<button onclick="openDatabase()">+ إضافة من القاعدة</button>
-</div>
+  <div class="section-head">
+    <h2>وجبات اليوم</h2>
 
-<div class="meals" id="meals"></div>
+    <button onclick="openDatabase()">
+      + إضافة من قاعدة البيانات
+    </button>
+  </div>
+
+  <div class="meals" id="meals"></div>
 
 </section>
 
-<!-- WATER -->
 <section class="section">
 
-<div class="section-head">
-<h2>الماء 💧</h2>
-<button onclick="changeWater(1)">+ كوب</button>
-</div>
+  <div class="section-head">
 
-<div class="water">
+    <h2>الماء 💧</h2>
 
-<div class="water-top">
+    <button onclick="changeWater(1)">
+      + إضافة كوب
+    </button>
 
-<div>
-<div class="water-number">
-<span id="waterCount">0</span>
-<small>/ 8 أكواب</small>
-</div>
+  </div>
 
-<div style="font-size:10px;color:var(--muted)">
-الماء المسجل لهذا اليوم
-</div>
-</div>
+  <div class="water">
 
-<div style="font-size:35px">💧</div>
+    <div class="water-top">
 
-</div>
+      <div>
 
-<div class="cups" id="cups"></div>
+        <div class="water-number">
+          <span id="waterCount">0</span>
+          <small>/ 8 أكواب</small>
+        </div>
 
-</div>
+        <div style="font-size:10px;color:var(--muted)">
+          كمية الماء المسجلة لهذا اليوم
+        </div>
+
+      </div>
+
+      <div style="font-size:35px">💧</div>
+
+    </div>
+
+    <div class="cups" id="cups"></div>
+
+  </div>
+
 </section>
 
-<!-- CALENDAR -->
 <section class="section">
 
-<div class="section-head">
-<h2>التقويم 📅</h2>
-<button onclick="goToday()">العودة لليوم</button>
-</div>
+  <div class="section-head">
 
-<div class="calendar">
+    <h2>التقويم 📅</h2>
 
-<div class="month-head">
+    <button onclick="goToday()">
+      العودة إلى اليوم
+    </button>
 
-<button onclick="changeMonth(-1)">‹</button>
+  </div>
 
-<b id="monthTitle"></b>
+  <div class="calendar">
 
-<button onclick="changeMonth(1)">›</button>
+    <div class="month-head">
 
-</div>
+      <button onclick="changeMonth(-1)">‹</button>
 
-<div class="calendar-grid" id="calendar"></div>
+      <b id="monthTitle"></b>
 
-</div>
+      <button onclick="changeMonth(1)">›</button>
+
+    </div>
+
+    <div class="calendar-grid" id="calendar"></div>
+
+  </div>
+
 </section>
 
 </div>
 
-<!-- NAV -->
 <nav class="nav">
 
-<button class="active">
-<div>⌂</div>
-الرئيسية
-</button>
+  <button class="active">
+    <div>⌂</div>
+    الرئيسية
+  </button>
 
-<button onclick="openDatabase()">
-<div>＋</div>
-الأكلات
-</button>
+  <button onclick="openDatabase()">
+    <div>＋</div>
+    إضافة
+  </button>
 
-<button onclick="openRestaurants()">
-<div>🍴</div>
-المطاعم
-</button>
+  <button onclick="changeWater(1)">
+    <div>💧</div>
+    الماء
+  </button>
 
-<button onclick="openSettings()">
-<div>⚙️</div>
-الإعدادات
-</button>
+  <button onclick="openSettings()">
+    <div>⚙️</div>
+    الإعدادات
+  </button>
 
 </nav>
 
 <!-- DATABASE -->
-<div class="overlay" id="databaseOverlay" onclick="outsideClose(event,'databaseOverlay')">
 
-<div class="sheet">
+<div
+  class="overlay"
+  id="databaseOverlay"
+  onclick="outsideClose(event,'databaseOverlay')">
 
-<div class="handle"></div>
+  <div class="sheet">
 
-<h2>قاعدة الأكلات 🍽️</h2>
+    <div class="handle"></div>
 
-<div class="search">
-<span class="search-icon">🔎</span>
-<input id="foodSearch"
-placeholder="ابحثي عن أكلة..."
-oninput="renderFoodDatabase">
-</div>
+    <h2>قاعدة بيانات الأطعمة 🍽️</h2>
 
-<div class="categories" id="categories"></div>
+    <div class="search">
 
-<div class="food-results" id="foodResults"></div>
+      <span class="search-icon">🔎</span>
 
-<button class="secondary"
-onclick="closeModal('databaseOverlay')">
-إغلاق
-</button>
+      <input
+        id="foodSearch"
+        placeholder="ابحث عن وجبة..."
+        oninput="renderFoodDatabase()">
 
-</div>
-</div>
+    </div>
 
-<!-- RESTAURANTS -->
-<div class="overlay"
-id="restaurantOverlay"
-onclick="outsideClose(event,'restaurantOverlay')">
+    <div class="categories" id="categories"></div>
 
-<div class="sheet">
+    <div class="food-results" id="foodResults"></div>
 
-<div class="handle"></div>
+    <button
+      class="secondary"
+      onclick="closeModal('databaseOverlay')">
+      إغلاق
+    </button>
 
-<h2>منيو المطاعم 🍴</h2>
+  </div>
 
-<div class="restaurant-tabs"
-id="restaurantTabs"></div>
-
-<div class="restaurant-menu"
-id="restaurantMenu"></div>
-
-<button class="secondary"
-onclick="closeModal('restaurantOverlay')">
-إغلاق
-</button>
-
-</div>
 </div>
 
 <!-- MEAL -->
-<div class="overlay"
-id="mealOverlay"
-onclick="outsideClose(event,'mealOverlay')">
 
-<div class="sheet">
+<div
+  class="overlay"
+  id="mealOverlay"
+  onclick="outsideClose(event,'mealOverlay')">
 
-<div class="handle"></div>
+  <div class="sheet">
 
-<h2>إضافة وجبة 📸</h2>
+    <div class="handle"></div>
 
-<label class="photo" for="mealPhoto">
+    <h2>إضافة وجبة 📸</h2>
 
-<div id="photoPlaceholder" style="text-align:center">
+    <label class="photo" for="mealPhoto">
 
-<div style="font-size:32px">📷</div>
+      <div id="photoPlaceholder" style="text-align:center">
 
-<div style="font-size:12px;color:var(--muted);margin-top:6px">
-اختاري صورة من الألبوم
+        <div style="font-size:32px">📷</div>
+
+        <div style="font-size:12px;color:var(--muted);margin-top:6px">
+          اختر صورة من ألبوم الصور
+        </div>
+
+      </div>
+
+      <img
+        id="photoPreview"
+        style="display:none">
+
+    </label>
+
+    <input
+      id="mealPhoto"
+      type="file"
+      accept="image/*"
+      style="display:none"
+      onchange="previewPhoto(event)">
+
+    <div class="form">
+
+      <label class="small">
+        اسم الوجبة
+      </label>
+
+      <input
+        id="mealName"
+        placeholder="مثال: دجاج مع الأرز">
+
+    </div>
+
+    <div class="form">
+
+      <label class="small">
+        السعرات الحرارية (اختياري)
+      </label>
+
+      <input
+        id="mealCalories"
+        type="number"
+        min="0"
+        placeholder="مثال: 450">
+
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px">
+
+      <div class="form">
+
+        <label class="small">
+          البروتين
+        </label>
+
+        <input
+          id="mealProtein"
+          type="number"
+          min="0"
+          placeholder="غ">
+
+      </div>
+
+      <div class="form">
+
+        <label class="small">
+          الكربوهيدرات
+        </label>
+
+        <input
+          id="mealCarbs"
+          type="number"
+          min="0"
+          placeholder="غ">
+
+      </div>
+
+      <div class="form">
+
+        <label class="small">
+          الدهون
+        </label>
+
+        <input
+          id="mealFat"
+          type="number"
+          min="0"
+          placeholder="غ">
+
+      </div>
+
+    </div>
+
+    <button
+      class="primary"
+      onclick="saveCustomMeal()">
+      حفظ الوجبة
+    </button>
+
+    <button
+      class="secondary"
+      onclick="closeModal('mealOverlay')">
+      إلغاء
+    </button>
+
+  </div>
+
 </div>
 
-</div>
+<!-- FOOD PORTION -->
 
-<img id="photoPreview" style="display:none">
+<div
+  class="overlay"
+  id="portionOverlay"
+  onclick="outsideClose(event,'portionOverlay')">
 
-</label>
+  <div class="sheet">
 
-<input id="mealPhoto"
-type="file"
-accept="image/*"
-style="display:none"
-onchange="previewPhoto(event)">
+    <div class="handle"></div>
 
-<div class="form">
-<label class="small">اسم الوجبة</label>
-<input id="mealName" placeholder="مثلاً: دجاج مع أرز">
-</div>
+    <h2 id="portionTitle">إضافة وجبة</h2>
 
-<div class="form">
-<label class="small">السعرات</label>
-<input id="mealCalories"
-type="number"
-min="0"
-placeholder="مثلاً 450">
-</div>
+    <div
+      id="portionInfo"
+      style="background:var(--soft);padding:15px;border-radius:18px;margin-bottom:14px">
+    </div>
 
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px">
+    <div class="form">
 
-<div class="form">
-<label class="small">بروتين</label>
-<input id="mealProtein" type="number" min="0" placeholder="g">
-</div>
+      <label class="small">
+        الكمية
+      </label>
 
-<div class="form">
-<label class="small">كربوهيدرات</label>
-<input id="mealCarbs" type="number" min="0" placeholder="g">
-</div>
+      <input
+        id="portionInput"
+        type="number"
+        min="1"
+        value="1"
+        oninput="updatePortionPreview()">
 
-<div class="form">
-<label class="small">دهون</label>
-<input id="mealFat" type="number" min="0" placeholder="g">
-</div>
+    </div>
 
-</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:14px">
+      تتغير القيم الغذائية وفقًا للكمية المحددة.
+    </div>
 
-<button class="primary" onclick="saveCustomMeal()">
-حفظ الوجبة
-</button>
+    <div
+      id="portionPreview"
+      style="background:var(--soft);border-radius:17px;padding:13px;margin-bottom:12px">
+    </div>
 
-<button class="secondary"
-onclick="closeModal('mealOverlay')">
-إلغاء
-</button>
+    <button
+      class="primary"
+      onclick="addDatabaseFood()">
+      إضافة إلى اليوم المحدد
+    </button>
 
-</div>
-</div>
+    <button
+      class="secondary"
+      onclick="closeModal('portionOverlay')">
+      إلغاء
+    </button>
 
-<!-- PORTION -->
-<div class="overlay"
-id="portionOverlay"
-onclick="outsideClose(event,'portionOverlay')">
+  </div>
 
-<div class="sheet">
-
-<div class="handle"></div>
-
-<h2 id="portionTitle">إضافة</h2>
-
-<div id="portionInfo"
-style="background:var(--soft);padding:15px;border-radius:18px;margin-bottom:14px">
-</div>
-
-<div class="form">
-<label class="small">الكمية</label>
-<input id="portionInput"
-type="number"
-min="1"
-value="1"
-oninput="updatePortionPreview()">
-</div>
-
-<div style="font-size:12px;color:var(--muted);margin-bottom:14px">
-القيم تتغير حسب الكمية المختارة.
-</div>
-
-<div id="portionPreview"
-style="background:var(--soft);border-radius:17px;padding:13px;margin-bottom:12px">
-</div>
-
-<button class="primary"
-onclick="addDatabaseFood()">
-إضافة لليوم المحدد
-</button>
-
-<button class="secondary"
-onclick="closeModal('portionOverlay')">
-إلغاء
-</button>
-
-</div>
 </div>
 
 <!-- SETTINGS -->
-<div class="side-bg"
-id="sideBg"
-onclick="closeSideOutside(event)">
 
-<aside class="side">
+<div
+  class="side-bg"
+  id="sideBg"
+  onclick="closeSideOutside(event)">
 
-<div class="side-top">
+  <aside class="side">
 
-<h2>الإعدادات</h2>
+    <div class="side-top">
 
-<button class="close"
-onclick="closeSettings()">
-✕
-</button>
+      <h2>الإعدادات</h2>
 
-</div>
+      <button
+        class="close"
+        onclick="closeSettings()">
+        ✕
+      </button>
 
-<div class="setting">
+    </div>
 
-<div class="setting-icon">🖼️</div>
+    <div class="setting">
 
-<div class="setting-text">
-<b>خلفية التطبيق</b>
-<span>اختاري صورة من الألبوم</span>
-</div>
+      <div class="setting-icon">🖼️</div>
 
-<button onclick="chooseBackground()">
-اختيار
-</button>
+      <div class="setting-text">
 
-</div>
+        <b>خلفية التطبيق</b>
 
-<input id="backgroundInput"
-type="file"
-accept="image/*"
-style="display:none"
-onchange="setBackground(event)">
+        <span>
+          اختر صورة من ألبوم الصور
+        </span>
 
-<div class="setting">
+      </div>
 
-<div class="setting-icon">🎨</div>
+      <button onclick="chooseBackground()">
+        اختيار
+      </button>
 
-<div class="setting-text">
-<b>ألوان الواجهة</b>
-<span id="colorText">أسود</span>
-</div>
+    </div>
 
-</div>
+    <input
+      id="backgroundInput"
+      type="file"
+      accept="image/*"
+      style="display:none"
+      onchange="setBackground(event)">
 
-<div class="palette" id="palette"></div>
+    <div class="setting">
 
-<div class="setting">
+      <div class="setting-icon">🌙</div>
 
-<div class="setting-icon">🌙</div>
+      <div class="setting-text">
 
-<div class="setting-text">
-<b>الوضع الليلي</b>
-<span>تغيير المظهر</span>
-</div>
+        <b>الوضع الليلي</b>
 
-<button onclick="toggleDark()">
-تغيير
-</button>
+        <span>
+          تغيير مظهر التطبيق
+        </span>
 
-</div>
+      </div>
 
-<div class="setting">
+      <button onclick="toggleDark()">
+        تغيير
+      </button>
 
-<div class="setting-icon">🌐</div>
+    </div>
 
-<div class="setting-text">
-<b>اللغة</b>
-<span id="languageText">العربية الفصحى</span>
-</div>
+    <div class="setting">
 
-<button onclick="toggleLanguage()">
-تغيير
-</button>
+      <div class="setting-icon">🌐</div>
 
-</div>
+      <div class="setting-text">
 
-<div class="setting">
+        <b>اللغة</b>
 
-<div class="setting-icon">🗑️</div>
+        <span id="languageText">
+          العربية
+        </span>
 
-<div class="setting-text">
-<b>مسح اليوم المحدد</b>
-<span>حذف وجبات وماء اليوم</span>
-</div>
+      </div>
 
-<button onclick="clearSelectedDay()">
-مسح
-</button>
+      <button onclick="toggleLanguage()">
+        تغيير
+      </button>
 
-</div>
+    </div>
 
-</aside>
+    <div class="setting">
+
+      <div class="setting-icon">🗑️</div>
+
+      <div class="setting-text">
+
+        <b>حذف بيانات اليوم المحدد</b>
+
+        <span>
+          حذف الوجبات والماء المسجلين
+        </span>
+
+      </div>
+
+      <button onclick="clearSelectedDay()">
+        حذف
+      </button>
+
+    </div>
+
+  </aside>
+
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
 
-/* DATA */
+/* =========================================================
+   DATA
+========================================================= */
 
-const KEY="nutrilens_complete_v5";
+const KEY="nutrilens_complete_v4";
 
 let state=JSON.parse(localStorage.getItem(KEY))||{
-meals:[],
-days:{},
-background:"",
-dark:false,
-language:"العربية الفصحى",
-accent:"#111"
+  meals:[],
+  days:{},
+  background:"",
+  dark:false,
+  language:"العربية"
 };
 
 let selectedDate=getTodayKey();
+
 let calendarDate=new Date();
+
 let selectedFood=null;
 let selectedImage="";
 
-/* FOOD DATABASE */
+/* =========================================================
+   SAVE
+========================================================= */
+
+function save(){
+  localStorage.setItem(KEY,JSON.stringify(state));
+}
+
+/* =========================================================
+   FOOD DATABASE
+========================================================= */
 
 const foods=[
 
-{name:"تمن أبيض مطبوخ",cat:"عراقي",cal:205,p:4,c:45,f:.4,unit:"100g"},
-{name:"تمن بسمتي مطبوخ",cat:"عراقي",cal:130,p:2.7,c:28,f:.3,unit:"100g"},
-{name:"تمن أحمر",cat:"عراقي",cal:190,p:4,c:41,f:.5,unit:"100g"},
-{name:"برياني عراقي",cat:"عراقي",cal:260,p:8,c:38,f:8,unit:"100g"},
-{name:"تمن وقيمة",cat:"عراقي",cal:250,p:11,c:32,f:9,unit:"100g"},
-{name:"قوزي",cat:"عراقي",cal:330,p:17,c:38,f:12,unit:"100g"},
-{name:"دولمة عراقية",cat:"عراقي",cal:220,p:7,c:25,f:10,unit:"100g"},
+/* الأطعمة العراقية */
+
+{name:"تمن أبيض مطبوخ",cat:"عراقي",cal:205,p:4,c:45,f:.4,unit:"100 غ"},
+{name:"تمن بسمتي مطبوخ",cat:"عراقي",cal:130,p:2.7,c:28,f:.3,unit:"100 غ"},
+{name:"تمن أحمر",cat:"عراقي",cal:190,p:4,c:41,f:.5,unit:"100 غ"},
+{name:"برياني عراقي",cat:"عراقي",cal:260,p:8,c:38,f:8,unit:"100 غ"},
+{name:"تمن وقيمة",cat:"عراقي",cal:250,p:11,c:32,f:9,unit:"100 غ"},
+{name:"قوزي",cat:"عراقي",cal:330,p:17,c:38,f:12,unit:"100 غ"},
+{name:"دولمة عراقية",cat:"عراقي",cal:220,p:7,c:25,f:10,unit:"100 غ"},
 {name:"تشريب دجاج",cat:"عراقي",cal:240,p:14,c:27,f:8,unit:"طبق"},
 {name:"تشريب لحم",cat:"عراقي",cal:290,p:16,c:25,f:13,unit:"طبق"},
-{name:"مسگوف",cat:"عراقي",cal:220,p:25,c:3,f:12,unit:"100g"},
-{name:"كبة مقلية",cat:"عراقي",cal:280,p:11,c:25,f:15,unit:"100g"},
+{name:"مسگوف",cat:"عراقي",cal:220,p:25,c:3,f:12,unit:"100 غ"},
+{name:"كبة مقلية",cat:"عراقي",cal:280,p:11,c:25,f:15,unit:"100 غ"},
+{name:"كبة حلبية",cat:"عراقي",cal:260,p:10,c:28,f:12,unit:"100 غ"},
 {name:"مرقة بامية",cat:"عراقي",cal:150,p:8,c:10,f:8,unit:"كوب"},
 {name:"مرقة فاصوليا",cat:"عراقي",cal:180,p:9,c:20,f:7,unit:"كوب"},
+{name:"مرقة بطاطا",cat:"عراقي",cal:170,p:5,c:25,f:6,unit:"كوب"},
+{name:"مرقة سبانخ",cat:"عراقي",cal:120,p:5,c:12,f:5,unit:"كوب"},
 {name:"قيمة نجفية",cat:"عراقي",cal:230,p:14,c:22,f:9,unit:"كوب"},
+{name:"باجه",cat:"عراقي",cal:300,p:25,c:5,f:20,unit:"طبق"},
+{name:"فاصوليا بيضاء عراقية",cat:"عراقي",cal:190,p:10,c:30,f:4,unit:"كوب"},
+{name:"شوربة عدس عراقية",cat:"عراقي",cal:180,p:10,c:27,f:4,unit:"كوب"},
+{name:"بيض بالطماطم",cat:"عراقي",cal:190,p:11,c:8,f:12,unit:"طبق"},
 {name:"خبز عراقي",cat:"عراقي",cal:170,p:5,c:34,f:2,unit:"قطعة"},
 {name:"صمون عراقي",cat:"عراقي",cal:190,p:6,c:37,f:2,unit:"قطعة"},
-{name:"قيمر عراقي",cat:"عراقي",cal:250,p:4,c:5,f:24,unit:"50g"},
+{name:"كاهي وقيمر",cat:"عراقي",cal:390,p:8,c:42,f:22,unit:"حصة"},
+{name:"قيمر عراقي",cat:"عراقي",cal:250,p:4,c:5,f:24,unit:"50 غ"},
 {name:"باقلاء بالدهن",cat:"عراقي",cal:220,p:10,c:25,f:9,unit:"طبق"},
-{name:"فلافل عراقية",cat:"عراقي",cal:330,p:12,c:32,f:18,unit:"100g"},
+{name:"فلافل عراقية",cat:"عراقي",cal:330,p:12,c:32,f:18,unit:"100 غ"},
 
-{name:"كبسة دجاج",cat:"عربي",cal:280,p:15,c:38,f:7,unit:"100g"},
-{name:"كبسة لحم",cat:"عربي",cal:310,p:16,c:34,f:11,unit:"100g"},
-{name:"مندي دجاج",cat:"عربي",cal:290,p:17,c:36,f:8,unit:"100g"},
-{name:"مندي لحم",cat:"عربي",cal:320,p:18,c:34,f:11,unit:"100g"},
-{name:"مقلوبة",cat:"عربي",cal:270,p:12,c:35,f:9,unit:"100g"},
+/* الأطعمة العربية */
+
+{name:"كبسة دجاج",cat:"عربي",cal:280,p:15,c:38,f:7,unit:"100 غ"},
+{name:"كبسة لحم",cat:"عربي",cal:310,p:16,c:34,f:11,unit:"100 غ"},
+{name:"مندي دجاج",cat:"عربي",cal:290,p:17,c:36,f:8,unit:"100 غ"},
+{name:"مندي لحم",cat:"عربي",cal:320,p:18,c:34,f:11,unit:"100 غ"},
+{name:"مقلوبة",cat:"عربي",cal:270,p:12,c:35,f:9,unit:"100 غ"},
 {name:"منسف",cat:"عربي",cal:350,p:20,c:32,f:15,unit:"طبق"},
 {name:"شاورما دجاج",cat:"عربي",cal:250,p:18,c:25,f:9,unit:"ساندويتش"},
 {name:"شاورما لحم",cat:"عربي",cal:290,p:18,c:24,f:13,unit:"ساندويتش"},
-{name:"فلافل",cat:"عربي",cal:330,p:13,c:32,f:18,unit:"100g"},
-{name:"حمص",cat:"عربي",cal:165,p:8,c:14,f:9,unit:"100g"},
-{name:"متبل باذنجان",cat:"عربي",cal:140,p:3,c:9,f:10,unit:"100g"},
+{name:"فلافل",cat:"عربي",cal:330,p:13,c:32,f:18,unit:"100 غ"},
+{name:"حمص",cat:"عربي",cal:165,p:8,c:14,f:9,unit:"100 غ"},
+{name:"حمص باللحم",cat:"عربي",cal:230,p:13,c:15,f:13,unit:"100 غ"},
+{name:"متبل باذنجان",cat:"عربي",cal:140,p:3,c:9,f:10,unit:"100 غ"},
+{name:"بابا غنوج",cat:"عربي",cal:120,p:3,c:9,f:8,unit:"100 غ"},
 {name:"تبولة",cat:"عربي",cal:110,p:3,c:12,f:6,unit:"طبق"},
 {name:"فتوش",cat:"عربي",cal:150,p:3,c:17,f:8,unit:"طبق"},
-{name:"ورق عنب",cat:"عربي",cal:190,p:5,c:28,f:7,unit:"100g"},
+{name:"ورق عنب",cat:"عربي",cal:190,p:5,c:28,f:7,unit:"100 غ"},
+{name:"فتة دجاج",cat:"عربي",cal:300,p:18,c:29,f:12,unit:"طبق"},
+{name:"فتة حمص",cat:"عربي",cal:260,p:9,c:29,f:12,unit:"طبق"},
 {name:"ملوخية",cat:"عربي",cal:120,p:6,c:9,f:6,unit:"كوب"},
 {name:"كشري",cat:"عربي",cal:300,p:10,c:48,f:7,unit:"طبق"},
 {name:"مسخن",cat:"عربي",cal:330,p:18,c:32,f:15,unit:"قطعة"},
 {name:"صيادية سمك",cat:"عربي",cal:290,p:22,c:35,f:7,unit:"طبق"},
-{name:"مناقيش زعتر",cat:"عربي",cal:270,p:7,c:35,f:11,unit:"قطعة"},
-{name:"كنافة",cat:"حلويات",cal:350,p:7,c:45,f:16,unit:"100g"},
-{name:"بقلاوة",cat:"حلويات",cal:430,p:7,c:48,f:24,unit:"100g"},
-{name:"بسبوسة",cat:"حلويات",cal:350,p:6,c:48,f:15,unit:"100g"},
+{name:"صفيحة لحم",cat:"عربي",cal:260,p:12,c:27,f:12,unit:"قطعة"},
+{name:"منقوشة زعتر",cat:"عربي",cal:270,p:7,c:35,f:11,unit:"قطعة"},
+{name:"منقوشة جبن",cat:"عربي",cal:310,p:12,c:32,f:14,unit:"قطعة"},
+{name:"شوربة عدس",cat:"عربي",cal:180,p:10,c:27,f:4,unit:"كوب"},
 
-{name:"Pizza Margherita",cat:"عالمي",cal:270,p:12,c:33,f:10,unit:"100g"},
-{name:"Pizza Pepperoni",cat:"عالمي",cal:300,p:13,c:30,f:15,unit:"100g"},
-{name:"Burger",cat:"عالمي",cal:295,p:17,c:25,f:14,unit:"ساندويتش"},
-{name:"Cheeseburger",cat:"عالمي",cal:330,p:19,c:27,f:17,unit:"ساندويتش"},
-{name:"Chicken Burger",cat:"عالمي",cal:320,p:19,c:31,f:13,unit:"ساندويتش"},
-{name:"Chicken Nuggets",cat:"عالمي",cal:290,p:15,c:18,f:17,unit:"100g"},
-{name:"French Fries",cat:"عالمي",cal:310,p:4,c:41,f:15,unit:"100g"},
-{name:"Pasta Tomato",cat:"عالمي",cal:170,p:5,c:30,f:4,unit:"100g"},
-{name:"Pasta Alfredo",cat:"عالمي",cal:240,p:7,c:27,f:11,unit:"100g"},
-{name:"Lasagna",cat:"عالمي",cal:170,p:10,c:15,f:8,unit:"100g"},
-{name:"Spaghetti Bolognese",cat:"عالمي",cal:190,p:9,c:24,f:7,unit:"100g"},
-{name:"Mac and Cheese",cat:"عالمي",cal:220,p:8,c:24,f:10,unit:"100g"},
-{name:"Sushi",cat:"عالمي",cal:150,p:8,c:25,f:3,unit:"100g"},
-{name:"Tacos",cat:"عالمي",cal:220,p:11,c:22,f:10,unit:"قطعة"},
-{name:"Chicken Wrap",cat:"عالمي",cal:280,p:19,c:29,f:9,unit:"ساندويتش"},
+/* الحلويات */
 
-{name:"صدر دجاج مشوي",cat:"بروتين",cal:165,p:31,c:0,f:3.6,unit:"100g"},
-{name:"صدر دجاج مسلوق",cat:"بروتين",cal:150,p:29,c:0,f:3,unit:"100g"},
-{name:"فخذ دجاج",cat:"بروتين",cal:209,p:26,c:0,f:11,unit:"100g"},
-{name:"جناح دجاج",cat:"بروتين",cal:203,p:30,c:0,f:8,unit:"100g"},
-{name:"ستيك لحم",cat:"بروتين",cal:250,p:27,c:0,f:16,unit:"100g"},
-{name:"كباب لحم",cat:"بروتين",cal:270,p:22,c:5,f:18,unit:"100g"},
+{name:"كنافة",cat:"حلويات",cal:350,p:7,c:45,f:16,unit:"100 غ"},
+{name:"بقلاوة",cat:"حلويات",cal:430,p:7,c:48,f:24,unit:"100 غ"},
+{name:"بسبوسة",cat:"حلويات",cal:350,p:6,c:48,f:15,unit:"100 غ"},
+{name:"معمول بالتمر",cat:"حلويات",cal:400,p:5,c:57,f:17,unit:"100 غ"},
+{name:"شوكولاتة بالحليب",cat:"حلويات",cal:535,p:8,c:59,f:30,unit:"100 غ"},
+{name:"كوكيز",cat:"حلويات",cal:480,p:6,c:65,f:22,unit:"100 غ"},
+{name:"دونات",cat:"حلويات",cal:420,p:5,c:50,f:22,unit:"100 غ"},
+{name:"آيس كريم",cat:"حلويات",cal:207,p:4,c:24,f:11,unit:"100 غ"},
+{name:"تشيز كيك",cat:"حلويات",cal:320,p:6,c:25,f:22,unit:"100 غ"},
+{name:"كيك الشوكولاتة",cat:"حلويات",cal:370,p:5,c:50,f:17,unit:"100 غ"},
 
-{name:"سلمون مشوي",cat:"أسماك",cal:208,p:20,c:0,f:13,unit:"100g"},
-{name:"تونة معلبة",cat:"أسماك",cal:116,p:26,c:0,f:1,unit:"100g"},
-{name:"روبيان",cat:"أسماك",cal:99,p:24,c:.2,f:.3,unit:"100g"},
-{name:"سمك أبيض مشوي",cat:"أسماك",cal:120,p:26,c:0,f:2,unit:"100g"},
+/* أطعمة عالمية */
 
-{name:"تفاح",cat:"فواكه",cal:52,p:.3,c:14,f:.2,unit:"100g"},
-{name:"موز",cat:"فواكه",cal:89,p:1.1,c:23,f:.3,unit:"100g"},
-{name:"برتقال",cat:"فواكه",cal:47,p:.9,c:12,f:.1,unit:"100g"},
-{name:"فراولة",cat:"فواكه",cal:32,p:.7,c:7.7,f:.3,unit:"100g"},
-{name:"مانگو",cat:"فواكه",cal:60,p:.8,c:15,f:.4,unit:"100g"},
-{name:"بطيخ",cat:"فواكه",cal:30,p:.6,c:8,f:.2,unit:"100g"},
-{name:"عنب",cat:"فواكه",cal:69,p:.7,c:18,f:.2,unit:"100g"},
-{name:"رمان",cat:"فواكه",cal:83,p:1.7,c:19,f:1.2,unit:"100g"},
-{name:"تمر",cat:"فواكه",cal:282,p:2.5,c:75,f:.4,unit:"100g"},
+{name:"بيتزا مارغريتا",cat:"عالمي",cal:270,p:12,c:33,f:10,unit:"100 غ"},
+{name:"بيتزا بيبروني",cat:"عالمي",cal:300,p:13,c:30,f:15,unit:"100 غ"},
+{name:"برغر",cat:"عالمي",cal:295,p:17,c:25,f:14,unit:"ساندويتش"},
+{name:"تشيز برغر",cat:"عالمي",cal:330,p:19,c:27,f:17,unit:"ساندويتش"},
+{name:"برغر الدجاج",cat:"عالمي",cal:320,p:19,c:31,f:13,unit:"ساندويتش"},
+{name:"قطع الدجاج المقلية",cat:"عالمي",cal:290,p:15,c:18,f:17,unit:"100 غ"},
+{name:"بطاطا مقلية",cat:"عالمي",cal:310,p:4,c:41,f:15,unit:"100 غ"},
+{name:"معكرونة بالطماطم",cat:"عالمي",cal:170,p:5,c:30,f:4,unit:"100 غ"},
+{name:"معكرونة ألفريدو",cat:"عالمي",cal:240,p:7,c:27,f:11,unit:"100 غ"},
+{name:"لازانيا",cat:"عالمي",cal:170,p:10,c:15,f:8,unit:"100 غ"},
+{name:"سباغيتي بولونيز",cat:"عالمي",cal:190,p:9,c:24,f:7,unit:"100 غ"},
+{name:"ماك آند تشيز",cat:"عالمي",cal:220,p:8,c:24,f:10,unit:"100 غ"},
+{name:"سوشي",cat:"عالمي",cal:150,p:8,c:25,f:3,unit:"100 غ"},
+{name:"كاليفورنيا رول",cat:"عالمي",cal:170,p:6,c:29,f:4,unit:"100 غ"},
+{name:"تاكو",cat:"عالمي",cal:220,p:11,c:22,f:10,unit:"قطعة"},
+{name:"بوريتو",cat:"عالمي",cal:300,p:14,c:38,f:10,unit:"100 غ"},
+{name:"لفائف الدجاج",cat:"عالمي",cal:280,p:19,c:29,f:9,unit:"ساندويتش"},
+{name:"بان كيك",cat:"عالمي",cal:225,p:6,c:35,f:7,unit:"100 غ"},
+{name:"وافل",cat:"عالمي",cal:290,p:7,c:39,f:12,unit:"100 غ"},
+{name:"توست فرنسي",cat:"عالمي",cal:230,p:8,c:27,f:10,unit:"قطعة"},
 
-{name:"خيار",cat:"خضار",cal:15,p:.7,c:3.6,f:.1,unit:"100g"},
-{name:"طماطم",cat:"خضار",cal:18,p:.9,c:3.9,f:.2,unit:"100g"},
-{name:"خس",cat:"خضار",cal:15,p:1.4,c:2.9,f:.2,unit:"100g"},
-{name:"جزر",cat:"خضار",cal:41,p:.9,c:10,f:.2,unit:"100g"},
-{name:"بطاطا مسلوقة",cat:"خضار",cal:87,p:1.9,c:20,f:.1,unit:"100g"},
-{name:"بروكلي",cat:"خضار",cal:34,p:2.8,c:7,f:.4,unit:"100g"},
-{name:"باذنجان",cat:"خضار",cal:25,p:1,c:6,f:.2,unit:"100g"},
+/* البروتين */
 
-{name:"حليب كامل الدسم",cat:"ألبان",cal:61,p:3.2,c:4.8,f:3.3,unit:"100ml"},
-{name:"حليب قليل الدسم",cat:"ألبان",cal:45,p:3.4,c:5,f:1.5,unit:"100ml"},
-{name:"لبن",cat:"ألبان",cal:60,p:3.5,c:4.7,f:3,unit:"100g"},
-{name:"زبادي",cat:"ألبان",cal:61,p:3.5,c:4.7,f:3.3,unit:"100g"},
-{name:"لبنة",cat:"ألبان",cal:220,p:8,c:7,f:18,unit:"100g"},
-{name:"جبن أبيض",cat:"ألبان",cal:260,p:18,c:4,f:20,unit:"100g"},
+{name:"صدر دجاج مشوي",cat:"بروتين",cal:165,p:31,c:0,f:3.6,unit:"100 غ"},
+{name:"صدر دجاج مسلوق",cat:"بروتين",cal:150,p:29,c:0,f:3,unit:"100 غ"},
+{name:"فخذ دجاج",cat:"بروتين",cal:209,p:26,c:0,f:11,unit:"100 غ"},
+{name:"جناح دجاج",cat:"بروتين",cal:203,p:30,c:0,f:8,unit:"100 غ"},
+{name:"دجاج مقلي",cat:"بروتين",cal:270,p:24,c:10,f:15,unit:"100 غ"},
+{name:"شريحة لحم",cat:"بروتين",cal:250,p:27,c:0,f:16,unit:"100 غ"},
+{name:"لحم بقر مفروم",cat:"بروتين",cal:250,p:26,c:0,f:17,unit:"100 غ"},
+{name:"لحم غنم",cat:"بروتين",cal:280,p:25,c:0,f:20,unit:"100 غ"},
+{name:"كباب لحم",cat:"بروتين",cal:270,p:22,c:5,f:18,unit:"100 غ"},
+{name:"تكة لحم",cat:"بروتين",cal:240,p:26,c:2,f:14,unit:"100 غ"},
 
-{name:"شيبس",cat:"سناكات",cal:536,p:7,c:53,f:35,unit:"100g"},
-{name:"فشار",cat:"سناكات",cal:387,p:13,c:78,f:4.5,unit:"100g"},
-{name:"لوز",cat:"سناكات",cal:579,p:21,c:22,f:50,unit:"100g"},
-{name:"جوز",cat:"سناكات",cal:654,p:15,c:14,f:65,unit:"100g"},
+/* الأسماك */
 
-{name:"شوكولاتة بالحليب",cat:"حلويات",cal:535,p:8,c:59,f:30,unit:"100g"},
-{name:"كوكيز",cat:"حلويات",cal:480,p:6,c:65,f:22,unit:"100g"},
-{name:"دونات",cat:"حلويات",cal:420,p:5,c:50,f:22,unit:"100g"},
-{name:"آيس كريم",cat:"حلويات",cal:207,p:4,c:24,f:11,unit:"100g"},
-{name:"تشيز كيك",cat:"حلويات",cal:320,p:6,c:25,f:22,unit:"100g"},
+{name:"سلمون مشوي",cat:"أسماك",cal:208,p:20,c:0,f:13,unit:"100 غ"},
+{name:"تونة معلبة",cat:"أسماك",cal:116,p:26,c:0,f:1,unit:"100 غ"},
+{name:"سردين",cat:"أسماك",cal:208,p:25,c:0,f:11,unit:"100 غ"},
+{name:"روبيان",cat:"أسماك",cal:99,p:24,c:.2,f:.3,unit:"100 غ"},
+{name:"سمك أبيض مشوي",cat:"أسماك",cal:120,p:26,c:0,f:2,unit:"100 غ"},
+{name:"سمك مقلي",cat:"أسماك",cal:220,p:20,c:10,f:11,unit:"100 غ"},
 
-{name:"عصير برتقال",cat:"مشروبات",cal:45,p:.7,c:10,f:.2,unit:"100ml"},
-{name:"عصير تفاح",cat:"مشروبات",cal:46,p:.1,c:11,f:.1,unit:"100ml"},
-{name:"مشروب غازي",cat:"مشروبات",cal:42,p:0,c:10.6,f:0,unit:"100ml"},
-{name:"شاي بدون سكر",cat:"مشروبات",cal:1,p:0,c:.2,f:0,unit:"كوب"},
+/* الفطور */
+
+{name:"بيض مخفوق",cat:"فطور",cal:180,p:12,c:2,f:13,unit:"طبق"},
+{name:"بيضة مسلوقة",cat:"فطور",cal:78,p:6,c:.6,f:5,unit:"بيضة"},
+{name:"عجة البيض",cat:"فطور",cal:190,p:12,c:4,f:14,unit:"طبق"},
+{name:"توست الأفوكادو",cat:"فطور",cal:220,p:6,c:25,f:11,unit:"قطعة"},
+{name:"شوفان",cat:"فطور",cal:150,p:5,c:27,f:3,unit:"100 غ"},
+{name:"غرانولا",cat:"فطور",cal:450,p:10,c:64,f:16,unit:"100 غ"},
+{name:"رقائق الذرة",cat:"فطور",cal:357,p:7,c:84,f:.4,unit:"100 غ"},
+
+/* الفواكه */
+
+{name:"تفاح",cat:"فواكه",cal:52,p:.3,c:14,f:.2,unit:"100 غ"},
+{name:"موز",cat:"فواكه",cal:89,p:1.1,c:23,f:.3,unit:"100 غ"},
+{name:"برتقال",cat:"فواكه",cal:47,p:.9,c:12,f:.1,unit:"100 غ"},
+{name:"فراولة",cat:"فواكه",cal:32,p:.7,c:7.7,f:.3,unit:"100 غ"},
+{name:"مانجو",cat:"فواكه",cal:60,p:.8,c:15,f:.4,unit:"100 غ"},
+{name:"بطيخ",cat:"فواكه",cal:30,p:.6,c:8,f:.2,unit:"100 غ"},
+{name:"شمام",cat:"فواكه",cal:34,p:.8,c:8,f:.2,unit:"100 غ"},
+{name:"عنب",cat:"فواكه",cal:69,p:.7,c:18,f:.2,unit:"100 غ"},
+{name:"كيوي",cat:"فواكه",cal:61,p:1.1,c:15,f:.5,unit:"100 غ"},
+{name:"أناناس",cat:"فواكه",cal:50,p:.5,c:13,f:.1,unit:"100 غ"},
+{name:"رمان",cat:"فواكه",cal:83,p:1.7,c:19,f:1.2,unit:"100 غ"},
+{name:"تمر",cat:"فواكه",cal:282,p:2.5,c:75,f:.4,unit:"100 غ"},
+{name:"تين",cat:"فواكه",cal:74,p:.8,c:19,f:.3,unit:"100 غ"},
+
+/* الخضروات */
+
+{name:"خيار",cat:"خضار",cal:15,p:.7,c:3.6,f:.1,unit:"100 غ"},
+{name:"طماطم",cat:"خضار",cal:18,p:.9,c:3.9,f:.2,unit:"100 غ"},
+{name:"خس",cat:"خضار",cal:15,p:1.4,c:2.9,f:.2,unit:"100 غ"},
+{name:"جزر",cat:"خضار",cal:41,p:.9,c:10,f:.2,unit:"100 غ"},
+{name:"بطاطا مسلوقة",cat:"خضار",cal:87,p:1.9,c:20,f:.1,unit:"100 غ"},
+{name:"بطاطا حلوة",cat:"خضار",cal:86,p:1.6,c:20,f:.1,unit:"100 غ"},
+{name:"بروكلي",cat:"خضار",cal:34,p:2.8,c:7,f:.4,unit:"100 غ"},
+{name:"قرنبيط",cat:"خضار",cal:25,p:1.9,c:5,f:.3,unit:"100 غ"},
+{name:"باذنجان",cat:"خضار",cal:25,p:1,c:6,f:.2,unit:"100 غ"},
+{name:"كوسا",cat:"خضار",cal:17,p:1.2,c:3.1,f:.3,unit:"100 غ"},
+{name:"سبانخ",cat:"خضار",cal:23,p:2.9,c:3.6,f:.4,unit:"100 غ"},
+{name:"ذرة",cat:"خضار",cal:96,p:3.4,c:21,f:1.5,unit:"100 غ"},
+
+/* الألبان */
+
+{name:"حليب كامل الدسم",cat:"ألبان",cal:61,p:3.2,c:4.8,f:3.3,unit:"100 مل"},
+{name:"حليب قليل الدسم",cat:"ألبان",cal:45,p:3.4,c:5,f:1.5,unit:"100 مل"},
+{name:"لبن",cat:"ألبان",cal:60,p:3.5,c:4.7,f:3,unit:"100 غ"},
+{name:"زبادي",cat:"ألبان",cal:61,p:3.5,c:4.7,f:3.3,unit:"100 غ"},
+{name:"لبنة",cat:"ألبان",cal:220,p:8,c:7,f:18,unit:"100 غ"},
+{name:"جبن أبيض",cat:"ألبان",cal:260,p:18,c:4,f:20,unit:"100 غ"},
+{name:"موزاريلا",cat:"ألبان",cal:280,p:28,c:3,f:17,unit:"100 غ"},
+
+/* السناكات */
+
+{name:"رقائق البطاطا",cat:"سناكات",cal:536,p:7,c:53,f:35,unit:"100 غ"},
+{name:"فشار",cat:"سناكات",cal:387,p:13,c:78,f:4.5,unit:"100 غ"},
+{name:"لوز",cat:"سناكات",cal:579,p:21,c:22,f:50,unit:"100 غ"},
+{name:"جوز",cat:"سناكات",cal:654,p:15,c:14,f:65,unit:"100 غ"},
+{name:"فول سوداني",cat:"سناكات",cal:567,p:26,c:16,f:49,unit:"100 غ"},
+
+/* المشروبات */
+
+{name:"عصير برتقال",cat:"مشروبات",cal:45,p:.7,c:10,f:.2,unit:"100 مل"},
+{name:"عصير تفاح",cat:"مشروبات",cal:46,p:.1,c:11,f:.1,unit:"100 مل"},
+{name:"مشروب غازي",cat:"مشروبات",cal:42,p:0,c:10.6,f:0,unit:"100 مل"},
+{name:"شاي دون سكر",cat:"مشروبات",cal:1,p:0,c:.2,f:0,unit:"كوب"},
 {name:"قهوة سوداء",cat:"مشروبات",cal:2,p:.3,c:0,f:0,unit:"كوب"}
 
 ];
 
-/* RESTAURANTS */
-
-const restaurants={
-
-"مطاعم عراقية":[
-["مسگوف","سمك مشوي على الطريقة العراقية",220,25,3,12],
-["قوزي","أرز مع لحم وتتبيلة عراقية",330,17,38,12],
-["دولمة","خضار محشية بالأرز واللحم",220,7,25,10],
-["تشريب دجاج","خبز مع مرق ودجاج",240,14,27,8],
-["كباب عراقي","كباب لحم مشوي",270,22,5,18],
-["تمن وقيمة","أرز مع قيمة نجفية",250,11,32,9],
-["كبة مقلية","كبة محشية ومقلية",280,11,25,15],
-["مرقة بامية","بامية مع صلصة اللحم",150,8,10,8]
-],
-
-"KFC":[
-["Chicken Sandwich","ساندويتش دجاج مقرمش",400,20,42,18],
-["Chicken Pieces","قطعة دجاج مقرمش",250,18,10,15],
-["Chicken Strips","شرائح دجاج",270,18,16,14],
-["Popcorn Chicken","قطع دجاج صغيرة",280,16,18,16],
-["French Fries","بطاطا مقلية",310,4,41,15],
-["Coleslaw","سلطة كولسلو",150,1,15,10],
-["Mashed Potatoes","بطاطا مهروسة",120,2,20,4],
-["Biscuit","بسكويت",180,4,22,8]
-]
-
-};
-
-const categories=[
-"الكل",
-"عراقي",
-"عربي",
-"عالمي",
-"بروتين",
-"أسماك",
-"فطور",
-"فواكه",
-"خضار",
-"ألبان",
-"سناكات",
-"حلويات",
-"مشروبات"
-];
-
-let activeCategory="الكل";
-let activeRestaurant="مطاعم عراقية";
-
-/* DATE */
+/* =========================================================
+   DATE
+========================================================= */
 
 function getTodayKey(){
-return keyFromDate(new Date());
+  return keyFromDate(new Date());
 }
 
 function keyFromDate(d){
-return d.getFullYear()+"-"+
-String(d.getMonth()+1).padStart(2,"0")+"-"+
-String(d.getDate()).padStart(2,"0");
+
+  return d.getFullYear()+"-"+
+    String(d.getMonth()+1).padStart(2,"0")+"-"+
+    String(d.getDate()).padStart(2,"0");
+
 }
 
 function parseKey(key){
-const [y,m,d]=key.split("-").map(Number);
-return new Date(y,m-1,d);
+
+  const [y,m,d]=key.split("-").map(Number);
+
+  return new Date(y,m-1,d);
+
 }
 
 function arabicDate(key){
 
-const d=parseKey(key);
+  const d=parseKey(key);
 
-const days=[
-"الأحد",
-"الإثنين",
-"الثلاثاء",
-"الأربعاء",
-"الخميس",
-"الجمعة",
-"السبت"
-];
+  const days=[
+    "الأحد",
+    "الإثنين",
+    "الثلاثاء",
+    "الأربعاء",
+    "الخميس",
+    "الجمعة",
+    "السبت"
+  ];
 
-const months=[
-"يناير",
-"فبراير",
-"مارس",
-"أبريل",
-"مايو",
-"يونيو",
-"يوليو",
-"أغسطس",
-"سبتمبر",
-"أكتوبر",
-"نوفمبر",
-"ديسمبر"
-];
+  const months=[
+    "يناير",
+    "فبراير",
+    "مارس",
+    "أبريل",
+    "مايو",
+    "يونيو",
+    "يوليو",
+    "أغسطس",
+    "سبتمبر",
+    "أكتوبر",
+    "نوفمبر",
+    "ديسمبر"
+  ];
 
-return days[d.getDay()]+"، "+
-d.getDate()+" "+
-months[d.getMonth()]+" "+
-d.getFullYear();
+  return days[d.getDay()]+"، "+
+    d.getDate()+" "+
+    months[d.getMonth()]+" "+
+    d.getFullYear();
+
+}
+
+function renderSelectedDate(){
+
+  document.getElementById("selectedDateText").textContent=
+    arabicDate(selectedDate);
+
+  document.getElementById("selectedDateSub").textContent=
+    selectedDate===getTodayKey()
+    ? "اليوم"
+    : "اليوم المحدد";
+
+  document.getElementById("headerDate").textContent=
+    arabicDate(getTodayKey());
+
 }
 
 function selectDate(key){
 
-selectedDate=key;
+  selectedDate=key;
 
-const d=parseKey(key);
+  const d=parseKey(key);
 
-calendarDate=new Date(
-d.getFullYear(),
-d.getMonth(),
-1
-);
+  calendarDate=
+    new Date(d.getFullYear(),d.getMonth(),1);
 
-renderAll();
+  renderAll();
 
-showToast(
-key===getTodayKey()
-?"تم تحديد اليوم"
-:"تم تحديد اليوم المحدد"
-);
+  showToast(
+    key===getTodayKey()
+    ? "تم تحديد اليوم"
+    : "تم تحديد التاريخ "+arabicDate(key)
+  );
+
 }
 
 function goToday(){
-selectDate(getTodayKey());
+  selectDate(getTodayKey());
 }
 
-/* DAY */
+/* =========================================================
+   DAY DATA
+========================================================= */
 
 function dayMeals(){
-return state.meals.filter(m=>m.date===selectedDate);
+  return state.meals.filter(
+    m=>m.date===selectedDate
+  );
 }
 
 function dayWater(){
-return state.days[selectedDate]?.water||0;
+  return state.days[selectedDate]?.water||0;
 }
 
-/* SUMMARY */
+/* =========================================================
+   SUMMARY
+========================================================= */
 
 function updateSummary(){
 
-const meals=dayMeals();
+  const meals=dayMeals();
 
-let cal=0,p=0,c=0,f=0;
+  let cal=0,p=0,c=0,f=0;
 
-meals.forEach(m=>{
-cal+=Number(m.cal)||0;
-p+=Number(m.p)||0;
-c+=Number(m.c)||0;
-f+=Number(m.f)||0;
-});
+  meals.forEach(m=>{
+    cal+=Number(m.cal)||0;
+    p+=Number(m.p)||0;
+    c+=Number(m.c)||0;
+    f+=Number(m.f)||0;
+  });
 
-document.getElementById("totalCalories").textContent=Math.round(cal);
-document.getElementById("ringNumber").textContent=Math.round(cal);
+  document.getElementById("totalCalories").textContent=
+    Math.round(cal);
 
-document.getElementById("protein").textContent=round(p)+"g";
-document.getElementById("carbs").textContent=round(c)+"g";
-document.getElementById("fat").textContent=round(f)+"g";
+  document.getElementById("protein").textContent=
+    round(p)+" غ";
 
-let pct=Math.min(cal/2000*100,100);
+  document.getElementById("carbs").textContent=
+    round(c)+" غ";
 
-document.getElementById("progressBar").style.width=pct+"%";
+  document.getElementById("fat").textContent=
+    round(f)+" غ";
 
-document.getElementById("calRing").style.setProperty(
-"--pct",
-pct+"%"
-);
+  const visual=Math.min(cal/2000*100,100);
+
+  document.getElementById("progressBar").style.width=
+    visual+"%";
+
 }
 
 function round(n){
-return Math.round(n*10)/10;
+  return Math.round(n*10)/10;
 }
 
-/* MEALS */
+/* =========================================================
+   MEALS
+========================================================= */
 
 function renderMeals(){
 
-const box=document.getElementById("meals");
-const meals=dayMeals();
+  const box=document.getElementById("meals");
 
-if(!meals.length){
+  const meals=dayMeals();
 
-box.innerHTML=`
-<div class="empty">
-🍽️<br><br>
-لا توجد وجبات مسجلة لهذا اليوم.
-<br>
-<button onclick="openDatabase()"
-style="margin-top:12px;background:var(--accent);color:#fff;padding:10px 15px;border-radius:13px">
-إضافة أكلة
-</button>
-</div>`;
+  if(!meals.length){
 
-return;
-}
+    box.innerHTML=`
 
-box.innerHTML=meals.map(m=>`
+      <div class="empty">
 
-<div class="meal">
+        🍽️
 
-${
-m.image
-?
-`<img class="meal-img" src="${m.image}">`
-:
-`<div class="meal-img" style="display:grid;place-items:center;font-size:29px">🍽️</div>`
-}
+        <br><br>
 
-<div class="meal-info">
+        لا توجد وجبات مسجلة لهذا اليوم.
 
-<b>${safe(m.name)}</b>
+        <br>
 
-<span>
-بروتين ${round(m.p)}g ·
-كربوهيدرات ${round(m.c)}g ·
-دهون ${round(m.f)}g
-</span>
+        <button
+          onclick="openDatabase()"
+          style="margin-top:12px;background:#111;color:#fff;padding:10px 15px;border-radius:13px">
 
-</div>
+          إضافة وجبة
 
-<div class="meal-cal">
-${Math.round(m.cal)}
-<small>سعرة</small>
-</div>
+        </button>
 
-<button onclick="deleteMeal('${m.id}')"
-style="background:none;color:#aaa;font-size:17px">
-×
-</button>
+      </div>
 
-</div>
+    `;
 
-`).join("");
+    return;
+  }
+
+  box.innerHTML=meals.map(m=>`
+
+    <div class="meal">
+
+      ${
+        m.image
+
+        ?
+
+        `<img
+          class="meal-img"
+          src="${m.image}"
+          alt="صورة الوجبة">`
+
+        :
+
+        `<div
+          class="meal-img"
+          style="display:flex;align-items:center;justify-content:center;font-size:29px">
+
+          🍽️
+
+        </div>`
+      }
+
+      <div class="meal-info">
+
+        <b>${safe(m.name)}</b>
+
+        <span>
+
+          بروتين ${round(m.p)} غ ·
+          كربوهيدرات ${round(m.c)} غ ·
+          دهون ${round(m.f)} غ
+
+        </span>
+
+      </div>
+
+      <div class="meal-cal">
+
+        ${Math.round(m.cal)}
+
+        <small>سعرة حرارية</small>
+
+      </div>
+
+      <button
+        onclick="deleteMeal('${m.id}')"
+        style="background:none;color:#aaa;font-size:17px">
+
+        ⋯
+
+      </button>
+
+    </div>
+
+  `).join("");
+
 }
 
 function deleteMeal(id){
 
-state.meals=state.meals.filter(m=>m.id!==id);
+  if(!confirm("هل تريد حذف هذه الوجبة؟"))
+    return;
 
-save();
-renderAll();
+  state.meals=
+    state.meals.filter(m=>m.id!==id);
 
-showToast("تم حذف الوجبة");
+  save();
+
+  renderAll();
+
+  showToast("تم حذف الوجبة");
+
 }
 
-/* WATER */
+/* =========================================================
+   WATER
+========================================================= */
 
-function setWater(v){
+function setWater(value){
 
-state.days[selectedDate]??={};
+  if(!state.days[selectedDate])
+    state.days[selectedDate]={water:0};
 
-state.days[selectedDate].water=
-Math.max(0,Math.min(8,v));
+  state.days[selectedDate].water=
+    Math.max(0,Math.min(8,value));
 
-save();
+  save();
 
-renderWater();
-renderCalendar();
+  renderWater();
+  renderCalendar();
+
 }
 
-function changeWater(a){
+function changeWater(amount){
 
-setWater(dayWater()+a);
+  setWater(dayWater()+amount);
 
-if(a>0)
-showToast("تمت إضافة كوب 💧");
+  if(amount>0)
+    showToast("تمت إضافة كوب من الماء 💧");
+
 }
 
 function renderWater(){
 
-let n=dayWater();
+  const n=dayWater();
 
-document.getElementById("waterCount").textContent=n;
+  document.getElementById("waterCount").textContent=n;
 
-let b=document.getElementById("cups");
+  const box=document.getElementById("cups");
 
-b.innerHTML="";
+  box.innerHTML="";
 
-for(let i=1;i<=8;i++){
+  for(let i=1;i<=8;i++){
 
-let x=document.createElement("button");
+    const b=document.createElement("button");
 
-x.className="cup"+(i<=n?" active":"");
-x.textContent="💧";
+    b.className=
+      "cup"+(i<=n?" active":"");
 
-x.onclick=()=>setWater(i);
+    b.textContent="💧";
 
-b.appendChild(x);
+    b.onclick=()=>setWater(i);
+
+    box.appendChild(b);
+
+  }
+
 }
-}
 
-/* CALENDAR */
+/* =========================================================
+   CALENDAR
+========================================================= */
 
-function changeMonth(a){
+function changeMonth(amount){
 
-calendarDate.setMonth(
-calendarDate.getMonth()+a
-);
+  calendarDate.setMonth(
+    calendarDate.getMonth()+amount
+  );
 
-renderCalendar();
+  renderCalendar();
+
 }
 
 function renderCalendar(){
 
-let b=document.getElementById("calendar");
+  const box=document.getElementById("calendar");
 
-let y=calendarDate.getFullYear();
-let m=calendarDate.getMonth();
+  const y=calendarDate.getFullYear();
+  const m=calendarDate.getMonth();
 
-let ms=[
-"يناير",
-"فبراير",
-"مارس",
-"أبريل",
-"مايو",
-"يونيو",
-"يوليو",
-"أغسطس",
-"سبتمبر",
-"أكتوبر",
-"نوفمبر",
-"ديسمبر"
+  const months=[
+    "يناير",
+    "فبراير",
+    "مارس",
+    "أبريل",
+    "مايو",
+    "يونيو",
+    "يوليو",
+    "أغسطس",
+    "سبتمبر",
+    "أكتوبر",
+    "نوفمبر",
+    "ديسمبر"
+  ];
+
+  document.getElementById("monthTitle").textContent=
+    months[m]+" "+y;
+
+  const weekdays=[
+    "أحد",
+    "إثنين",
+    "ثلاثاء",
+    "أربعاء",
+    "خميس",
+    "جمعة",
+    "سبت"
+  ];
+
+  let html="";
+
+  weekdays.forEach(w=>{
+    html+=`
+      <div class="weekday">
+        ${w}
+      </div>
+    `;
+  });
+
+  const first=new Date(y,m,1);
+
+  const start=first.getDay();
+
+  for(let i=0;i<start;i++){
+    html+="<div></div>";
+  }
+
+  const days=
+    new Date(y,m+1,0).getDate();
+
+  const today=getTodayKey();
+
+  for(let day=1;day<=days;day++){
+
+    const d=new Date(y,m,day);
+
+    const key=keyFromDate(d);
+
+    const hasMeals=
+      state.meals.some(x=>x.date===key) ||
+      !!state.days[key]?.water;
+
+    let cls="date";
+
+    if(key===today)
+      cls+=" today";
+
+    if(key===selectedDate)
+      cls+=" selected";
+
+    if(hasMeals)
+      cls+=" has-data";
+
+    html+=`
+
+      <button
+        class="${cls}"
+        onclick="selectDate('${key}')">
+
+        ${day}
+
+      </button>
+
+    `;
+
+  }
+
+  box.innerHTML=html;
+
+}
+
+/* =========================================================
+   FOOD DATABASE
+========================================================= */
+
+const categories=[
+  "الكل",
+  "عراقي",
+  "عربي",
+  "عالمي",
+  "بروتين",
+  "أسماك",
+  "فطور",
+  "فواكه",
+  "خضار",
+  "ألبان",
+  "سناكات",
+  "حلويات",
+  "مشروبات"
 ];
 
-document.getElementById("monthTitle").textContent=
-ms[m]+" "+y;
-
-let h=[
-"أح",
-"إث",
-"ثل",
-"أر",
-"خم",
-"جم",
-"سب"
-]
-.map(x=>`<div class="weekday">${x}</div>`)
-.join("");
-
-let start=new Date(y,m,1).getDay();
-
-for(let i=0;i<start;i++)
-h+="<div></div>";
-
-let days=new Date(y,m+1,0).getDate();
-
-for(let d=1;d<=days;d++){
-
-let k=keyFromDate(new Date(y,m,d));
-
-let has=
-state.meals.some(x=>x.date===k)||
-!!state.days[k]?.water;
-
-let cl="date";
-
-if(k===getTodayKey())cl+=" today";
-if(k===selectedDate)cl+=" selected";
-if(has)cl+=" has-data";
-
-h+=`
-<button class="${cl}"
-onclick="selectDate('${k}')">
-${d}
-</button>`;
-}
-
-b.innerHTML=h;
-}
-
-/* FOOD DATABASE */
+let activeCategory="الكل";
 
 function renderCategories(){
 
-document.getElementById("categories").innerHTML=
-categories.map(c=>`
+  const box=
+    document.getElementById("categories");
 
-<button
-class="cat ${activeCategory===c?"active":""}"
-onclick="selectCategory('${c}')">
-${c}
-</button>
+  box.innerHTML=
+    categories.map(c=>`
 
-`).join("");
+      <button
+        class="cat ${activeCategory===c?"active":""}"
+        onclick="selectCategory('${c}')">
+
+        ${c}
+
+      </button>
+
+    `).join("");
+
 }
 
-function selectCategory(c){
+function selectCategory(cat){
 
-activeCategory=c;
+  activeCategory=cat;
 
-renderCategories();
-renderFoodDatabase();
+  renderCategories();
+  renderFoodDatabase();
+
 }
 
 function renderFoodDatabase(){
 
-let q=
-(document.getElementById("foodSearch").value||"")
-.toLowerCase()
-.trim();
+  const search=
+    document.getElementById("foodSearch")
+      .value
+      .trim()
+      .toLowerCase();
 
-let r=foods.filter(f=>
-(activeCategory==="الكل"||f.cat===activeCategory)&&
-(!q||f.name.toLowerCase().includes(q))
-);
+  let result=
+    foods.filter(f=>{
 
-document.getElementById("foodResults").innerHTML=
-r.length
-?
-r.map(f=>{
+      const matchesCategory=
+        activeCategory==="الكل" ||
+        f.cat===activeCategory;
 
-let i=foods.indexOf(f);
+      const matchesSearch=
+        !search ||
+        f.name.toLowerCase()
+          .includes(search);
 
-return`
-<div class="food-item">
+      return matchesCategory &&
+        matchesSearch;
 
-<div>
+    });
 
-<b>${safe(f.name)}</b>
+  const box=
+    document.getElementById("foodResults");
 
-<span>
-${f.unit} · ${f.cal} سعرة تقريباً
-</span>
+  if(!result.length){
 
-</div>
+    box.innerHTML=`
 
-<button onclick="selectFood(${i})">
-إضافة
-</button>
+      <div class="empty">
+        لم يتم العثور على الوجبة 🔎
+      </div>
 
-</div>
-`;
+    `;
 
-}).join("")
-:
-'<div class="empty">لم يتم العثور على الأكلة 🔎</div>';
+    return;
+  }
+
+  box.innerHTML=
+    result.map(f=>{
+
+      const originalIndex=
+        foods.indexOf(f);
+
+      return`
+
+        <div class="food-item">
+
+          <div>
+
+            <b>
+              ${safe(f.name)}
+            </b>
+
+            <span>
+              ${f.unit} ·
+              ${f.cal} سعرة حرارية تقريبًا
+            </span>
+
+          </div>
+
+          <button
+            onclick="selectFood(${originalIndex})">
+
+            إضافة
+
+          </button>
+
+        </div>
+
+      `;
+
+    }).join("");
+
 }
 
-/* PORTION */
+function selectFood(index){
 
-function selectFood(i){
+  selectedFood=foods[index];
 
-selectedFood=foods[i];
+  document.getElementById("portionTitle")
+    .textContent=
+    selectedFood.name;
 
-document.getElementById("portionTitle").textContent=
-selectedFood.name;
+  document.getElementById("portionInfo")
+    .innerHTML=`
 
-document.getElementById("portionInfo").innerHTML=`
+      <b>
+        ${safe(selectedFood.name)}
+      </b>
 
-<b>${safe(selectedFood.name)}</b>
+      <div
+        style="font-size:11px;color:var(--muted);margin-top:6px">
 
-<div style="font-size:11px;color:var(--muted);margin-top:6px">
-${selectedFood.unit} ·
-${selectedFood.cal}
-سعرة تقريباً
-</div>
+        ${selectedFood.unit} ·
+        ${selectedFood.cal}
+        سعرة حرارية تقريبًا
 
-`;
+      </div>
 
-document.getElementById("portionInput").value=1;
+    `;
 
-updatePortionPreview();
+  document.getElementById("portionInput")
+    .value=1;
 
-document.getElementById("portionOverlay")
-.classList.add("show");
+  updatePortionPreview();
+
+  document.getElementById("portionOverlay")
+    .classList.add("show");
+
 }
 
 function updatePortionPreview(){
 
-if(!selectedFood)return;
+  if(!selectedFood)
+    return;
 
-let q=
-+document.getElementById("portionInput").value||1;
+  const q=
+    Number(
+      document.getElementById("portionInput").value
+    )||1;
 
-document.getElementById("portionPreview").innerHTML=`
+  document.getElementById("portionPreview")
+    .innerHTML=`
 
-<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center">
+      <div
+        style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center">
 
-<div>
-<b>${round(selectedFood.cal*q)}</b>
-<small style="display:block;color:var(--muted)">سعرة</small>
-</div>
+        <div>
+          <b>
+            ${round(selectedFood.cal*q)}
+          </b>
+          <small
+            style="display:block;color:var(--muted)">
+            سعرة
+          </small>
+        </div>
 
-<div>
-<b>${round(selectedFood.p*q)}g</b>
-<small style="display:block;color:var(--muted)">بروتين</small>
-</div>
+        <div>
+          <b>
+            ${round(selectedFood.p*q)} غ
+          </b>
+          <small
+            style="display:block;color:var(--muted)">
+            بروتين
+          </small>
+        </div>
 
-<div>
-<b>${round(selectedFood.c*q)}g</b>
-<small style="display:block;color:var(--muted)">كربوهيدرات</small>
-</div>
+        <div>
+          <b>
+            ${round(selectedFood.c*q)} غ
+          </b>
+          <small
+            style="display:block;color:var(--muted)">
+            كربوهيدرات
+          </small>
+        </div>
 
-<div>
-<b>${round(selectedFood.f*q)}g</b>
-<small style="display:block;color:var(--muted)">دهون</small>
-</div>
+        <div>
+          <b>
+            ${round(selectedFood.f*q)} غ
+          </b>
+          <small
+            style="display:block;color:var(--muted)">
+            دهون
+          </small>
+        </div>
 
-</div>
-`;
+      </div>
+
+    `;
+
 }
 
 function addDatabaseFood(){
 
-if(!selectedFood)return;
+  if(!selectedFood)
+    return;
 
-let q=
-+document.getElementById("portionInput").value||1;
+  const q=
+    Number(
+      document.getElementById("portionInput").value
+    )||1;
 
-state.meals.push({
+  state.meals.push({
 
-id:Date.now().toString(),
-date:selectedDate,
+    id:Date.now().toString(),
 
-name:selectedFood.name+
-" × "+
-q,
+    date:selectedDate,
 
-cal:selectedFood.cal*q,
-p:selectedFood.p*q,
-c:selectedFood.c*q,
-f:selectedFood.f*q,
+    name:
+      selectedFood.name+
+      " × "+
+      q,
 
-image:""
+    cal:
+      selectedFood.cal*q,
 
-});
+    p:
+      selectedFood.p*q,
 
-save();
+    c:
+      selectedFood.c*q,
 
-closeModal("portionOverlay");
-closeModal("databaseOverlay");
+    f:
+      selectedFood.f*q,
 
-renderAll();
+    image:""
 
-showToast("تمت الإضافة ✓");
+  });
+
+  save();
+
+  closeModal("portionOverlay");
+
+  closeModal("databaseOverlay");
+
+  renderAll();
+
+  showToast(
+    "تمت إضافة "+
+    selectedFood.name+
+    " بنجاح ✓"
+  );
+
 }
 
-/* RESTAURANTS */
-
-function openRestaurants(){
-
-document.getElementById("restaurantOverlay")
-.classList.add("show");
-
-renderRestaurantTabs();
-renderRestaurantMenu();
-}
-
-function renderRestaurantTabs(){
-
-document.getElementById("restaurantTabs").innerHTML=
-Object.keys(restaurants)
-.map(r=>`
-
-<button
-class="restaurant-tab ${activeRestaurant===r?"active":""}"
-onclick="selectRestaurant('${r}')">
-${r}
-</button>
-
-`).join("");
-}
-
-function selectRestaurant(r){
-
-activeRestaurant=r;
-
-renderRestaurantTabs();
-renderRestaurantMenu();
-}
-
-function renderRestaurantMenu(){
-
-let arr=restaurants[activeRestaurant];
-
-document.getElementById("restaurantMenu").innerHTML=`
-
-<div class="restaurant-title">
-
-<b>${safe(activeRestaurant)}</b>
-
-<span>
-القيم الغذائية تقريبية وقد تختلف حسب الحجم وطريقة التحضير.
-</span>
-
-</div>
-
-`+
-
-arr.map((x,i)=>`
-
-<div class="restaurant-card">
-
-<div>
-
-<b>${safe(x[0])}</b>
-
-<span>
-${safe(x[1])} ·
-${x[2]} سعرة تقريباً
-</span>
-
-</div>
-
-<button onclick="addRestaurantFood(${i})">
-إضافة
-</button>
-
-</div>
-
-`).join("");
-}
-
-function addRestaurantFood(i){
-
-let x=restaurants[activeRestaurant][i];
-
-state.meals.push({
-
-id:Date.now().toString(),
-
-date:selectedDate,
-
-name:
-activeRestaurant+
-" — "+
-x[0],
-
-cal:x[2],
-p:x[3],
-c:x[4],
-f:x[5],
-
-image:""
-
-});
-
-save();
-
-closeModal("restaurantOverlay");
-
-renderAll();
-
-showToast("تمت إضافة الوجبة ✓");
-}
-
-/* CUSTOM MEAL */
+/* =========================================================
+   CUSTOM MEAL
+========================================================= */
 
 function openMealModal(){
 
-selectedImage="";
+  selectedImage="";
 
-[
-"mealName",
-"mealCalories",
-"mealProtein",
-"mealCarbs",
-"mealFat"
-].forEach(id=>
-document.getElementById(id).value=""
-);
+  document.getElementById("mealName").value="";
+  document.getElementById("mealCalories").value="";
+  document.getElementById("mealProtein").value="";
+  document.getElementById("mealCarbs").value="";
+  document.getElementById("mealFat").value="";
 
-document.getElementById("photoPreview")
-.style.display="none";
+  document.getElementById("photoPreview")
+    .style.display="none";
 
-document.getElementById("photoPlaceholder")
-.style.display="block";
+  document.getElementById("photoPreview")
+    .src="";
 
-document.getElementById("mealOverlay")
-.classList.add("show");
+  document.getElementById("photoPlaceholder")
+    .style.display="block";
+
+  document.getElementById("mealOverlay")
+    .classList.add("show");
+
 }
 
-function previewPhoto(e){
+function previewPhoto(event){
 
-let f=e.target.files[0];
+  const file=
+    event.target.files[0];
 
-if(!f)return;
+  if(!file)
+    return;
 
-let r=new FileReader();
+  const reader=
+    new FileReader();
 
-r.onload=x=>{
+  reader.onload=e=>{
 
-selectedImage=x.target.result;
+    selectedImage=e.target.result;
 
-document.getElementById("photoPreview").src=
-selectedImage;
+    document.getElementById("photoPreview")
+      .src=selectedImage;
 
-document.getElementById("photoPreview")
-.style.display="block";
+    document.getElementById("photoPreview")
+      .style.display="block";
 
-document.getElementById("photoPlaceholder")
-.style.display="none";
+    document.getElementById("photoPlaceholder")
+      .style.display="none";
 
-};
+  };
 
-r.readAsDataURL(f);
+  reader.readAsDataURL(file);
+
 }
 
 function saveCustomMeal(){
 
-let n=
-document.getElementById("mealName")
-.value.trim();
+  const name=
+    document.getElementById("mealName")
+      .value
+      .trim();
 
-if(!n){
+  if(!name){
 
-showToast("اكتبي اسم الوجبة");
+    showToast(
+      "يرجى إدخال اسم الوجبة"
+    );
 
-return;
+    return;
+
+  }
+
+  const cal=
+    Number(
+      document.getElementById("mealCalories").value
+    )||0;
+
+  const p=
+    Number(
+      document.getElementById("mealProtein").value
+    )||0;
+
+  const c=
+    Number(
+      document.getElementById("mealCarbs").value
+    )||0;
+
+  const f=
+    Number(
+      document.getElementById("mealFat").value
+    )||0;
+
+  state.meals.push({
+
+    id:Date.now().toString(),
+
+    date:selectedDate,
+
+    name,
+
+    cal,
+    p,
+    c,
+    f,
+
+    image:selectedImage
+
+  });
+
+  save();
+
+  closeModal("mealOverlay");
+
+  renderAll();
+
+  showToast(
+    "تم حفظ الوجبة بنجاح ✓"
+  );
+
 }
 
-state.meals.push({
-
-id:Date.now().toString(),
-
-date:selectedDate,
-
-name:n,
-
-cal:+document.getElementById("mealCalories").value||0,
-
-p:+document.getElementById("mealProtein").value||0,
-
-c:+document.getElementById("mealCarbs").value||0,
-
-f:+document.getElementById("mealFat").value||0,
-
-image:selectedImage
-
-});
-
-save();
-
-closeModal("mealOverlay");
-
-renderAll();
-
-showToast("تم حفظ الوجبة ✓");
-}
-
-/* COLORS */
-
-const colors=[
-
-["#111","أسود"],
-["#fff","أبيض"],
-["#777","رمادي"],
-["#e85d9e","وردي"],
-["#7c5cff","بنفسجي"],
-["#4d7cff","أزرق"],
-["#2aa8d8","سماوي"],
-["#39a85b","أخضر"],
-["#e5b82e","أصفر"],
-["#ed7a25","برتقالي"],
-["#e53935","أحمر"]
-
-];
-
-function renderPalette(){
-
-document.getElementById("palette").innerHTML=
-
-colors.map(c=>`
-
-<button
-class="swatch ${state.accent===c[0]?"active":""}"
-title="${c[1]}"
-style="background:${c[0]}"
-onclick="setAccent('${c[0]}','${c[1]}')">
-</button>
-
-`).join("");
-
-document.getElementById("colorText").textContent=
-colors.find(c=>c[0]===state.accent)?.[1]||"أسود";
-}
-
-function setAccent(c,n){
-
-state.accent=c;
-
-document.documentElement
-.style.setProperty("--accent",c);
-
-document.documentElement
-.style.setProperty("--ring",c);
-
-save();
-
-renderPalette();
-
-showToast("تم اختيار "+n);
-}
-
-/* SETTINGS */
+/* =========================================================
+   SETTINGS
+========================================================= */
 
 function openSettings(){
 
-document.getElementById("sideBg")
-.classList.add("show");
+  document.getElementById("sideBg")
+    .classList.add("show");
 
-renderPalette();
 }
 
 function closeSettings(){
 
-document.getElementById("sideBg")
-.classList.remove("show");
+  document.getElementById("sideBg")
+    .classList.remove("show");
+
 }
 
 function closeSideOutside(e){
 
-if(e.target.id==="sideBg")
-closeSettings();
-}
+  if(e.target.id==="sideBg")
+    closeSettings();
 
-/* BACKGROUND */
+}
 
 function chooseBackground(){
 
-document.getElementById("backgroundInput").click();
+  document.getElementById("backgroundInput")
+    .click();
+
 }
 
-function setBackground(e){
+function setBackground(event){
 
-let f=e.target.files[0];
+  const file=
+    event.target.files[0];
 
-if(!f)return;
+  if(!file)
+    return;
 
-let r=new FileReader();
+  const reader=
+    new FileReader();
 
-r.onload=x=>{
+  reader.onload=e=>{
 
-state.background=x.target.result;
+    state.background=e.target.result;
 
-save();
+    save();
 
-applyBackground();
+    applyBackground();
 
-showToast("تم تغيير الخلفية ✓");
+    showToast(
+      "تم تغيير خلفية التطبيق بنجاح ✓"
+    );
 
-};
+  };
 
-r.readAsDataURL(f);
+  reader.readAsDataURL(file);
+
 }
 
 function applyBackground(){
 
-document.body.style.backgroundImage=
-state.background
-?
-`linear-gradient(rgba(245,245,242,.78),rgba(245,245,242,.78)),url("${state.background}")`
-:
-"none";
-}
+  if(state.background){
 
-/* DARK */
+    document.body.style.backgroundImage=
+      `linear-gradient(
+        rgba(245,245,242,.80),
+        rgba(245,245,242,.80)
+      ),
+      url("${state.background}")`;
+
+    document.body.style.backgroundSize=
+      "cover";
+
+    document.body.style.backgroundPosition=
+      "center";
+
+    document.body.style.backgroundAttachment=
+      "fixed";
+
+  }else{
+
+    document.body.style.backgroundImage=
+      "none";
+
+  }
+
+}
 
 function toggleDark(){
 
-state.dark=!state.dark;
+  state.dark=!state.dark;
 
-document.body.classList.toggle(
-"dark",
-state.dark
-);
+  document.body.classList.toggle(
+    "dark",
+    state.dark
+  );
 
-save();
+  save();
 
-showToast(
-state.dark
-?
-"الوضع الليلي 🌙"
-:
-"الوضع النهاري ☀️"
-);
+  showToast(
+    state.dark
+      ? "تم تفعيل الوضع الليلي 🌙"
+      : "تم تفعيل الوضع النهاري ☀️"
+  );
+
 }
-
-/* LANGUAGE */
 
 function toggleLanguage(){
 
-state.language=
-state.language==="العربية الفصحى"
-?
-"English"
-:
-"العربية الفصحى";
+  /*
+    التطبيق في هذه النسخة يستخدم العربية الفصحى.
+    يبقى الخيار محفوظًا لإضافة لغات أخرى لاحقًا.
+  */
 
-document.getElementById("languageText")
-.textContent=state.language;
+  state.language="العربية";
 
-save();
+  document.getElementById("languageText")
+    .textContent="العربية";
 
-showToast(
-state.language==="English"
-?
-"English selected"
-:
-"تم اختيار العربية الفصحى"
-);
+  save();
+
+  showToast(
+    "اللغة العربية هي اللغة الحالية"
+  );
+
 }
 
-/* CLEAR */
+/* =========================================================
+   CLEAR
+========================================================= */
 
 function clearSelectedDay(){
 
-state.meals=
-state.meals.filter(
-m=>m.date!==selectedDate
-);
+  if(!confirm(
+    "هل تريد حذف جميع بيانات اليوم المحدد؟"
+  ))
+    return;
 
-delete state.days[selectedDate];
+  state.meals=
+    state.meals.filter(
+      m=>m.date!==selectedDate
+    );
 
-save();
+  delete state.days[selectedDate];
 
-renderAll();
+  save();
 
-showToast("تم مسح اليوم");
+  renderAll();
+
+  showToast(
+    "تم حذف بيانات اليوم المحدد"
+  );
+
 }
 
-/* MODALS */
+/* =========================================================
+   MODALS
+========================================================= */
 
 function openDatabase(){
 
-document.getElementById("databaseOverlay")
-.classList.add("show");
+  document.getElementById("databaseOverlay")
+    .classList.add("show");
 
-document.getElementById("foodSearch").value="";
+  document.getElementById("foodSearch")
+    .value="";
 
-activeCategory="الكل";
+  activeCategory="الكل";
 
-renderCategories();
-renderFoodDatabase();
+  renderCategories();
+  renderFoodDatabase();
+
 }
 
 function closeModal(id){
 
-document.getElementById(id)
-.classList.remove("show");
+  document.getElementById(id)
+    .classList.remove("show");
+
 }
 
 function outsideClose(e,id){
 
-if(e.target.id===id)
-closeModal(id);
+  if(e.target.id===id)
+    closeModal(id);
+
 }
 
-/* HELPERS */
+/* =========================================================
+   HELPERS
+========================================================= */
 
 function safe(text){
 
-return String(text)
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
+  return String(text)
+
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
 }
 
-function save(){
+function showToast(text){
 
-localStorage.setItem(
-KEY,
-JSON.stringify(state)
-);
+  const t=
+    document.getElementById("toast");
+
+  t.textContent=text;
+
+  t.classList.add("show");
+
+  clearTimeout(
+    window.toastTimer
+  );
+
+  window.toastTimer=
+    setTimeout(()=>{
+
+      t.classList.remove("show");
+
+    },2000);
+
 }
 
-function showToast(t){
-
-let x=document.getElementById("toast");
-
-x.textContent=t;
-
-x.classList.add("show");
-
-clearTimeout(window.toastTimer);
-
-window.toastTimer=setTimeout(
-()=>x.classList.remove("show"),
-1800
-);
-}
-
-/* RENDER */
+/* =========================================================
+   RENDER
+========================================================= */
 
 function renderAll(){
 
-document.getElementById("selectedDateText")
-.textContent=arabicDate(selectedDate);
+  renderSelectedDate();
 
-document.getElementById("selectedDateSub")
-.textContent=
-selectedDate===getTodayKey()
-?
-"اليوم"
-:
-"اليوم المحدد";
+  updateSummary();
 
-document.getElementById("headerDate")
-.textContent=
-arabicDate(getTodayKey());
+  renderMeals();
 
-updateSummary();
-renderMeals();
-renderWater();
-renderCalendar();
+  renderWater();
 
-document.getElementById("languageText")
-.textContent=state.language;
+  renderCalendar();
+
+  document.getElementById("languageText")
+    .textContent="العربية";
+
 }
 
-/* START */
+/* =========================================================
+   START
+========================================================= */
 
 document.body.classList.toggle(
-"dark",
-state.dark
-);
-
-document.documentElement.style.setProperty(
-"--accent",
-state.accent||"#111"
-);
-
-document.documentElement.style.setProperty(
-"--ring",
-state.accent||"#111"
+  "dark",
+  state.dark
 );
 
 applyBackground();
