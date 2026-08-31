@@ -2,261 +2,1015 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <title>NutriLens</title>
 
 <style>
 * {
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    --primary: #7c5cff;
+    --secondary: #a98cff;
+    --text: #24222d;
+    --muted: #777484;
+    --card: rgba(255,255,255,.86);
+    --nav: rgba(255,255,255,.94);
+    --shadow: 0 10px 35px rgba(0,0,0,.12);
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    color: var(--text);
 }
 
 body {
-  margin: 0;
-  background: #f6f8f7;
-  color: #222;
+    min-height: 100vh;
+    background: linear-gradient(135deg,#eee9ff,#faf9ff);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    transition: background-image .4s ease;
 }
+
+/* طبقة حتى تبقى الكتابة واضحة فوق الخلفية */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,.25);
+    backdrop-filter: blur(2px);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* HEADER */
 
 header {
-  background: #4caf50;
-  color: white;
-  padding: 20px;
-  text-align: center;
+    padding: 22px 18px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 28px;
+.logo {
+    font-size: 25px;
+    font-weight: 800;
+    color: var(--primary);
 }
 
-.container {
-  max-width: 700px;
-  margin: auto;
-  padding: 20px;
+.header-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 3px;
 }
 
-.section {
-  background: white;
-  padding: 18px;
-  border-radius: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 15px rgba(0,0,0,.07);
+.profile-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    background: white;
+    box-shadow: var(--shadow);
+    font-size: 20px;
 }
 
-h2 {
-  margin-top: 0;
+/* PAGES */
+
+.page {
+    display: none;
+    padding: 8px 16px 120px;
+    max-width: 700px;
+    margin: auto;
 }
 
-input,
-button {
-  width: 100%;
-  padding: 13px;
-  margin-top: 10px;
-  border-radius: 12px;
-  border: 1px solid #ddd;
-  font-size: 16px;
+.page.active {
+    display: block;
 }
 
-button {
-  background: #4caf50;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
+/* CARDS */
+
+.card {
+    background: var(--card);
+    border-radius: 25px;
+    padding: 18px;
+    margin: 13px 0;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(15px);
 }
 
-button:hover {
-  opacity: .9;
+.card-title {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 5px;
 }
 
-.image-button {
-  display: block;
-  text-align: center;
-  background: #eef7ee;
-  color: #388e3c;
-  padding: 14px;
-  border-radius: 14px;
-  cursor: pointer;
-  margin-top: 10px;
+.small {
+    color: var(--muted);
+    font-size: 13px;
 }
 
-#imageInput {
-  display: none;
+/* CALORIES */
+
+.calorie-card {
+    text-align: center;
+    padding: 25px 18px;
 }
 
-.preview {
-  width: 100%;
-  max-height: 300px;
-  object-fit: cover;
-  border-radius: 18px;
-  margin-top: 15px;
-  display: none;
+.circle-progress {
+    width: 185px;
+    height: 185px;
+    margin: 15px auto;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(circle at center, rgba(255,255,255,.95) 62%, transparent 63%),
+        conic-gradient(var(--primary) 0deg, var(--primary) 110deg, #e9e6f3 110deg);
 }
 
-.food-card {
-  background: white;
-  border-radius: 20px;
-  overflow: hidden;
-  margin-top: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,.08);
+.circle-inner strong {
+    display: block;
+    font-size: 34px;
 }
 
-.food-card img {
-  width: 100%;
-  height: 210px;
-  object-fit: cover;
-  display: block;
+.circle-inner span {
+    font-size: 13px;
+    color: var(--muted);
 }
 
-.food-info {
-  padding: 16px;
+/* MACROS */
+
+.macros {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 10px;
 }
 
-.food-info h3 {
-  margin: 0 0 10px;
+.macro {
+    background: rgba(255,255,255,.75);
+    border-radius: 18px;
+    padding: 13px 7px;
+    text-align: center;
 }
 
-.nutrition {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
+.macro-icon {
+    font-size: 22px;
 }
 
-.nutrition div {
-  background: #f3f7f3;
-  padding: 10px;
-  border-radius: 10px;
+.macro strong {
+    display: block;
+    margin-top: 4px;
 }
 
-.delete-btn {
-  background: #e53935;
-  margin-top: 12px;
+/* WATER */
+
+.water-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
 }
 
-.empty {
-  text-align: center;
-  color: #888;
-  padding: 20px;
+.water-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.total {
-  font-size: 20px;
-  font-weight: bold;
-  color: #388e3c;
+.water-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #e7f6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+}
+
+.water-count {
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.water-buttons {
+    display: flex;
+    gap: 7px;
+}
+
+.water-buttons button {
+    border: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    font-size: 20px;
+}
+
+/* MEALS */
+
+.meal {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0,0,0,.07);
+}
+
+.meal:last-child {
+    border-bottom: none;
+}
+
+.meal-image {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    object-fit: cover;
+    background: #eee;
+}
+
+.meal-info {
+    flex: 1;
+}
+
+.meal-name {
+    font-weight: 800;
+}
+
+.meal-cal {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 3px;
+}
+
+.delete-meal {
+    border: none;
+    background: #ffe8e8;
+    color: #e04c4c;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+}
+
+/* ADD BUTTON */
+
+.add-btn {
+    width: 100%;
+    border: none;
+    padding: 15px;
+    border-radius: 17px;
+    background: var(--primary);
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 8px;
+}
+
+/* PROGRESS */
+
+.progress-bar {
+    height: 13px;
+    background: #e9e7f1;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 12px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 45%;
+    background: linear-gradient(90deg,var(--primary),var(--secondary));
+    border-radius: inherit;
+}
+
+/* SETTINGS */
+
+.setting {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 4px;
+    border-bottom: 1px solid rgba(0,0,0,.07);
+}
+
+.setting:last-child {
+    border-bottom: none;
+}
+
+.setting-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.setting-icon {
+    width: 43px;
+    height: 43px;
+    border-radius: 14px;
+    background: #eeeaff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+}
+
+.setting button {
+    border: none;
+    background: var(--primary);
+    color: white;
+    padding: 9px 13px;
+    border-radius: 12px;
+    font-weight: 700;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    height: 78px;
+    background: var(--nav);
+    backdrop-filter: blur(22px);
+    border-radius: 28px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.18);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 1000;
+    padding: 7px 5px;
+}
+
+.nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    color: #777484;
+    font-size: 10px;
+    font-weight: 600;
+    border: none;
+    background: transparent;
+    height: 68px;
+}
+
+.nav-circle {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+    transition: .2s;
+}
+
+.nav-item.active {
+    color: var(--primary);
+}
+
+.nav-item.active .nav-circle {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(124,92,255,.35);
+}
+
+/* MODAL */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    z-index: 2000;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    width: 100%;
+    max-width: 650px;
+    background: white;
+    border-radius: 30px 30px 0 0;
+    padding: 24px;
+    animation: slideUp .25s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.modal-title {
+    font-size: 21px;
+    font-weight: 800;
+    margin-bottom: 18px;
+}
+
+.form-group {
+    margin-bottom: 14px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    border: 1px solid #e4e1ed;
+    padding: 13px;
+    border-radius: 14px;
+    outline: none;
+    font-size: 15px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.modal-actions button {
+    flex: 1;
+    border: none;
+    padding: 14px;
+    border-radius: 15px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.cancel {
+    background: #eeeef3;
+}
+
+.confirm {
+    background: var(--primary);
+    color: white;
+}
+
+/* TOAST */
+
+.toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+    background: #25232e;
+    color: white;
+    padding: 13px 20px;
+    border-radius: 14px;
+    z-index: 3000;
+    transition: .3s;
+    font-size: 14px;
+}
+
+.toast.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+/* RESPONSIVE */
+
+@media (min-width: 700px) {
+    .bottom-nav {
+        max-width: 680px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        width: calc(100% - 30px);
+    }
 }
 </style>
 </head>
 
 <body>
 
+<!-- HEADER -->
+
 <header>
-  <h1>🥗 NutriLens</h1>
-  <p>تتبّع وجباتك بسهولة</p>
+    <div>
+        <div class="logo">NutriLens</div>
+        <div class="header-sub">تابعي يومك الغذائي بسهولة ✨</div>
+    </div>
+
+    <button class="profile-btn" onclick="showPage('settings')">⚙️</button>
 </header>
 
-<div class="container">
 
-  <!-- إضافة وجبة -->
-  <div class="section">
-    <h2>🍽️ إضافة وجبة</h2>
+<!-- HOME -->
 
-    <input
-      type="text"
-      id="foodName"
-      placeholder="اسم الوجبة"
-    >
+<section id="home" class="page active">
 
-    <input
-      type="number"
-      id="calories"
-      placeholder="السعرات الحرارية"
-    >
+    <div class="card calorie-card">
 
-    <input
-      type="number"
-      id="protein"
-      placeholder="البروتين (غ)"
-    >
+        <div class="card-title">سعرات اليوم</div>
+        <div class="small">متابعة السعرات اليومية</div>
 
-    <input
-      type="number"
-      id="carbs"
-      placeholder="الكاربوهيدرات (غ)"
-    >
+        <div class="circle-progress" id="calorieCircle">
+            <div class="circle-inner">
+                <strong id="caloriesValue">0</strong>
+                <span>من 2000 سعرة</span>
+            </div>
+        </div>
 
-    <input
-      type="number"
-      id="fat"
-      placeholder="الدهون (غ)"
-    >
+        <div class="macros">
 
-    <!-- اختيار صورة -->
-    <label class="image-button" for="imageInput">
-      🖼️ اختر صورة الأكل من الألبوم
-    </label>
+            <div class="macro">
+                <div class="macro-icon">🥩</div>
+                <strong id="proteinValue">0g</strong>
+                <span class="small">بروتين</span>
+            </div>
 
-    <input
-      type="file"
-      id="imageInput"
-      accept="image/*"
-    >
+            <div class="macro">
+                <div class="macro-icon">🍚</div>
+                <strong id="carbsValue">0g</strong>
+                <span class="small">كارب</span>
+            </div>
 
-    <img
-      id="preview"
-      class="preview"
-      alt="معاينة صورة الوجبة"
-    >
+            <div class="macro">
+                <div class="macro-icon">🥑</div>
+                <strong id="fatValue">0g</strong>
+                <span class="small">دهون</span>
+            </div>
 
-    <button onclick="addFood()">
-      ➕ إضافة الوجبة
+        </div>
+
+    </div>
+
+
+    <!-- WATER -->
+
+    <div class="card water-card">
+
+        <div class="water-left">
+
+            <div class="water-icon">💧</div>
+
+            <div>
+                <div class="card-title">الماء</div>
+                <div class="water-count">
+                    <span id="waterValue">0</span> / 8 أكواب
+                </div>
+            </div>
+
+        </div>
+
+        <div class="water-buttons">
+            <button onclick="changeWater(-1)">−</button>
+            <button onclick="changeWater(1)">+</button>
+        </div>
+
+    </div>
+
+
+    <!-- MEALS -->
+
+    <div class="card">
+
+        <div class="card-title">وجبات اليوم 🍽️</div>
+        <div class="small">أضيفي وجباتك وصور الأكل</div>
+
+        <div id="mealsList"></div>
+
+        <button class="add-btn" onclick="openMealModal()">
+            ＋ إضافة وجبة
+        </button>
+
+    </div>
+
+
+    <!-- DAILY PROGRESS -->
+
+    <div class="card">
+
+        <div class="card-title">تقدم اليوم</div>
+
+        <div class="small">
+            هدفك اليومي
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="dailyProgress"></div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CALENDAR -->
+
+<section id="calendar" class="page">
+
+    <div class="card">
+
+        <div class="card-title">📅 التقويم</div>
+        <div class="small">تابعي أيامك وتقدمك</div>
+
+        <div style="
+            display:grid;
+            grid-template-columns:repeat(7,1fr);
+            gap:10px;
+            margin-top:20px;
+        " id="calendarDays"></div>
+
+    </div>
+
+</section>
+
+
+<!-- PROGRESS -->
+
+<section id="progress" class="page">
+
+    <div class="card">
+
+        <div class="card-title">📈 التقدم</div>
+
+        <div class="card" style="background:#f4f1ff;box-shadow:none;">
+            <div class="small">السعرات اليوم</div>
+            <strong style="font-size:28px;" id="progressCalories">0</strong>
+            <span> سعرة</span>
+        </div>
+
+        <div class="card" style="background:#f4f1ff;box-shadow:none;">
+            <div class="small">الماء</div>
+            <strong style="font-size:28px;" id="progressWater">0</strong>
+            <span> أكواب</span>
+        </div>
+
+        <div class="card" style="background:#f4f1ff;box-shadow:none;">
+            <div class="small">عدد الوجبات</div>
+            <strong style="font-size:28px;" id="progressMeals">0</strong>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SETTINGS -->
+
+<section id="settings" class="page">
+
+    <div class="card">
+
+        <div class="card-title">⚙️ الإعدادات</div>
+
+        <!-- BACKGROUND -->
+
+        <div class="setting">
+
+            <div class="setting-info">
+
+                <div class="setting-icon">🖼️</div>
+
+                <div>
+                    <strong>خلفية التطبيق</strong>
+                    <div class="small">
+                        اختاري صورة من ألبوم الصور
+                    </div>
+                </div>
+
+            </div>
+
+            <label>
+                <button onclick="document.getElementById('backgroundInput').click()">
+                    اختيار
+                </button>
+
+                <input
+                    type="file"
+                    id="backgroundInput"
+                    accept="image/*"
+                    onchange="changeBackground(event)"
+                >
+            </label>
+
+        </div>
+
+
+        <!-- LANGUAGE -->
+
+        <div class="setting">
+
+            <div class="setting-info">
+
+                <div class="setting-icon">🌐</div>
+
+                <div>
+                    <strong>اللغة</strong>
+                    <div class="small">العربية</div>
+                </div>
+
+            </div>
+
+            <button onclick="showToast('اللغة العربية مفعلة حالياً')">
+                العربية
+            </button>
+
+        </div>
+
+
+        <!-- RESET -->
+
+        <div class="setting">
+
+            <div class="setting-info">
+
+                <div class="setting-icon">🔄</div>
+
+                <div>
+                    <strong>إعادة ضبط البيانات</strong>
+                    <div class="small">
+                        حذف الوجبات والماء والخلفية
+                    </div>
+                </div>
+
+            </div>
+
+            <button
+                style="background:#ff5c6c;"
+                onclick="resetApp()"
+            >
+                حذف
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- BOTTOM NAVIGATION -->
+
+<nav class="bottom-nav">
+
+    <!-- الماء -->
+    <button class="nav-item active" onclick="showPage('home',this)">
+        <div class="nav-circle">💧</div>
+        <span>الماء</span>
     </button>
-  </div>
+
+    <!-- الوجبات -->
+    <button class="nav-item" onclick="showPage('home',this); scrollToMeals()">
+        <div class="nav-circle">🍽️</div>
+        <span>الوجبات</span>
+    </button>
+
+    <!-- التقويم -->
+    <button class="nav-item" onclick="showPage('calendar',this)">
+        <div class="nav-circle">📅</div>
+        <span>التقويم</span>
+    </button>
+
+    <!-- التقدم -->
+    <button class="nav-item" onclick="showPage('progress',this)">
+        <div class="nav-circle">📈</div>
+        <span>التقدم</span>
+    </button>
+
+    <!-- الإعدادات -->
+    <button class="nav-item" onclick="showPage('settings',this)">
+        <div class="nav-circle">⚙️</div>
+        <span>الإعدادات</span>
+    </button>
+
+</nav>
 
 
-  <!-- مجموع اليوم -->
-  <div class="section">
-    <h2>📊 مجموع اليوم</h2>
+<!-- ADD MEAL MODAL -->
 
-    <div class="total">
-      السعرات: <span id="totalCalories">0</span> سعرة
+<div class="modal" id="mealModal">
+
+    <div class="modal-box">
+
+        <div class="modal-title">
+            إضافة وجبة 🍽️
+        </div>
+
+        <div class="form-group">
+            <label>اسم الوجبة</label>
+            <input
+                id="mealName"
+                type="text"
+                placeholder="مثلاً: دجاج مع رز"
+            >
+        </div>
+
+        <div class="form-group">
+            <label>السعرات</label>
+            <input
+                id="mealCalories"
+                type="number"
+                placeholder="مثلاً: 500"
+            >
+        </div>
+
+        <div class="form-group">
+            <label>صورة الأكل</label>
+
+            <label
+                style="
+                    display:block;
+                    padding:15px;
+                    border:2px dashed #ddd;
+                    border-radius:15px;
+                    text-align:center;
+                    cursor:pointer;
+                "
+            >
+                📷 اختيار صورة من الألبوم
+
+                <input
+                    type="file"
+                    id="mealImage"
+                    accept="image/*"
+                    onchange="previewMealImage(event)"
+                >
+            </label>
+
+            <div
+                id="mealPreview"
+                style="text-align:center;margin-top:10px;"
+            ></div>
+
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                class="cancel"
+                onclick="closeMealModal()"
+            >
+                إلغاء
+            </button>
+
+            <button
+                class="confirm"
+                onclick="addMeal()"
+            >
+                إضافة
+            </button>
+
+        </div>
+
     </div>
-
-    <div>
-      البروتين: <span id="totalProtein">0</span> غ
-    </div>
-
-    <div>
-      الكارب: <span id="totalCarbs">0</span> غ
-    </div>
-
-    <div>
-      الدهون: <span id="totalFat">0</span> غ
-    </div>
-  </div>
-
-
-  <!-- الوجبات -->
-  <div class="section">
-    <h2>🍴 أكل اليوم</h2>
-
-    <div id="foodList"></div>
-  </div>
 
 </div>
 
 
+<!-- TOAST -->
+
+<div class="toast" id="toast"></div>
+
+
 <script>
 
-let selectedImage = "";
+/* ================================
+   DATA
+================================ */
+
+let appData = JSON.parse(
+    localStorage.getItem("nutrilensData")
+) || {
+    water: 0,
+    meals: [],
+    background: ""
+};
+
+let selectedMealImage = "";
 
 
-/* =========================
-   اختيار صورة من الألبوم
-========================= */
+/* ================================
+   SAVE
+================================ */
 
-document
-  .getElementById("imageInput")
-  .addEventListener("change", function(event) {
+function saveData() {
+
+    localStorage.setItem(
+        "nutrilensData",
+        JSON.stringify(appData)
+    );
+
+}
+
+
+/* ================================
+   PAGE NAVIGATION
+================================ */
+
+function showPage(pageId, button) {
+
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+    });
+
+    const page = document.getElementById(pageId);
+
+    if (page) {
+        page.classList.add("active");
+    }
+
+    document.querySelectorAll(".nav-item").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    if (button) {
+        button.classList.add("active");
+    }
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* ================================
+   WATER
+================================ */
+
+function changeWater(amount) {
+
+    appData.water += amount;
+
+    if (appData.water < 0) {
+        appData.water = 0;
+    }
+
+    if (appData.water > 8) {
+        appData.water = 8;
+    }
+
+    saveData();
+    updateUI();
+
+}
+
+
+/* ================================
+   MEALS
+================================ */
+
+function openMealModal() {
+
+    document.getElementById("mealModal")
+        .classList.add("show");
+
+}
+
+function closeMealModal() {
+
+    document.getElementById("mealModal")
+        .classList.remove("show");
+
+    document.getElementById("mealName").value = "";
+    document.getElementById("mealCalories").value = "";
+
+    document.getElementById("mealImage").value = "";
+
+    selectedMealImage = "";
+
+    document.getElementById("mealPreview").innerHTML = "";
+
+}
+
+
+/* اختيار صورة الوجبة */
+
+function previewMealImage(event) {
 
     const file = event.target.files[0];
 
@@ -266,362 +1020,554 @@ document
 
     reader.onload = function(e) {
 
-      resizeImage(
-        e.target.result,
-        function(image) {
+        selectedMealImage = e.target.result;
 
-          selectedImage = image;
+        document.getElementById("mealPreview").innerHTML = `
+            <img
+                src="${selectedMealImage}"
+                style="
+                    width:100px;
+                    height:100px;
+                    object-fit:cover;
+                    border-radius:18px;
+                "
+            >
+        `;
 
-          const preview =
-            document.getElementById("preview");
-
-          preview.src = image;
-          preview.style.display = "block";
-        }
-      );
     };
 
     reader.readAsDataURL(file);
-  });
+
+}
 
 
-/* =========================
-   تصغير الصورة
-========================= */
+/* إضافة الوجبة */
 
-function resizeImage(imageData, callback) {
+function addMeal() {
 
-  const img = new Image();
+    const name =
+        document.getElementById("mealName").value.trim();
 
-  img.onload = function() {
+    const calories =
+        Number(
+            document.getElementById("mealCalories").value
+        );
 
-    const maxSize = 800;
+    if (!name) {
 
-    let width = img.width;
-    let height = img.height;
+        showToast("اكتبي اسم الوجبة أولاً");
 
-    if (width > height && width > maxSize) {
-
-      height =
-        Math.round(height * maxSize / width);
-
-      width = maxSize;
-
-    } else if (height > maxSize) {
-
-      width =
-        Math.round(width * maxSize / height);
-
-      height = maxSize;
+        return;
     }
 
-    const canvas =
-      document.createElement("canvas");
+    if (!calories || calories < 0) {
 
-    canvas.width = width;
-    canvas.height = height;
+        showToast("اكتبي عدد السعرات");
 
-    const ctx =
-      canvas.getContext("2d");
+        return;
+    }
 
-    ctx.drawImage(
-      img,
-      0,
-      0,
-      width,
-      height
-    );
+    const meal = {
 
-    const compressedImage =
-      canvas.toDataURL(
-        "image/jpeg",
-        0.75
-      );
+        id: Date.now(),
 
-    callback(compressedImage);
-  };
+        name: name,
 
-  img.src = imageData;
+        calories: calories,
+
+        image: selectedMealImage || "",
+
+        date: new Date().toLocaleDateString("ar-IQ")
+
+    };
+
+    appData.meals.push(meal);
+
+    saveData();
+
+    closeMealModal();
+
+    updateUI();
+
+    showToast("تمت إضافة الوجبة 🍽️");
+
 }
 
 
-/* =========================
-   إضافة وجبة
-========================= */
+/* حذف وجبة */
 
-function addFood() {
+function deleteMeal(id) {
 
-  const name =
-    document.getElementById("foodName").value.trim();
+    appData.meals =
+        appData.meals.filter(
+            meal => meal.id !== id
+        );
 
-  const calories =
-    Number(document.getElementById("calories").value) || 0;
+    saveData();
 
-  const protein =
-    Number(document.getElementById("protein").value) || 0;
+    updateUI();
 
-  const carbs =
-    Number(document.getElementById("carbs").value) || 0;
+    showToast("تم حذف الوجبة");
 
-  const fat =
-    Number(document.getElementById("fat").value) || 0;
-
-
-  if (!name) {
-
-    alert("اكتبي اسم الوجبة أولاً");
-    return;
-  }
-
-
-  const food = {
-
-    id: Date.now(),
-
-    name: name,
-
-    calories: calories,
-
-    protein: protein,
-
-    carbs: carbs,
-
-    fat: fat,
-
-    image: selectedImage
-  };
-
-
-  let foods =
-    JSON.parse(
-      localStorage.getItem("nutrilensFoods") || "[]"
-    );
-
-
-  foods.push(food);
-
-
-  localStorage.setItem(
-    "nutrilensFoods",
-    JSON.stringify(foods)
-  );
-
-
-  /* تنظيف الحقول */
-
-  document.getElementById("foodName").value = "";
-  document.getElementById("calories").value = "";
-  document.getElementById("protein").value = "";
-  document.getElementById("carbs").value = "";
-  document.getElementById("fat").value = "";
-
-  document.getElementById("imageInput").value = "";
-
-  document.getElementById("preview").style.display = "none";
-
-  document.getElementById("preview").src = "";
-
-  selectedImage = "";
-
-
-  renderFoods();
 }
 
 
-/* =========================
-   عرض الوجبات
-========================= */
+/* ================================
+   BACKGROUND IMAGE
+================================ */
 
-function renderFoods() {
+function changeBackground(event) {
 
-  const container =
-    document.getElementById("foodList");
+    const file = event.target.files[0];
 
-  const foods =
-    JSON.parse(
-      localStorage.getItem("nutrilensFoods") || "[]"
-    );
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+
+        showToast("اختاري صورة فقط");
+
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+
+        const image = e.target.result;
+
+        appData.background = image;
+
+        saveData();
+
+        applyBackground();
+
+        showToast("تم تغيير خلفية التطبيق 🖼️");
+
+    };
+
+    reader.readAsDataURL(file);
+
+}
 
 
-  container.innerHTML = "";
+/* تطبيق الخلفية */
+
+function applyBackground() {
+
+    if (appData.background) {
+
+        document.body.style.backgroundImage =
+            `url("${appData.background}")`;
+
+        document.body.style.backgroundSize = "cover";
+        document.body.style.backgroundPosition = "center";
+        document.body.style.backgroundAttachment = "fixed";
+
+    } else {
+
+        document.body.style.backgroundImage =
+            "linear-gradient(135deg,#eee9ff,#faf9ff)";
+
+    }
+
+}
 
 
-  if (foods.length === 0) {
+/* ================================
+   UPDATE UI
+================================ */
 
-    container.innerHTML =
-      '<div class="empty">ماكو وجبات مضافة اليوم 🍽️</div>';
+function updateUI() {
 
-    updateTotals(foods);
-
-    return;
-  }
-
-
-  foods.forEach(function(food) {
-
-    const card =
-      document.createElement("div");
-
-    card.className = "food-card";
+    document.getElementById("waterValue")
+        .textContent = appData.water;
 
 
-    let imageHTML = "";
+    /* مجموع السعرات */
 
-    if (food.image) {
+    const totalCalories =
+        appData.meals.reduce(
+            (sum, meal) =>
+                sum + Number(meal.calories),
+            0
+        );
 
-      imageHTML = `
-        <img
-          src="${food.image}"
-          alt="صورة ${escapeHTML(food.name)}"
-        >
-      `;
+    document.getElementById("caloriesValue")
+        .textContent = totalCalories;
+
+    document.getElementById("progressCalories")
+        .textContent = totalCalories;
+
+
+    /* الماكروز - قيم تقديرية بسيطة للعرض */
+
+    const protein =
+        Math.round(totalCalories * 0.25 / 4);
+
+    const carbs =
+        Math.round(totalCalories * 0.45 / 4);
+
+    const fat =
+        Math.round(totalCalories * 0.30 / 9);
+
+    document.getElementById("proteinValue")
+        .textContent = protein + "g";
+
+    document.getElementById("carbsValue")
+        .textContent = carbs + "g";
+
+    document.getElementById("fatValue")
+        .textContent = fat + "g";
+
+
+    /* دائرة السعرات */
+
+    const percentage =
+        Math.min(
+            totalCalories / 2000,
+            1
+        );
+
+    const degrees =
+        percentage * 360;
+
+    document.getElementById("calorieCircle")
+        .style.background = `
+            radial-gradient(
+                circle at center,
+                rgba(255,255,255,.95) 62%,
+                transparent 63%
+            ),
+            conic-gradient(
+                var(--primary) ${degrees}deg,
+                #e9e6f3 ${degrees}deg
+            )
+        `;
+
+
+    /* تقدم اليوم */
+
+    document.getElementById("dailyProgress")
+        .style.width =
+            Math.min(
+                percentage * 100,
+                100
+            ) + "%";
+
+
+    /* التقدم */
+
+    document.getElementById("progressWater")
+        .textContent = appData.water;
+
+    document.getElementById("progressMeals")
+        .textContent = appData.meals.length;
+
+
+    /* الوجبات */
+
+    renderMeals();
+
+}
+
+
+/* ================================
+   RENDER MEALS
+================================ */
+
+function renderMeals() {
+
+    const list =
+        document.getElementById("mealsList");
+
+    if (appData.meals.length === 0) {
+
+        list.innerHTML = `
+            <div
+                style="
+                    text-align:center;
+                    padding:25px 5px;
+                    color:#888;
+                "
+            >
+                🍽️<br>
+                <span style="font-size:13px;">
+                    ماكو وجبات مضافة اليوم
+                </span>
+            </div>
+        `;
+
+        return;
     }
 
 
-    card.innerHTML = `
+    list.innerHTML =
+        appData.meals.map(meal => {
 
-      ${imageHTML}
+            const image =
+                meal.image ||
+                "data:image/svg+xml;charset=UTF-8," +
+                encodeURIComponent(`
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="100"
+                        height="100"
+                    >
+                        <rect
+                            width="100"
+                            height="100"
+                            fill="#eeeaff"
+                        />
+                        <text
+                            x="50"
+                            y="58"
+                            text-anchor="middle"
+                            font-size="35"
+                        >
+                            🍽️
+                        </text>
+                    </svg>
+                `);
 
-      <div class="food-info">
+            return `
+                <div class="meal">
 
-        <h3>
-          ${escapeHTML(food.name)}
-        </h3>
+                    <img
+                        class="meal-image"
+                        src="${image}"
+                        alt="${escapeHTML(meal.name)}"
+                    >
 
-        <div class="nutrition">
+                    <div class="meal-info">
 
-          <div>
-            🔥 ${food.calories} سعرة
-          </div>
+                        <div class="meal-name">
+                            ${escapeHTML(meal.name)}
+                        </div>
 
-          <div>
-            🥩 ${food.protein}غ بروتين
-          </div>
+                        <div class="meal-cal">
+                            ${meal.calories} سعرة حرارية
+                        </div>
 
-          <div>
-            🍞 ${food.carbs}غ كارب
-          </div>
+                    </div>
 
-          <div>
-            🥑 ${food.fat}غ دهون
-          </div>
+                    <button
+                        class="delete-meal"
+                        onclick="deleteMeal(${meal.id})"
+                    >
+                        ×
+                    </button>
 
-        </div>
+                </div>
+            `;
 
-        <button
-          class="delete-btn"
-          onclick="deleteFood(${food.id})"
-        >
-          🗑️ حذف الوجبة
-        </button>
+        }).join("");
 
-      </div>
-    `;
-
-
-    container.appendChild(card);
-  });
-
-
-  updateTotals(foods);
 }
 
 
-/* =========================
-   حساب المجموع
-========================= */
-
-function updateTotals(foods) {
-
-  let calories = 0;
-  let protein = 0;
-  let carbs = 0;
-  let fat = 0;
-
-
-  foods.forEach(function(food) {
-
-    calories += Number(food.calories) || 0;
-
-    protein += Number(food.protein) || 0;
-
-    carbs += Number(food.carbs) || 0;
-
-    fat += Number(food.fat) || 0;
-  });
-
-
-  document.getElementById("totalCalories").textContent =
-    calories;
-
-  document.getElementById("totalProtein").textContent =
-    protein;
-
-  document.getElementById("totalCarbs").textContent =
-    carbs;
-
-  document.getElementById("totalFat").textContent =
-    fat;
-}
-
-
-/* =========================
-   حذف وجبة
-========================= */
-
-function deleteFood(id) {
-
-  let foods =
-    JSON.parse(
-      localStorage.getItem("nutrilensFoods") || "[]"
-    );
-
-
-  foods =
-    foods.filter(function(food) {
-
-      return food.id !== id;
-
-    });
-
-
-  localStorage.setItem(
-    "nutrilensFoods",
-    JSON.stringify(foods)
-  );
-
-
-  renderFoods();
-}
-
-
-/* =========================
-   حماية النص
-========================= */
+/* حماية النص */
 
 function escapeHTML(text) {
 
-  const div =
-    document.createElement("div");
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
-  div.textContent = text;
-
-  return div.innerHTML;
 }
 
 
-/* =========================
-   تشغيل التطبيق
-========================= */
+/* ================================
+   CALENDAR
+================================ */
 
-document.addEventListener(
-  "DOMContentLoaded",
-  function() {
+function createCalendar() {
 
-    renderFoods();
+    const container =
+        document.getElementById("calendarDays");
 
-  }
-);
+    const today = new Date();
+
+    const year = today.getFullYear();
+
+    const month = today.getMonth();
+
+    const days =
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
+
+    const firstDay =
+        new Date(
+            year,
+            month,
+            1
+        ).getDay();
+
+    container.innerHTML = "";
+
+    /* فراغات البداية */
+
+    for (
+        let i = 0;
+        i < firstDay;
+        i++
+    ) {
+
+        const empty =
+            document.createElement("div");
+
+        container.appendChild(empty);
+
+    }
+
+
+    for (
+        let day = 1;
+        day <= days;
+        day++
+    ) {
+
+        const item =
+            document.createElement("div");
+
+        const isToday =
+            day === today.getDate();
+
+        item.style.width = "42px";
+        item.style.height = "42px";
+        item.style.margin = "auto";
+        item.style.borderRadius = "50%";
+        item.style.display = "flex";
+        item.style.alignItems = "center";
+        item.style.justifyContent = "center";
+        item.style.fontWeight = "700";
+        item.style.background =
+            isToday
+            ? "var(--primary)"
+            : "rgba(255,255,255,.8)";
+        item.style.color =
+            isToday
+            ? "white"
+            : "var(--text)";
+
+        item.textContent = day;
+
+        container.appendChild(item);
+
+    }
+
+}
+
+
+/* ================================
+   SCROLL TO MEALS
+================================ */
+
+function scrollToMeals() {
+
+    showPage("home");
+
+    setTimeout(() => {
+
+        const cards =
+            document.querySelectorAll("#home .card");
+
+        if (cards.length >= 3) {
+
+            cards[2].scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+        }
+
+    }, 100);
+
+}
+
+
+/* ================================
+   TOAST
+================================ */
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer =
+        setTimeout(() => {
+
+            toast.classList.remove("show");
+
+        }, 2200);
+
+}
+
+
+/* ================================
+   RESET
+================================ */
+
+function resetApp() {
+
+    const confirmed =
+        confirm(
+            "متأكدة تريدين حذف كل البيانات والخلفية؟"
+        );
+
+    if (!confirmed) return;
+
+    localStorage.removeItem("nutrilensData");
+
+    appData = {
+
+        water: 0,
+
+        meals: [],
+
+        background: ""
+
+    };
+
+    applyBackground();
+
+    updateUI();
+
+    showToast("تمت إعادة ضبط التطبيق");
+
+}
+
+
+/* ================================
+   START APP
+================================ */
+
+function initApp() {
+
+    applyBackground();
+
+    updateUI();
+
+    createCalendar();
+
+}
+
+
+/* تشغيل التطبيق */
+
+initApp();
 
 </script>
 
