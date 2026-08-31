@@ -10,12 +10,11 @@
  --main:#8b5cf6;
  --second:#c084fc;
  --bg:#faf9ff;
- --card:#fff;
- --text:#26222d;
+ --card:#ffffff;
+ --text:#27222f;
  --muted:#817989;
  --border:#eee9f5;
  --soft:#f2eaff;
- --danger:#ef4444;
 }
 
 *{box-sizing:border-box}
@@ -31,14 +30,13 @@ body{
 body.dark{
  --bg:#17151c;
  --card:#24212b;
- --text:#fff;
+ --text:#ffffff;
  --muted:#aaa3b4;
  --border:#393442;
  --soft:#342b42;
 }
 
 button,input,select{font:inherit}
-
 button{cursor:pointer}
 
 .header{
@@ -185,7 +183,6 @@ input,select{
  border-radius:14px;
  background:var(--bg);
  color:var(--text);
- outline:none;
 }
 
 label{
@@ -197,7 +194,7 @@ label{
 
 .macro-grid{
  display:grid;
- grid-template-columns:repeat(2,1fr);
+ grid-template-columns:1fr 1fr;
  gap:10px;
 }
 
@@ -214,7 +211,7 @@ label{
 }
 
 .bar{
- height:9px;
+ height:8px;
  background:var(--border);
  border-radius:20px;
  overflow:hidden;
@@ -227,13 +224,12 @@ label{
  width:0%;
  background:var(--main);
  border-radius:20px;
- transition:.4s;
 }
 
 .food{
  display:flex;
- align-items:center;
  justify-content:space-between;
+ align-items:center;
  padding:13px 0;
  border-bottom:1px solid var(--border);
 }
@@ -245,102 +241,36 @@ label{
 .food-info{
  color:var(--muted);
  font-size:12px;
- margin-top:3px;
+ margin-top:4px;
 }
 
 .delete{
  border:0;
  background:#fff0f0;
- color:var(--danger);
+ color:#ef4444;
  width:38px;
  height:38px;
  border-radius:12px;
 }
 
+.water-count{
+ color:var(--main);
+ font-size:25px;
+ font-weight:900;
+}
+
 .water{
  display:flex;
  gap:8px;
- flex-wrap:wrap;
  margin-top:10px;
 }
 
 .water button{
  border:0;
  background:var(--soft);
- border-radius:12px;
- padding:10px 13px;
  color:var(--text);
-}
-
-.water-count{
- font-size:25px;
- font-weight:900;
- color:var(--main);
-}
-
-.calendar{
- display:grid;
- grid-template-columns:repeat(7,1fr);
- gap:5px;
- margin-top:12px;
-}
-
-.day{
- min-height:40px;
- border:1px solid var(--border);
- background:var(--card);
- border-radius:10px;
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:12px;
-}
-
-.day.active{
- background:var(--main);
- color:white;
- border-color:var(--main);
-}
-
-.day.today{
- outline:2px solid var(--second);
-}
-
-.week{
- display:grid;
- grid-template-columns:repeat(7,1fr);
- text-align:center;
- color:var(--muted);
- font-size:11px;
-}
-
-.setting-row{
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:13px 0;
- border-bottom:1px solid var(--border);
-}
-
-.colors{
- display:flex;
- gap:9px;
- flex-wrap:wrap;
- margin-top:12px;
-}
-
-.color{
- width:38px;
- height:38px;
- border-radius:50%;
- border:3px solid var(--card);
- outline:1px solid var(--border);
-}
-
-.custom{
- width:100%;
- height:45px;
- padding:3px;
+ border-radius:12px;
+ padding:10px 15px;
 }
 
 .notice{
@@ -352,19 +282,100 @@ label{
  line-height:1.6;
 }
 
-.hidden{display:none}
-
 .empty{
  text-align:center;
  color:var(--muted);
- padding:20px 5px;
+ padding:20px;
 }
+
+.hidden{display:none!important}
 
 .footer{
  text-align:center;
  color:var(--muted);
  font-size:12px;
  margin-top:30px;
+}
+
+
+/* SETTINGS MODAL */
+
+.modal{
+ position:fixed;
+ inset:0;
+ background:#00000070;
+ display:none;
+ align-items:flex-end;
+ justify-content:center;
+ z-index:9999;
+}
+
+.modal.show{
+ display:flex;
+}
+
+.modal-box{
+ width:100%;
+ max-width:680px;
+ background:var(--card);
+ color:var(--text);
+ border-radius:28px 28px 0 0;
+ padding:22px;
+ max-height:85vh;
+ overflow-y:auto;
+ box-shadow:0 -10px 40px #0003;
+}
+
+.modal-head{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ margin-bottom:10px;
+}
+
+.modal-head h2{
+ margin:0;
+}
+
+.close{
+ width:40px;
+ height:40px;
+ border:0;
+ border-radius:12px;
+ background:var(--soft);
+ color:var(--text);
+ font-size:20px;
+}
+
+.setting{
+ padding:15px 0;
+ border-bottom:1px solid var(--border);
+}
+
+.setting-title{
+ font-weight:800;
+ margin-bottom:9px;
+}
+
+.colors{
+ display:flex;
+ gap:10px;
+ flex-wrap:wrap;
+}
+
+.color{
+ width:40px;
+ height:40px;
+ border-radius:50%;
+ border:3px solid var(--card);
+ outline:1px solid var(--border);
+}
+
+.custom-color{
+ width:100%;
+ height:45px;
+ margin-top:12px;
+ padding:3px;
 }
 </style>
 </head>
@@ -378,508 +389,561 @@ label{
  </div>
 
  <div class="header-actions">
+
   <button class="icon" onclick="toggleDark()">🌙</button>
-  <button class="icon" onclick="showSettings()">⚙️</button>
+
+  <button class="icon" onclick="openSettings()">⚙️</button>
+
  </div>
 
 </header>
 
+
 <main class="container">
 
- <section class="welcome">
-  <h1 data-i18n="hello">أهلًا بكِ ✨</h1>
-  <p data-i18n="welcome">
-   سجّلي وجباتك وتابعي تغذيتك بسهولة.
-  </p>
- </section>
+<div class="welcome">
+ <h1>أهلًا بكِ ✨</h1>
+ <p>سجّلي وجباتك وتابعي تغذيتك بسهولة.</p>
+</div>
 
 
- <!-- TOTAL -->
+<div class="hero">
 
- <section class="hero">
-  <div class="hero-small" data-i18n="todayCalories">
-   مجموع السعرات المسجلة اليوم
-  </div>
-
-  <div class="hero-number">
-   <span id="total">0</span>
-  </div>
-
-  <div class="hero-small" data-i18n="calories">
-   سعرة حرارية
-  </div>
- </section>
-
-
- <!-- ACTIONS -->
-
- <div class="section-title" data-i18n="quick">
-  اختصارات
+ <div class="hero-small">
+  مجموع السعرات المسجلة اليوم
  </div>
 
- <div class="grid">
-
-  <button class="action" onclick="openCamera()">
-   <div class="action-icon">📸</div>
-   <div class="action-title" data-i18n="photo">تصوير الأكل</div>
-   <div class="action-sub" data-i18n="photoSub">تحليل الوجبة</div>
-  </button>
-
-  <button class="action" onclick="openBarcode()">
-   <div class="action-icon">▥</div>
-   <div class="action-title" data-i18n="barcode">مسح باركود</div>
-   <div class="action-sub" data-i18n="barcodeSub">منتج جاهز</div>
-  </button>
-
-  <button class="action" onclick="scrollToSection('foodSection')">
-   <div class="action-icon">🍽️</div>
-   <div class="action-title" data-i18n="addFood">إضافة أكلة</div>
-   <div class="action-sub" data-i18n="addFoodSub">اختاري من القائمة</div>
-  </button>
-
-  <button class="action" onclick="scrollToSection('waterSection')">
-   <div class="action-icon">💧</div>
-   <div class="action-title" data-i18n="water">الماء</div>
-   <div class="action-sub" data-i18n="waterSub">تتبعي شرب الماء</div>
-  </button>
-
+ <div class="hero-number">
+  <span id="total">0</span>
  </div>
 
-
- <!-- CAMERA -->
-
- <div class="section-title" data-i18n="smartAnalysis">
-  🤖 التحليل الذكي
+ <div class="hero-small">
+  سعرة حرارية
  </div>
 
- <div class="card">
+</div>
 
-  <div class="camera">
 
-   <button class="primary" onclick="openCamera()" data-i18n="takePhoto">
-    📷 التقاط صورة
-   </button>
+<div class="section-title">
+ الاختصارات
+</div>
 
-   <input
-    id="cameraInput"
-    type="file"
-    accept="image/*"
-    capture="environment"
-    style="display:none"
-    onchange="showPhoto(event)"
-   >
+<div class="grid">
 
-   <img id="preview">
+<button class="action" onclick="openCamera()">
+ <div class="action-icon">📸</div>
+ <div class="action-title">تصوير الأكل</div>
+ <div class="action-sub">تحليل الوجبة</div>
+</button>
 
-   <p id="cameraText" class="food-info"
-      data-i18n="cameraHint">
-    صوّري الطبق لإضافته إلى التطبيق.
-   </p>
+<button class="action" onclick="openBarcode()">
+ <div class="action-icon">▥</div>
+ <div class="action-title">مسح باركود</div>
+ <div class="action-sub">منتج جاهز</div>
+</button>
 
-   <button
-    id="analyzeButton"
-    class="primary hidden"
-    onclick="analyzePhoto()"
-    data-i18n="analyze">
-    ✨ تحليل الصورة
-   </button>
+<button class="action" onclick="scrollToFood()">
+ <div class="action-icon">🍽️</div>
+ <div class="action-title">إضافة أكلة</div>
+ <div class="action-sub">اختاري من القائمة</div>
+</button>
 
-   <div id="analysisResult" class="notice hidden"></div>
+<button class="action" onclick="scrollToWater()">
+ <div class="action-icon">💧</div>
+ <div class="action-title">الماء</div>
+ <div class="action-sub">تتبعي شرب الماء</div>
+</button>
 
-  </div>
+</div>
 
- </div>
 
+<div class="section-title">
+ 🤖 التحليل الذكي
+</div>
 
- <!-- BARCODE -->
+<div class="card">
 
- <div class="section-title" data-i18n="barcodeTitle">
-  ▥ مسح الباركود
- </div>
+<div class="camera">
 
- <div class="card">
+<button class="primary" onclick="openCamera()">
+📷 التقاط صورة الأكل
+</button>
 
-  <div class="camera">
+<input
+ id="cameraInput"
+ type="file"
+ accept="image/*"
+ capture="environment"
+ style="display:none"
+ onchange="showPhoto(event)"
+>
 
-   <button class="primary" onclick="openBarcode()" data-i18n="scan">
-    📦 فتح الكاميرا لمسح الباركود
-   </button>
+<img id="preview">
 
-   <input
-    id="barcodeInput"
-    type="file"
-    accept="image/*"
-    capture="environment"
-    style="display:none"
-    onchange="barcodeMessage()"
-   >
+<p id="cameraText" class="food-info">
+صوّري الطبق حتى تظهر الصورة هنا.
+</p>
 
-   <div id="barcodeResult" class="notice" style="margin-top:12px">
-    <span data-i18n="barcodeHint">
-     المسح يحتاج قاعدة بيانات منتجات خارجية حتى يعرض القيم الغذائية الحقيقية.
-    </span>
-   </div>
+<button
+ id="analyzeButton"
+ class="primary hidden"
+ onclick="analyzePhoto()"
+>
+✨ تحليل الصورة
+</button>
 
-  </div>
+<div id="analysisResult"
+ class="notice hidden"
+ style="margin-top:12px">
+</div>
 
- </div>
+</div>
 
+</div>
 
- <!-- ADD FOOD -->
 
- <div class="section-title" id="foodSection" data-i18n="addMeal">
-  🍽️ إضافة وجبة
- </div>
+<div class="section-title">
+ ▥ مسح الباركود
+</div>
 
- <div class="card">
+<div class="card">
 
-  <label data-i18n="foodLabel">الأكلة</label>
+<div class="camera">
 
-  <select id="food">
+<button class="primary" onclick="openBarcode()">
+📦 فتح الكاميرا
+</button>
 
-   <option value="70,6,0.5,5,0">🥚 بيضة مسلوقة — 70</option>
-   <option value="90,6,0.5,7,0">🍳 بيضة مقلية — 90</option>
-   <option value="165,31,0,4,0">🍗 صدر دجاج 100غ — 165</option>
-   <option value="209,26,0,11,0">🍗 فخذ دجاج 100غ — 209</option>
-   <option value="130,2.7,28,0.3,0.4">🍚 رز مطبوخ 100غ — 130</option>
-   <option value="150,5,30,1,2">🍝 معكرونة 100غ — 150</option>
-   <option value="350,8,50,14,2">🍜 أندومي — 350</option>
-   <option value="250,3,33,12,3">🍟 بطاطا مقلية 100غ — 250</option>
-   <option value="52,0.3,14,0.2,2.4">🍎 تفاحة — 52</option>
-   <option value="89,1.1,23,0.3,2.6">🍌 موزة — 89</option>
-   <option value="25,1,6,0.2,1">🥒 خيار — 25</option>
-   <option value="41,2,9,0.2,1.5">🍅 طماطم — 41</option>
-   <option value="120,7,9,5,0">🥛 لبن 225مل — 120</option>
-   <option value="100,3,20,1,2">🫓 خبز عربي — 100</option>
-   <option value="250,15,20,12,2">🍔 برغر — 250</option>
-   <option value="300,12,35,12,2">🍕 قطعة بيتزا — 300</option>
+<input
+ id="barcodeInput"
+ type="file"
+ accept="image/*"
+ capture="environment"
+ style="display:none"
+ onchange="barcodeMessage()"
+>
 
-  </select>
+<div id="barcodeResult"
+ class="notice"
+ style="margin-top:12px">
+قراءة القيم الغذائية الحقيقية تحتاج ربط قاعدة بيانات منتجات.
+</div>
 
-  <label data-i18n="quantity">الكمية</label>
+</div>
 
-  <input id="quantity" type="number" value="1" min="1">
+</div>
 
-  <button class="primary" onclick="addFood()" data-i18n="add">
-   إضافة إلى يومي ✨
-  </button>
 
- </div>
+<div class="section-title" id="foodSection">
+🍽️ إضافة أكلة
+</div>
 
+<div class="card">
 
- <!-- MACROS -->
+<label>الأكلة</label>
 
- <div class="section-title" data-i18n="macrosTitle">
-  📊 الماكروز
- </div>
+<select id="food">
 
- <div class="card">
+<option value="70,6,0.5,5,0">🥚 بيضة مسلوقة — 70</option>
+<option value="90,6,0.5,7,0">🍳 بيضة مقلية — 90</option>
+<option value="165,31,0,4,0">🍗 صدر دجاج 100غ — 165</option>
+<option value="209,26,0,11,0">🍗 فخذ دجاج 100غ — 209</option>
+<option value="130,2.7,28,0.3,0.4">🍚 رز 100غ — 130</option>
+<option value="150,5,30,1,2">🍝 معكرونة 100غ — 150</option>
+<option value="350,8,50,14,2">🍜 أندومي — 350</option>
+<option value="250,3,33,12,3">🍟 بطاطا مقلية 100غ — 250</option>
+<option value="52,0.3,14,0.2,2.4">🍎 تفاحة — 52</option>
+<option value="89,1.1,23,0.3,2.6">🍌 موزة — 89</option>
+<option value="25,1,6,0.2,1">🥒 خيار — 25</option>
+<option value="41,2,9,0.2,1.5">🍅 طماطم — 41</option>
+<option value="120,7,9,5,0">🥛 لبن 225مل — 120</option>
+<option value="100,3,20,1,2">🫓 خبز عربي — 100</option>
+<option value="250,15,20,12,2">🍔 برغر — 250</option>
+<option value="300,12,35,12,2">🍕 بيتزا — 300</option>
 
-  <div class="macro-grid">
+</select>
 
-   <div class="macro">
-    🥩 <span data-i18n="protein">البروتين</span>
-    <b><span id="protein">0</span> g</b>
-    <div class="bar"><span id="proteinBar"></span></div>
-   </div>
+<label>الكمية</label>
 
-   <div class="macro">
-    🍞 <span data-i18n="carbs">الكارب</span>
-    <b><span id="carbs">0</span> g</b>
-    <div class="bar"><span id="carbsBar"></span></div>
-   </div>
+<input
+ id="quantity"
+ type="number"
+ value="1"
+ min="1"
+>
 
-   <div class="macro">
-    🥑 <span data-i18n="fat">الدهون</span>
-    <b><span id="fat">0</span> g</b>
-    <div class="bar"><span id="fatBar"></span></div>
-   </div>
+<button class="primary" onclick="addFood()">
+إضافة إلى يومي ✨
+</button>
 
-   <div class="macro">
-    🌾 <span data-i18n="fiber">الألياف</span>
-    <b><span id="fiber">0</span> g</b>
-    <div class="bar"><span id="fiberBar"></span></div>
-   </div>
+</div>
 
-  </div>
 
- </div>
+<div class="section-title">
+📊 الماكروز
+</div>
 
+<div class="card">
 
- <!-- FOOD LIST -->
+<div class="macro-grid">
 
- <div class="section-title" data-i18n="todayFood">
-  🍴 أكل اليوم
- </div>
+<div class="macro">
+🥩 البروتين
+<b><span id="protein">0</span> g</b>
+<div class="bar"><span id="proteinBar"></span></div>
+</div>
 
- <div class="card" id="foodList">
-  <div class="empty" data-i18n="empty">
-   ماكو أكلات مسجلة لحد الآن 🌷
-  </div>
- </div>
+<div class="macro">
+🍞 الكارب
+<b><span id="carbs">0</span> g</b>
+<div class="bar"><span id="carbsBar"></span></div>
+</div>
 
+<div class="macro">
+🥑 الدهون
+<b><span id="fat">0</span> g</b>
+<div class="bar"><span id="fatBar"></span></div>
+</div>
 
- <!-- WATER -->
+<div class="macro">
+🌾 الألياف
+<b><span id="fiber">0</span> g</b>
+<div class="bar"><span id="fiberBar"></span></div>
+</div>
 
- <div class="section-title" id="waterSection" data-i18n="waterTitle">
-  💧 الماء
- </div>
+</div>
 
- <div class="card">
+</div>
 
-  <div class="water-count">
-   <span id="waterCount">0</span>
-   <span data-i18n="cups">كوب</span>
-  </div>
 
-  <div class="water">
-   <button onclick="addWater()">+ 💧</button>
-   <button onclick="removeWater()">−</button>
-   <button onclick="clearWater()" data-i18n="reset">تصفير</button>
-  </div>
+<div class="section-title">
+🍴 أكل اليوم
+</div>
 
- </div>
+<div class="card" id="foodList">
 
+<div class="empty">
+ماكو أكلات مسجلة لحد الآن 🌷
+</div>
 
- <!-- ACTIVITY -->
+</div>
 
- <div class="section-title" data-i18n="activityTitle">
-  🏃 النشاط
- </div>
 
- <div class="card">
+<div class="section-title" id="waterSection">
+💧 الماء
+</div>
 
-  <label data-i18n="steps">الخطوات</label>
+<div class="card">
 
-  <input id="steps" type="number" min="0" placeholder="مثال: 5000">
+<div class="water-count">
+<span id="waterCount">0</span> كوب
+</div>
 
-  <label data-i18n="activity">نوع النشاط</label>
+<div class="water">
 
-  <select id="activity">
-   <option data-i18n="walking">مشي</option>
-   <option data-i18n="running">ركض</option>
-   <option data-i18n="cycling">دراجة</option>
-   <option data-i18n="other">نشاط آخر</option>
-  </select>
+<button onclick="addWater()">+ 💧</button>
 
-  <button class="primary" onclick="saveActivity()" data-i18n="saveActivity">
-   حفظ النشاط
-  </button>
+<button onclick="removeWater()">−</button>
 
-  <div id="activityResult" class="notice" style="margin-top:12px"></div>
+<button onclick="clearWater()">تصفير</button>
 
- </div>
+</div>
 
+</div>
 
- <!-- CALENDAR -->
 
- <div class="section-title" data-i18n="calendarTitle">
-  📅 التقويم
- </div>
+<div class="section-title">
+🏃 النشاط
+</div>
 
- <div class="card">
+<div class="card">
 
-  <div id="monthTitle" style="font-weight:800"></div>
+<label>الخطوات</label>
 
-  <div class="week">
-   <div>أح</div>
-   <div>ن</div>
-   <div>ث</div>
-   <div>ر</div>
-   <div>خ</div>
-   <div>ج</div>
-   <div>س</div>
-  </div>
+<input
+ id="steps"
+ type="number"
+ min="0"
+ placeholder="مثال: 5000"
+>
 
-  <div id="calendar" class="calendar"></div>
+<label>نوع النشاط</label>
 
-  <div class="notice" style="margin-top:12px"
-       data-i18n="calendarHint">
-   الأيام المعلّمة هي الأيام التي سجلتِ فيها بيانات.
-  </div>
+<select id="activity">
+<option>مشي</option>
+<option>ركض</option>
+<option>دراجة</option>
+<option>نشاط آخر</option>
+</select>
 
- </div>
+<button class="primary" onclick="saveActivity()">
+حفظ النشاط
+</button>
 
+<div id="activityResult"
+class="notice"
+style="margin-top:12px">
+</div>
 
- <!-- SETTINGS -->
+</div>
 
- <div id="settingsPanel" class="hidden">
 
-  <div class="section-title" data-i18n="settingsTitle">
-   ⚙️ الإعدادات
-  </div>
+<div class="section-title">
+📅 التقويم
+</div>
 
-  <div class="card">
+<div class="card">
 
-   <div class="setting-row">
-    <span data-i18n="language">🌐 اللغة</span>
+<div id="monthTitle"
+style="font-weight:800">
+</div>
 
-    <select id="language" onchange="changeLanguage(this.value)"
-            style="width:150px;margin:0">
-     <option value="ar">العربية</option>
-     <option value="en">English</option>
-     <option value="tr">Türkçe</option>
-     <option value="fr">Français</option>
-     <option value="es">Español</option>
-    </select>
-   </div>
+<div id="calendar"
+style="
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:6px;
+margin-top:12px;
+">
+</div>
 
-   <div style="margin-top:17px;font-weight:800"
-        data-i18n="colors">
-    🎨 الألوان
-   </div>
+</div>
 
-   <div class="colors">
 
-    <button class="color" style="background:#8b5cf6"
-      onclick="setColor('#8b5cf6','#c084fc')"></button>
+<button
+class="primary"
+style="background:#eee;color:#555;box-shadow:none"
+onclick="clearAll()"
+>
+🗑️ مسح بيانات اليوم
+</button>
 
-    <button class="color" style="background:#ec4899"
-      onclick="setColor('#ec4899','#f9a8d4')"></button>
 
-    <button class="color" style="background:#06b6d4"
-      onclick="setColor('#06b6d4','#67e8f9')"></button>
-
-    <button class="color" style="background:#10b981"
-      onclick="setColor('#10b981','#6ee7b7')"></button>
-
-    <button class="color" style="background:#f59e0b"
-      onclick="setColor('#f59e0b','#fcd34d')"></button>
-
-    <button class="color" style="background:#ef4444"
-      onclick="setColor('#ef4444','#fca5a5')"></button>
-
-    <button class="color" style="background:#3b82f6"
-      onclick="setColor('#3b82f6','#93c5fd')"></button>
-
-    <input class="custom" type="color"
-      value="#8b5cf6"
-      onchange="customColor(this.value)">
-
-   </div>
-
-  </div>
-
- </div>
-
-
- <button class="primary"
-   style="background:#eee;color:#555;box-shadow:none"
-   onclick="clearAll()"
-   data-i18n="clear">
-  🗑️ مسح بيانات اليوم
- </button>
-
-
- <div class="footer">
-  Calorie ✦
- </div>
+<div class="footer">
+Calorie ✦
+</div>
 
 </main>
 
 
+<!-- SETTINGS MODAL -->
+
+<div id="settingsModal" class="modal">
+
+<div class="modal-box">
+
+<div class="modal-head">
+
+<h2>⚙️ الإعدادات</h2>
+
+<button class="close" onclick="closeSettings()">
+×
+</button>
+
+</div>
+
+
+<div class="setting">
+
+<div class="setting-title">
+🌐 اللغة
+</div>
+
+<select id="language" onchange="changeLanguage(this.value)">
+
+<option value="ar">🇮🇶 العربية</option>
+<option value="en">🇬🇧 English</option>
+<option value="tr">🇹🇷 Türkçe</option>
+<option value="fr">🇫🇷 Français</option>
+<option value="es">🇪🇸 Español</option>
+
+</select>
+
+</div>
+
+
+<div class="setting">
+
+<div class="setting-title">
+🎨 لون التطبيق
+</div>
+
+<div class="colors">
+
+<button class="color"
+style="background:#8b5cf6"
+onclick="setColor('#8b5cf6','#c084fc')">
+</button>
+
+<button class="color"
+style="background:#ec4899"
+onclick="setColor('#ec4899','#f9a8d4')">
+</button>
+
+<button class="color"
+style="background:#06b6d4"
+onclick="setColor('#06b6d4','#67e8f9')">
+</button>
+
+<button class="color"
+style="background:#10b981"
+onclick="setColor('#10b981','#6ee7b7')">
+</button>
+
+<button class="color"
+style="background:#f59e0b"
+onclick="setColor('#f59e0b','#fcd34d')">
+</button>
+
+<button class="color"
+style="background:#ef4444"
+onclick="setColor('#ef4444','#fca5a5')">
+</button>
+
+<button class="color"
+style="background:#3b82f6"
+onclick="setColor('#3b82f6','#93c5fd')">
+</button>
+
+</div>
+
+<input
+class="custom-color"
+type="color"
+value="#8b5cf6"
+onchange="customColor(this.value)"
+>
+
+</div>
+
+
+<div class="setting">
+
+<div class="setting-title">
+🌙 المظهر
+</div>
+
+<button
+class="primary"
+onclick="toggleDark()"
+>
+تبديل الوضع الليلي
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
 <script>
 
-/* =========================
-   DATA
-========================= */
+/* DATA */
 
-let foods = [];
-let totalCalories = 0;
-let protein = 0;
-let carbs = 0;
-let fat = 0;
-let fiber = 0;
-let water = 0;
+let foods=[];
+let totalCalories=0;
+let protein=0;
+let carbs=0;
+let fat=0;
+let fiber=0;
+let water=0;
 
 
-/* =========================
-   CAMERA
-========================= */
+/* CAMERA */
 
 function openCamera(){
- document.getElementById("cameraInput").click();
+
+ document
+ .getElementById("cameraInput")
+ .click();
+
 }
 
 function showPhoto(event){
 
- const file = event.target.files[0];
+ const file=event.target.files[0];
+
  if(!file)return;
 
- const image = document.getElementById("preview");
+ const image=
+ document.getElementById("preview");
 
- image.src = URL.createObjectURL(file);
- image.style.display = "block";
+ image.src=URL.createObjectURL(file);
 
- document.getElementById("cameraText").textContent =
- "✅ تم اختيار صورة الأكلة";
+ image.style.display="block";
+
+ document.getElementById("cameraText")
+ .textContent="✅ تم التقاط صورة الأكلة";
 
  document.getElementById("analyzeButton")
-   .classList.remove("hidden");
+ .classList.remove("hidden");
+
 }
 
 function analyzePhoto(){
 
- const result =
+ const result=
  document.getElementById("analysisResult");
 
  result.classList.remove("hidden");
 
- result.innerHTML =
- "🤖 <b>التحليل الذكي جاهز للربط بخدمة AI.</b><br>" +
- "هذه النسخة تعرض الصورة، أما التعرف الحقيقي على مكونات الطبق والقيم الغذائية فيحتاج API للذكاء الاصطناعي.";
+ result.innerHTML=
+ "🤖 <b>الصورة جاهزة للتحليل.</b><br>" +
+ "التعرّف الحقيقي على مكونات الطبق والسعرات يحتاج ربط خدمة ذكاء اصطناعي.";
 }
 
 
-/* =========================
-   BARCODE
-========================= */
+/* BARCODE */
 
 function openBarcode(){
- document.getElementById("barcodeInput").click();
+
+ document
+ .getElementById("barcodeInput")
+ .click();
+
 }
 
 function barcodeMessage(){
 
- const result =
- document.getElementById("barcodeResult");
+ document
+ .getElementById("barcodeResult")
+ .textContent=
+ "📦 تم اختيار صورة الباركود. ربط قاعدة بيانات المنتجات مطلوب لعرض المعلومات الغذائية تلقائيًا.";
 
- result.innerHTML =
- "📦 تم اختيار صورة الباركود.<br>" +
- "لإظهار اسم المنتج وقيمه الغذائية تلقائيًا، يحتاج التطبيق إلى ربط قاعدة بيانات منتجات.";
 }
 
 
-/* =========================
-   FOOD
-========================= */
+/* FOOD */
 
 function addFood(){
 
- const select = document.getElementById("food");
- const quantity =
+ const select=
+ document.getElementById("food");
+
+ const quantity=
  Number(document.getElementById("quantity").value);
 
- if(quantity < 1){
+ if(quantity<1){
   alert("اكتبي كمية صحيحة");
   return;
  }
 
- const parts =
+ const parts=
  select.value.split(",").map(Number);
 
- const calories = parts[0];
- const p = parts[1];
- const c = parts[2];
- const f = parts[3];
- const fi = parts[4];
+ const calories=parts[0];
+ const p=parts[1];
+ const c=parts[2];
+ const f=parts[3];
+ const fi=parts[4];
 
- const name =
+ const name=
  select.options[select.selectedIndex].text;
 
  foods.push({
-  name:name,
-  quantity:quantity,
+  name,
+  quantity,
   calories:calories*quantity,
   protein:p*quantity,
   carbs:c*quantity,
@@ -887,89 +951,97 @@ function addFood(){
   fiber:fi*quantity
  });
 
- totalCalories += calories*quantity;
- protein += p*quantity;
- carbs += c*quantity;
- fat += f*quantity;
- fiber += fi*quantity;
+ totalCalories+=calories*quantity;
+ protein+=p*quantity;
+ carbs+=c*quantity;
+ fat+=f*quantity;
+ fiber+=fi*quantity;
 
  updateScreen();
  saveData();
+ buildCalendar();
 
 }
 
 
-/* =========================
-   SCREEN
-========================= */
+/* SCREEN */
 
 function updateScreen(){
 
- document.getElementById("total").textContent =
- Math.round(totalCalories);
+ document.getElementById("total")
+ .textContent=Math.round(totalCalories);
 
- document.getElementById("protein").textContent =
- protein.toFixed(1);
+ document.getElementById("protein")
+ .textContent=protein.toFixed(1);
 
- document.getElementById("carbs").textContent =
- carbs.toFixed(1);
+ document.getElementById("carbs")
+ .textContent=carbs.toFixed(1);
 
- document.getElementById("fat").textContent =
- fat.toFixed(1);
+ document.getElementById("fat")
+ .textContent=fat.toFixed(1);
 
- document.getElementById("fiber").textContent =
- fiber.toFixed(1);
+ document.getElementById("fiber")
+ .textContent=fiber.toFixed(1);
+
+ document.getElementById("proteinBar")
+ .style.width=Math.min(protein,100)+"%";
+
+ document.getElementById("carbsBar")
+ .style.width=Math.min(carbs,100)+"%";
+
+ document.getElementById("fatBar")
+ .style.width=Math.min(fat,100)+"%";
+
+ document.getElementById("fiberBar")
+ .style.width=Math.min(fiber*4,100)+"%";
 
 
- document.getElementById("proteinBar").style.width =
- Math.min(protein,100)+"%";
-
- document.getElementById("carbsBar").style.width =
- Math.min(carbs,100)+"%";
-
- document.getElementById("fatBar").style.width =
- Math.min(fat,100)+"%";
-
- document.getElementById("fiberBar").style.width =
- Math.min(fiber*4,100)+"%";
-
-
- const list =
+ const list=
  document.getElementById("foodList");
 
  if(foods.length===0){
 
-  list.innerHTML =
-   '<div class="empty">ماكو أكلات مسجلة لحد الآن 🌷</div>';
+  list.innerHTML=
+  '<div class="empty">ماكو أكلات مسجلة لحد الآن 🌷</div>';
 
   return;
+
  }
 
  list.innerHTML="";
 
  foods.forEach((food,index)=>{
 
-  const item =
+  const item=
   document.createElement("div");
 
   item.className="food";
 
   item.innerHTML=`
-   <div>
-    <div class="food-name">${food.name}</div>
-    <div class="food-info">
-     × ${food.quantity}
-     • ${Math.round(food.calories)} سعرة
-     • P ${food.protein.toFixed(1)}g
-     • C ${food.carbs.toFixed(1)}g
-     • F ${food.fat.toFixed(1)}g
-    </div>
+
+  <div>
+
+   <div class="food-name">
+    ${food.name}
    </div>
 
-   <button class="delete"
-     onclick="deleteFood(${index})">
-    🗑️
-   </button>
+   <div class="food-info">
+    × ${food.quantity}
+    • ${Math.round(food.calories)} سعرة
+    • P ${food.protein.toFixed(1)}g
+    • C ${food.carbs.toFixed(1)}g
+    • F ${food.fat.toFixed(1)}g
+   </div>
+
+  </div>
+
+  <button
+   class="delete"
+   onclick="deleteFood(${index})"
+  >
+   🗑️
+  </button>
+
   `;
 
   list.appendChild(item);
@@ -979,35 +1051,36 @@ function updateScreen(){
 }
 
 
-/* =========================
-   DELETE
-========================= */
+/* DELETE */
 
 function deleteFood(index){
 
- const food = foods[index];
+ const food=foods[index];
 
- totalCalories -= food.calories;
- protein -= food.protein;
- carbs -= food.carbs;
- fat -= food.fat;
- fiber -= food.fiber;
+ totalCalories-=food.calories;
+ protein-=food.protein;
+ carbs-=food.carbs;
+ fat-=food.fat;
+ fiber-=food.fiber;
 
  foods.splice(index,1);
 
  updateScreen();
  saveData();
+ buildCalendar();
+
 }
 
 
-/* =========================
-   WATER
-========================= */
+/* WATER */
 
 function addWater(){
 
  water++;
- document.getElementById("waterCount").textContent=water;
+
+ document.getElementById("waterCount")
+ .textContent=water;
+
  saveData();
 
 }
@@ -1016,7 +1089,9 @@ function removeWater(){
 
  if(water>0)water--;
 
- document.getElementById("waterCount").textContent=water;
+ document.getElementById("waterCount")
+ .textContent=water;
+
  saveData();
 
 }
@@ -1025,38 +1100,53 @@ function clearWater(){
 
  water=0;
 
- document.getElementById("waterCount").textContent=water;
+ document.getElementById("waterCount")
+ .textContent=water;
+
  saveData();
 
 }
 
 
-/* =========================
-   ACTIVITY
-========================= */
+/* ACTIVITY */
 
 function saveActivity(){
 
- const steps =
- Number(document.getElementById("steps").value) || 0;
+ const steps=
+ Number(document.getElementById("steps").value)||0;
 
- const activity =
+ const activity=
  document.getElementById("activity")
- .options[
-  document.getElementById("activity").selectedIndex
- ].text;
+ .value;
 
- document.getElementById("activityResult").textContent =
- "✅ تم تسجيل " + steps +
- " خطوة — " + activity;
+ document.getElementById("activityResult")
+ .textContent=
+ "✅ تم تسجيل "+steps+
+ " خطوة — "+activity;
 
- saveData();
 }
 
 
-/* =========================
-   DARK MODE
-========================= */
+/* SETTINGS */
+
+function openSettings(){
+
+ document
+ .getElementById("settingsModal")
+ .classList.add("show");
+
+}
+
+function closeSettings(){
+
+ document
+ .getElementById("settingsModal")
+ .classList.remove("show");
+
+}
+
+
+/* DARK */
 
 function toggleDark(){
 
@@ -1070,27 +1160,7 @@ function toggleDark(){
 }
 
 
-/* =========================
-   SETTINGS
-========================= */
-
-function showSettings(){
-
- const panel =
- document.getElementById("settingsPanel");
-
- panel.classList.toggle("hidden");
-
- if(!panel.classList.contains("hidden")){
-  panel.scrollIntoView({behavior:"smooth"});
- }
-
-}
-
-
-/* =========================
-   COLORS
-========================= */
+/* COLORS */
 
 function setColor(main,second){
 
@@ -1112,325 +1182,33 @@ function customColor(color){
 }
 
 
-/* =========================
-   CALENDAR
-========================= */
-
-function buildCalendar(){
-
- const calendar =
- document.getElementById("calendar");
-
- const now = new Date();
-
- const year = now.getFullYear();
- const month = now.getMonth();
- const today = now.getDate();
-
- document.getElementById("monthTitle").textContent =
- now.toLocaleDateString(
-  document.documentElement.lang || "ar",
-  {month:"long",year:"numeric"}
- );
-
- calendar.innerHTML="";
-
- const first =
- new Date(year,month,1).getDay();
-
- const days =
- new Date(year,month+1,0).getDate();
-
- for(let i=0;i<first;i++){
-
-  const empty =
-  document.createElement("div");
-
-  calendar.appendChild(empty);
-
- }
-
- for(let d=1;d<=days;d++){
-
-  const day =
-  document.createElement("div");
-
-  day.className="day";
-
-  if(d===today)
-   day.classList.add("today");
-
-  if(d===today && foods.length>0)
-   day.classList.add("active");
-
-  day.textContent=d;
-
-  calendar.appendChild(day);
-
- }
-
-}
-
-
-/* =========================
-   LANGUAGE
-========================= */
+/* LANGUAGE */
 
 const translations={
 
  ar:{
-  hello:"أهلًا بكِ ✨",
-  welcome:"سجّلي وجباتك وتابعي تغذيتك بسهولة.",
-  todayCalories:"مجموع السعرات المسجلة اليوم",
-  calories:"سعرة حرارية",
-  quick:"اختصارات",
-  photo:"تصوير الأكل",
-  photoSub:"تحليل الوجبة",
-  barcode:"مسح باركود",
-  barcodeSub:"منتج جاهز",
-  addFood:"إضافة أكلة",
-  addFoodSub:"اختاري من القائمة",
-  water:"الماء",
-  waterSub:"تتبعي شرب الماء",
-  smartAnalysis:"🤖 التحليل الذكي",
-  takePhoto:"📷 التقاط صورة",
-  cameraHint:"صوّري الطبق لإضافته إلى التطبيق.",
-  analyze:"✨ تحليل الصورة",
-  barcodeTitle:"▥ مسح الباركود",
-  scan:"📦 فتح الكاميرا لمسح الباركود",
-  barcodeHint:"المسح يحتاج قاعدة بيانات منتجات خارجية حتى يعرض القيم الغذائية الحقيقية.",
-  addMeal:"🍽️ إضافة وجبة",
-  foodLabel:"الأكلة",
-  quantity:"الكمية",
-  add:"إضافة إلى يومي ✨",
-  macrosTitle:"📊 الماكروز",
-  protein:"البروتين",
-  carbs:"الكارب",
-  fat:"الدهون",
-  fiber:"الألياف",
-  todayFood:"🍴 أكل اليوم",
-  empty:"ماكو أكلات مسجلة لحد الآن 🌷",
-  waterTitle:"💧 الماء",
-  cups:"كوب",
-  reset:"تصفير",
-  activityTitle:"🏃 النشاط",
-  steps:"الخطوات",
-  activity:"نوع النشاط",
-  walking:"مشي",
-  running:"ركض",
-  cycling:"دراجة",
-  other:"نشاط آخر",
-  saveActivity:"حفظ النشاط",
-  calendarTitle:"📅 التقويم",
-  calendarHint:"الأيام المعلّمة هي الأيام التي سجلتِ فيها بيانات.",
-  settingsTitle:"⚙️ الإعدادات",
-  language:"🌐 اللغة",
-  colors:"🎨 الألوان",
-  clear:"🗑️ مسح بيانات اليوم"
+  dir:"rtl",
+  hello:"أهلًا بكِ ✨"
  },
 
  en:{
-  hello:"Welcome ✨",
-  welcome:"Track your meals and nutrition easily.",
-  todayCalories:"Today's recorded calories",
-  calories:"calories",
-  quick:"Quick actions",
-  photo:"Food photo",
-  photoSub:"Analyze meal",
-  barcode:"Barcode",
-  barcodeSub:"Packaged food",
-  addFood:"Add food",
-  addFoodSub:"Choose from list",
-  water:"Water",
-  waterSub:"Track water",
-  smartAnalysis:"🤖 Smart analysis",
-  takePhoto:"📷 Take photo",
-  cameraHint:"Take a photo of your meal.",
-  analyze:"✨ Analyze photo",
-  barcodeTitle:"▥ Barcode scanner",
-  scan:"📦 Open camera",
-  barcodeHint:"A product database is required for real nutrition lookup.",
-  addMeal:"🍽️ Add meal",
-  foodLabel:"Food",
-  quantity:"Quantity",
-  add:"Add to today ✨",
-  macrosTitle:"📊 Macros",
-  protein:"Protein",
-  carbs:"Carbs",
-  fat:"Fat",
-  fiber:"Fiber",
-  todayFood:"🍴 Today's food",
-  empty:"No food recorded yet 🌷",
-  waterTitle:"💧 Water",
-  cups:"cups",
-  reset:"Reset",
-  activityTitle:"🏃 Activity",
-  steps:"Steps",
-  activity:"Activity type",
-  walking:"Walking",
-  running:"Running",
-  cycling:"Cycling",
-  other:"Other",
-  saveActivity:"Save activity",
-  calendarTitle:"📅 Calendar",
-  calendarHint:"Marked days contain recorded data.",
-  settingsTitle:"⚙️ Settings",
-  language:"🌐 Language",
-  colors:"🎨 Colors",
-  clear:"🗑️ Clear today's data"
+  dir:"ltr",
+  hello:"Welcome ✨"
  },
 
  tr:{
-  hello:"Hoş geldin ✨",
-  welcome:"Öğünlerini ve beslenmeni kolayca takip et.",
-  todayCalories:"Bugün kaydedilen kaloriler",
-  calories:"kalori",
-  quick:"Hızlı işlemler",
-  photo:"Yemek fotoğrafı",
-  photoSub:"Öğünü analiz et",
-  barcode:"Barkod",
-  barcodeSub:"Hazır ürün",
-  addFood:"Yemek ekle",
-  addFoodSub:"Listeden seç",
-  water:"Su",
-  waterSub:"Suyu takip et",
-  smartAnalysis:"🤖 Akıllı analiz",
-  takePhoto:"📷 Fotoğraf çek",
-  cameraHint:"Yemeğinin fotoğrafını çek.",
-  analyze:"✨ Fotoğrafı analiz et",
-  barcodeTitle:"▥ Barkod tarayıcı",
-  scan:"📦 Kamerayı aç",
-  barcodeHint:"Gerçek besin bilgileri için ürün veritabanı gerekir.",
-  addMeal:"🍽️ Öğün ekle",
-  foodLabel:"Yemek",
-  quantity:"Miktar",
-  add:"Bugüne ekle ✨",
-  macrosTitle:"📊 Makrolar",
-  protein:"Protein",
-  carbs:"Karbonhidrat",
-  fat:"Yağ",
-  fiber:"Lif",
-  todayFood:"🍴 Bugünkü yemekler",
-  empty:"Henüz yemek kaydedilmedi 🌷",
-  waterTitle:"💧 Su",
-  cups:"bardak",
-  reset:"Sıfırla",
-  activityTitle:"🏃 Aktivite",
-  steps:"Adımlar",
-  activity:"Aktivite türü",
-  walking:"Yürüyüş",
-  running:"Koşu",
-  cycling:"Bisiklet",
-  other:"Diğer",
-  saveActivity:"Aktiviteyi kaydet",
-  calendarTitle:"📅 Takvim",
-  calendarHint:"İşaretli günlerde kayıt vardır.",
-  settingsTitle:"⚙️ Ayarlar",
-  language:"🌐 Dil",
-  colors:"🎨 Renkler",
-  clear:"🗑️ Bugünün verilerini temizle"
+  dir:"ltr",
+  hello:"Hoş geldin ✨"
  },
 
  fr:{
-  hello:"Bienvenue ✨",
-  welcome:"Suivez facilement vos repas et votre nutrition.",
-  todayCalories:"Calories enregistrées aujourd'hui",
-  calories:"calories",
-  quick:"Actions rapides",
-  photo:"Photo du repas",
-  photoSub:"Analyser le repas",
-  barcode:"Code-barres",
-  barcodeSub:"Produit emballé",
-  addFood:"Ajouter",
-  addFoodSub:"Choisir dans la liste",
-  water:"Eau",
-  waterSub:"Suivre l'eau",
-  smartAnalysis:"🤖 Analyse intelligente",
-  takePhoto:"📷 Prendre une photo",
-  cameraHint:"Prenez une photo de votre repas.",
-  analyze:"✨ Analyser",
-  barcodeTitle:"▥ Scanner",
-  scan:"📦 Ouvrir la caméra",
-  barcodeHint:"Une base de produits est nécessaire pour les valeurs nutritionnelles.",
-  addMeal:"🍽️ Ajouter un repas",
-  foodLabel:"Aliment",
-  quantity:"Quantité",
-  add:"Ajouter ✨",
-  macrosTitle:"📊 Macros",
-  protein:"Protéines",
-  carbs:"Glucides",
-  fat:"Lipides",
-  fiber:"Fibres",
-  todayFood:"🍴 Aliments du jour",
-  empty:"Aucun aliment enregistré 🌷",
-  waterTitle:"💧 Eau",
-  cups:"verres",
-  reset:"Réinitialiser",
-  activityTitle:"🏃 Activité",
-  steps:"Pas",
-  activity:"Type d'activité",
-  walking:"Marche",
-  running:"Course",
-  cycling:"Vélo",
-  other:"Autre",
-  saveActivity:"Enregistrer",
-  calendarTitle:"📅 Calendrier",
-  calendarHint:"Les jours marqués contiennent des données.",
-  settingsTitle:"⚙️ Paramètres",
-  language:"🌐 Langue",
-  colors:"🎨 Couleurs",
-  clear:"🗑️ Effacer les données"
+  dir:"ltr",
+  hello:"Bienvenue ✨"
  },
 
  es:{
-  hello:"Bienvenida ✨",
-  welcome:"Registra tus comidas y nutrición fácilmente.",
-  todayCalories:"Calorías registradas hoy",
-  calories:"calorías",
-  quick:"Acciones rápidas",
-  photo:"Foto de comida",
-  photoSub:"Analizar comida",
-  barcode:"Código de barras",
-  barcodeSub:"Producto",
-  addFood:"Añadir comida",
-  addFoodSub:"Elegir de la lista",
-  water:"Agua",
-  waterSub:"Registrar agua",
-  smartAnalysis:"🤖 Análisis inteligente",
-  takePhoto:"📷 Tomar foto",
-  cameraHint:"Toma una foto de tu comida.",
-  analyze:"✨ Analizar foto",
-  barcodeTitle:"▥ Escáner",
-  scan:"📦 Abrir cámara",
-  barcodeHint:"Se necesita una base de datos de productos para obtener valores reales.",
-  addMeal:"🍽️ Añadir comida",
-  foodLabel:"Comida",
-  quantity:"Cantidad",
-  add:"Añadir ✨",
-  macrosTitle:"📊 Macros",
-  protein:"Proteína",
-  carbs:"Carbohidratos",
-  fat:"Grasas",
-  fiber:"Fibra",
-  todayFood:"🍴 Comida de hoy",
-  empty:"No hay comidas registradas 🌷",
-  waterTitle:"💧 Agua",
-  cups:"vasos",
-  reset:"Reiniciar",
-  activityTitle:"🏃 Actividad",
-  steps:"Pasos",
-  activity:"Tipo de actividad",
-  walking:"Caminar",
-  running:"Correr",
-  cycling:"Bicicleta",
-  other:"Otro",
-  saveActivity:"Guardar actividad",
-  calendarTitle:"📅 Calendario",
-  calendarHint:"Los días marcados contienen datos.",
-  settingsTitle:"⚙️ Ajustes",
-  language:"🌐 Idioma",
-  colors:"🎨 Colores",
-  clear:"🗑️ Borrar datos de hoy"
+  dir:"ltr",
+  hello:"Bienvenida ✨"
  }
 
 };
@@ -1442,18 +1220,10 @@ function changeLanguage(lang){
 
  document.documentElement.lang=lang;
 
- document.documentElement.dir =
-  lang==="ar" ? "rtl" : "ltr";
+ document.documentElement.dir=t.dir;
 
- document.querySelectorAll("[data-i18n]")
- .forEach(el=>{
-
-  const key=el.getAttribute("data-i18n");
-
-  if(t[key])
-   el.textContent=t[key];
-
- });
+ document.querySelector(".welcome h1")
+ .textContent=t.hello;
 
  localStorage.setItem("language",lang);
 
@@ -1462,41 +1232,74 @@ function changeLanguage(lang){
 }
 
 
-/* =========================
-   CLEAR
-========================= */
+/* CALENDAR */
 
-function clearAll(){
+function buildCalendar(){
 
- foods=[];
- totalCalories=0;
- protein=0;
- carbs=0;
- fat=0;
- fiber=0;
+ const calendar=
+ document.getElementById("calendar");
 
- updateScreen();
- saveData();
- buildCalendar();
+ const now=new Date();
+
+ const year=now.getFullYear();
+
+ const month=now.getMonth();
+
+ const today=now.getDate();
+
+ document.getElementById("monthTitle")
+ .textContent=
+ now.toLocaleDateString(
+  document.documentElement.lang,
+  {month:"long",year:"numeric"}
+ );
+
+ calendar.innerHTML="";
+
+ const first=
+ new Date(year,month,1).getDay();
+
+ const days=
+ new Date(year,month+1,0).getDate();
+
+ for(let i=0;i<first;i++){
+
+  const blank=
+  document.createElement("div");
+
+  calendar.appendChild(blank);
+
+ }
+
+ for(let d=1;d<=days;d++){
+
+  const day=
+  document.createElement("div");
+
+  day.style.minHeight="40px";
+  day.style.border="1px solid var(--border)";
+  day.style.borderRadius="10px";
+  day.style.display="flex";
+  day.style.alignItems="center";
+  day.style.justifyContent="center";
+
+  if(d===today){
+
+   day.style.background="var(--main)";
+   day.style.color="white";
+
+  }
+
+  day.textContent=d;
+
+  calendar.appendChild(day);
+
+ }
 
 }
 
 
-/* =========================
-   SCROLL
-========================= */
-
-function scrollToSection(id){
-
- document.getElementById(id)
- .scrollIntoView({behavior:"smooth"});
-
-}
-
-
-/* =========================
-   STORAGE
-========================= */
+/* STORAGE */
 
 function saveData(){
 
@@ -1517,7 +1320,7 @@ function saveData(){
 
 function loadData(){
 
- const saved =
+ const saved=
  localStorage.getItem("calorieData");
 
  if(saved){
@@ -1546,14 +1349,49 @@ function loadData(){
 }
 
 
-/* =========================
-   START
-========================= */
+/* CLEAR */
 
-const savedMain =
+function clearAll(){
+
+ foods=[];
+ totalCalories=0;
+ protein=0;
+ carbs=0;
+ fat=0;
+ fiber=0;
+
+ updateScreen();
+ saveData();
+ buildCalendar();
+
+}
+
+
+/* SCROLL */
+
+function scrollToFood(){
+
+ document
+ .getElementById("foodSection")
+ .scrollIntoView({behavior:"smooth"});
+
+}
+
+function scrollToWater(){
+
+ document
+ .getElementById("waterSection")
+ .scrollIntoView({behavior:"smooth"});
+
+}
+
+
+/* START */
+
+const savedMain=
  localStorage.getItem("main");
 
-const savedSecond =
+const savedSecond=
  localStorage.getItem("second");
 
 if(savedMain){
@@ -1569,12 +1407,11 @@ if(savedMain){
 if(localStorage.getItem("dark")==="true")
  document.body.classList.add("dark");
 
+const savedLanguage=
+ localStorage.getItem("language")||"ar";
 
-const savedLanguage =
- localStorage.getItem("language") || "ar";
-
-document.getElementById("language").value =
- savedLanguage;
+document.getElementById("language")
+.value=savedLanguage;
 
 changeLanguage(savedLanguage);
 
