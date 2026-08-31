@@ -3,1361 +3,2149 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NutriLens</title>
+<meta name="theme-color" content="#8b5cf6">
+<title>NutriLens ✦</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
+:root{
+  --main:#8b5cf6;
+  --second:#c084fc;
+  --bg:#faf9ff;
+  --card:#ffffff;
+  --text:#27222f;
+  --muted:#817989;
+  --border:#eee9f5;
+  --soft:#f2eaff;
 }
+
+*{box-sizing:border-box}
 
 body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    min-height:100vh;
-    background:#f7f5ff;
-    background-size:cover;
-    background-position:center;
-    background-attachment:fixed;
-    color:#252331;
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
 }
 
-body:before{
-    content:"";
-    position:fixed;
-    inset:0;
-    background:rgba(255,255,255,.25);
-    z-index:-1;
+body.dark{
+  --bg:#17151c;
+  --card:#24212b;
+  --text:#fff;
+  --muted:#aaa3b4;
+  --border:#393442;
+  --soft:#342b42;
 }
 
-header{
-    padding:25px 20px 10px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+button,input,select{font:inherit}
+
+button{cursor:pointer}
+
+.header{
+  padding:16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:var(--bg);
 }
 
 .logo{
-    font-size:27px;
-    font-weight:800;
-    color:#7657e8;
+  font-size:25px;
+  font-weight:900;
 }
 
-.subtitle{
-    color:#777;
-    font-size:13px;
-    margin-top:5px;
+.logo span{
+  color:var(--main);
 }
 
-.settings-top{
-    border:0;
-    background:white;
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    font-size:20px;
-    box-shadow:0 5px 20px #0002;
+.header-actions{
+  display:flex;
+  gap:8px;
 }
 
-.page{
-    display:none;
-    padding:10px 18px 120px;
-    max-width:650px;
-    margin:auto;
+.icon{
+  width:43px;
+  height:43px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  font-size:19px;
 }
 
-.page.active{
-    display:block;
+.container{
+  max-width:680px;
+  margin:auto;
+  padding:0 17px 40px;
+}
+
+.welcome h1{
+  margin:5px 0;
+  font-size:28px;
+}
+
+.welcome p{
+  margin:0 0 18px;
+  color:var(--muted);
+}
+
+/* الواجهة الرئيسية */
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(135deg,var(--main),var(--second));
+  color:#fff;
+  border-radius:28px;
+  padding:24px;
+  min-height:190px;
+  box-shadow:0 12px 30px #6d45a52e;
+  background-size:cover;
+  background-position:center;
+}
+
+.hero.has-image::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:#0005;
+}
+
+.hero>*{
+  position:relative;
+  z-index:1;
+}
+
+.hero-small{
+  opacity:.92;
+  font-size:14px;
+}
+
+.hero-number{
+  font-size:43px;
+  font-weight:900;
+  margin:5px 0;
+}
+
+.hero-image-btn{
+  margin-top:12px;
+  border:1px solid #ffffff55;
+  background:#ffffff22;
+  color:#fff;
+  padding:9px 12px;
+  border-radius:12px;
+}
+
+/* الأقسام */
+
+.section-title{
+  margin:25px 0 12px;
+  font-size:19px;
+  font-weight:850;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.action{
+  background:var(--card);
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:21px;
+  padding:19px 10px;
+  text-align:center;
+}
+
+.action:active{
+  transform:scale(.97);
+}
+
+.action-icon{
+  font-size:29px;
+  margin-bottom:6px;
+}
+
+.action-title{
+  font-weight:800;
+}
+
+.action-sub{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
 }
 
 .card{
-    background:rgba(255,255,255,.9);
-    border-radius:25px;
-    padding:20px;
-    margin:15px 0;
-    box-shadow:0 8px 30px #00000012;
-    backdrop-filter:blur(12px);
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:21px;
+  padding:17px;
+  margin-bottom:12px;
 }
 
-.title{
-    font-size:19px;
-    font-weight:800;
+.camera{
+  border:2px dashed var(--second);
+  background:var(--soft);
+  border-radius:19px;
+  padding:20px;
+  text-align:center;
 }
 
-.muted{
-    color:#888;
-    font-size:13px;
+.primary{
+  width:100%;
+  border:0;
+  background:var(--main);
+  color:white;
+  padding:14px;
+  border-radius:15px;
+  font-weight:800;
+  margin-top:9px;
 }
 
-.calorie{
-    text-align:center;
+.secondary{
+  width:100%;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  padding:13px;
+  border-radius:15px;
+  font-weight:750;
+  margin-top:9px;
 }
 
-.calorie-circle{
-    width:180px;
-    height:180px;
-    border-radius:50%;
-    margin:20px auto;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:conic-gradient(#7657e8 0deg,#7657e8 0deg,#e9e7f2 0deg);
+input,select{
+  width:100%;
+  padding:13px;
+  margin-top:7px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:var(--bg);
+  color:var(--text);
 }
 
-.calorie-inner{
-    width:137px;
-    height:137px;
-    background:white;
-    border-radius:50%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
+label{
+  display:block;
+  margin-top:12px;
+  font-size:14px;
+  font-weight:700;
 }
 
-.calorie-number{
-    font-size:34px;
-    font-weight:800;
+.hidden{
+  display:none!important;
 }
 
-.macros{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
+#preview{
+  display:none;
+  width:100%;
+  max-height:330px;
+  object-fit:cover;
+  border-radius:17px;
+  margin-top:14px;
+}
+
+.notice{
+  background:var(--soft);
+  padding:13px;
+  border-radius:15px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.6;
+}
+
+/* الماكروز */
+
+.macro-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
 }
 
 .macro{
-    background:#f5f2ff;
-    padding:13px 5px;
-    border-radius:18px;
-    text-align:center;
+  background:var(--soft);
+  padding:14px;
+  border-radius:16px;
 }
 
 .macro b{
-    display:block;
-    margin-top:5px;
+  display:block;
+  font-size:21px;
+  margin-top:3px;
 }
 
-.water{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+.bar{
+  height:8px;
+  background:var(--border);
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:8px;
 }
 
-.water-left{
-    display:flex;
-    align-items:center;
-    gap:12px;
+.bar span{
+  display:block;
+  height:100%;
+  width:0;
+  background:var(--main);
+  border-radius:20px;
 }
 
-.water-circle{
-    width:52px;
-    height:52px;
-    border-radius:50%;
-    background:#e6f6ff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:25px;
+/* الأكل */
+
+.food{
+  display:flex;
+  gap:10px;
+  justify-content:space-between;
+  align-items:center;
+  padding:13px 0;
+  border-bottom:1px solid var(--border);
 }
 
-.water-buttons{
-    display:flex;
-    gap:7px;
+.food:last-child{
+  border-bottom:0;
 }
 
-.water-buttons button{
-    width:38px;
-    height:38px;
-    border:0;
-    border-radius:50%;
-    background:#7657e8;
-    color:white;
-    font-size:20px;
+.food-main{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  min-width:0;
 }
 
-.add{
-    width:100%;
-    border:0;
-    padding:14px;
-    border-radius:16px;
-    background:#7657e8;
-    color:white;
-    font-size:16px;
-    font-weight:bold;
-    margin-top:15px;
+.food-thumb{
+  width:58px;
+  height:58px;
+  object-fit:cover;
+  border-radius:15px;
+  background:var(--soft);
+  flex:none;
 }
 
-.meal{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:12px 0;
-    border-bottom:1px solid #eee;
+.food-name{
+  font-weight:800;
 }
 
-.meal:last-child{
-    border-bottom:0;
-}
-
-.meal-img{
-    width:65px;
-    height:65px;
-    border-radius:17px;
-    object-fit:cover;
-    background:#eee;
-}
-
-.meal-info{
-    flex:1;
-}
-
-.meal-name{
-    font-weight:bold;
-}
-
-.meal-cal{
-    color:#888;
-    font-size:13px;
-    margin-top:5px;
+.food-info{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
 }
 
 .delete{
-    border:0;
-    background:#ffe8e8;
-    color:#d44;
-    width:34px;
-    height:34px;
-    border-radius:50%;
-    font-size:20px;
+  border:0;
+  background:#fff0f0;
+  color:#ef4444;
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  flex:none;
 }
 
-.bottom{
-    position:fixed;
-    bottom:10px;
-    left:10px;
-    right:10px;
-    max-width:650px;
-    margin:auto;
-    height:78px;
-    background:rgba(255,255,255,.94);
-    border-radius:28px;
-    box-shadow:0 8px 35px #0003;
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
-    z-index:100;
-    backdrop-filter:blur(18px);
+.empty{
+  text-align:center;
+  color:var(--muted);
+  padding:20px;
 }
 
-.nav{
-    border:0;
-    background:transparent;
-    color:#777;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:4px;
-    font-size:10px;
+/* صور الأكل */
+
+.preview-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:12px;
 }
 
-.nav-icon{
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:21px;
+.preview-grid img{
+  width:100%;
+  aspect-ratio:1;
+  object-fit:cover;
+  border-radius:14px;
 }
 
-.nav.active{
-    color:#7657e8;
+/* الماء */
+
+.water-count{
+  color:var(--main);
+  font-size:25px;
+  font-weight:900;
 }
 
-.nav.active .nav-icon{
-    background:#7657e8;
-    color:white;
+.water{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
 }
 
-.setting{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:15px 0;
-    border-bottom:1px solid #eee;
+.water button{
+  border:0;
+  background:var(--soft);
+  color:var(--text);
+  border-radius:12px;
+  padding:10px 15px;
 }
 
-.setting:last-child{
-    border-bottom:0;
-}
-
-.setting-left{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.setting-icon{
-    width:45px;
-    height:45px;
-    border-radius:15px;
-    background:#f0ecff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:21px;
-}
-
-.setting button{
-    border:0;
-    background:#7657e8;
-    color:white;
-    padding:9px 14px;
-    border-radius:12px;
-    font-weight:bold;
-}
-
-input[type=file]{
-    display:none;
-}
+/* الكالندر */
 
 .calendar{
-    display:grid;
-    grid-template-columns:repeat(7,1fr);
-    gap:9px;
-    margin-top:20px;
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:8px;
+  margin-top:14px;
 }
 
 .day{
-    width:42px;
-    height:42px;
-    border-radius:50%;
-    background:#f4f1ff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    margin:auto;
-    font-weight:bold;
+  aspect-ratio:1;
+  border:1px solid var(--border);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  max-width:48px;
+  margin:auto;
 }
 
 .day.today{
-    background:#7657e8;
-    color:white;
+  background:var(--main);
+  color:#fff;
+  border-color:var(--main);
 }
 
-.progress{
-    height:12px;
-    background:#e9e7ef;
-    border-radius:20px;
-    overflow:hidden;
-    margin-top:12px;
+.day-name{
+  font-size:11px;
+  color:var(--muted);
+  text-align:center;
+  font-weight:800;
 }
 
-.progress-fill{
-    height:100%;
-    width:0;
-    background:#7657e8;
-    border-radius:20px;
+/* القائمة الجانبية */
+
+.drawer-backdrop{
+  position:fixed;
+  inset:0;
+  background:#0007;
+  z-index:100;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
 }
 
-.modal{
-    position:fixed;
-    inset:0;
-    background:#0007;
-    display:none;
-    align-items:flex-end;
-    z-index:500;
+.drawer-backdrop.open{
+  opacity:1;
+  pointer-events:auto;
 }
 
-.modal.show{
-    display:flex;
+.drawer{
+  position:fixed;
+  top:0;
+  right:0;
+  width:min(88vw,380px);
+  height:100dvh;
+  background:var(--card);
+  z-index:101;
+  transform:translateX(105%);
+  transition:.28s;
+  box-shadow:-12px 0 35px #0003;
+  padding:20px;
+  overflow:auto;
 }
 
-.modal-box{
-    width:100%;
-    max-width:650px;
-    margin:auto;
-    background:white;
-    padding:25px;
-    border-radius:28px 28px 0 0;
+.drawer.open{
+  transform:translateX(0);
 }
 
-.modal-box h2{
-    margin-top:0;
+.drawer-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:8px;
 }
 
-.input{
-    width:100%;
-    padding:14px;
-    border:1px solid #ddd;
-    border-radius:14px;
-    margin:7px 0 14px;
-    font-size:15px;
+.drawer-head h2{
+  margin:0;
 }
 
-.modal-buttons{
-    display:flex;
-    gap:10px;
+.close{
+  width:40px;
+  height:40px;
+  border:0;
+  border-radius:12px;
+  background:var(--soft);
+  color:var(--text);
+  font-size:20px;
 }
 
-.modal-buttons button{
-    flex:1;
-    padding:14px;
-    border:0;
-    border-radius:14px;
-    font-weight:bold;
+/* قوائم الإعدادات */
+
+.setting{
+  border-bottom:1px solid var(--border);
+  padding:4px 0;
 }
 
-.cancel{
-    background:#eee;
+.setting summary{
+  list-style:none;
+  padding:17px 4px;
+  font-weight:850;
+  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
 }
 
-.confirm{
-    background:#7657e8;
-    color:white;
+.setting summary::-webkit-details-marker{
+  display:none;
 }
 
-.preview{
-    width:100px;
-    height:100px;
-    object-fit:cover;
-    border-radius:18px;
-    display:none;
-    margin:10px auto;
+.setting summary:after{
+  content:"⌄";
+  color:var(--muted);
 }
 
-.toast{
-    position:fixed;
-    top:20px;
-    left:50%;
-    transform:translate(-50%,-100px);
-    background:#222;
-    color:white;
-    padding:13px 20px;
-    border-radius:15px;
-    transition:.3s;
-    z-index:1000;
+.setting[open] summary:after{
+  content:"⌃";
 }
 
-.toast.show{
-    transform:translate(-50%,0);
+.setting-body{
+  padding:0 4px 17px;
+}
+
+.colors{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.color{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  border:3px solid var(--card);
+  outline:1px solid var(--border);
+}
+
+.interface-preview{
+  height:125px;
+  border-radius:20px;
+  background:linear-gradient(135deg,var(--main),var(--second));
+  margin-top:10px;
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-weight:900;
+  font-size:20px;
+}
+
+.footer{
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  margin-top:30px;
+}
+
+@media(max-width:420px){
+  .grid{
+    gap:9px;
+  }
+
+  .action{
+    padding:16px 7px;
+  }
+
+  .calendar{
+    gap:5px;
+  }
+
+  .day{
+    max-width:43px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<header>
-    <div>
-        <div class="logo">NutriLens</div>
-        <div class="subtitle">تابعي يومك الغذائي بسهولة ✨</div>
-    </div>
+<header class="header">
 
-    <button class="settings-top" onclick="openPage('settings')">
-        ⚙️
-    </button>
+  <div class="logo">
+    NutriLens <span>✦</span>
+  </div>
+
+  <div class="header-actions">
+    <button class="icon" onclick="toggleDark()">🌙</button>
+    <button class="icon" onclick="openSettings()">☰</button>
+  </div>
+
 </header>
 
 
-<!-- الصفحة الرئيسية -->
+<main class="container">
 
-<section id="home" class="page active">
+  <div class="welcome">
+    <h1 id="hello">أهلًا بكِ ✨</h1>
+    <p>سجّلي وجباتك وتابعي تغذيتك بسهولة.</p>
+  </div>
 
-    <div class="card calorie">
 
-        <div class="title">سعرات اليوم</div>
-        <div class="muted">مجموع السعرات المضافة اليوم</div>
+  <!-- الواجهة -->
 
-        <div class="calorie-circle" id="calorieCircle">
+  <div class="hero" id="hero">
 
-            <div class="calorie-inner">
-                <div class="calorie-number" id="calories">0</div>
-                <div class="muted">سعرة</div>
-            </div>
-
-        </div>
-
-        <div class="macros">
-
-            <div class="macro">
-                🥩
-                <b id="protein">0g</b>
-                <span class="muted">بروتين</span>
-            </div>
-
-            <div class="macro">
-                🍚
-                <b id="carbs">0g</b>
-                <span class="muted">كارب</span>
-            </div>
-
-            <div class="macro">
-                🥑
-                <b id="fat">0g</b>
-                <span class="muted">دهون</span>
-            </div>
-
-        </div>
-
+    <div class="hero-small">
+      مجموع السعرات المسجلة اليوم
     </div>
 
-
-    <!-- الماء -->
-
-    <div class="card water">
-
-        <div class="water-left">
-
-            <div class="water-circle">💧</div>
-
-            <div>
-                <div class="title">الماء</div>
-                <div>
-                    <b id="water">0</b> / 8 أكواب
-                </div>
-            </div>
-
-        </div>
-
-        <div class="water-buttons">
-            <button onclick="waterChange(-1)">−</button>
-            <button onclick="waterChange(1)">+</button>
-        </div>
-
+    <div class="hero-number">
+      <span id="total">0</span>
     </div>
 
-
-    <!-- الوجبات -->
-
-    <div class="card" id="mealsSection">
-
-        <div class="title">وجبات اليوم 🍽️</div>
-        <div class="muted">أضيفي وجباتك وصور الأكل</div>
-
-        <div id="meals"></div>
-
-        <button class="add" onclick="openMeal()">
-            ＋ إضافة وجبة
-        </button>
-
+    <div class="hero-small">
+      سعرة حرارية
     </div>
 
-
-    <!-- التقدم -->
-
-    <div class="card">
-
-        <div class="title">تقدم اليوم</div>
-
-        <div class="muted">
-            نسبة السعرات المضافة من هدف 2000
-        </div>
-
-        <div class="progress">
-            <div class="progress-fill" id="progress"></div>
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- التقويم -->
-
-<section id="calendarPage" class="page">
-
-    <div class="card">
-
-        <div class="title">📅 التقويم</div>
-        <div class="muted">أيام الشهر</div>
-
-        <div class="calendar" id="calendar"></div>
-
-    </div>
-
-</section>
-
-
-<!-- التقدم -->
-
-<section id="progressPage" class="page">
-
-    <div class="card">
-
-        <div class="title">📈 التقدم</div>
-
-        <div class="card">
-            <div class="muted">السعرات</div>
-            <h2><span id="pCalories">0</span> سعرة</h2>
-        </div>
-
-        <div class="card">
-            <div class="muted">الماء</div>
-            <h2><span id="pWater">0</span> أكواب</h2>
-        </div>
-
-        <div class="card">
-            <div class="muted">الوجبات</div>
-            <h2><span id="pMeals">0</span></h2>
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- الإعدادات -->
-
-<section id="settings" class="page">
-
-    <div class="card">
-
-        <div class="title">⚙️ الإعدادات</div>
-
-
-        <!-- اختيار الخلفية -->
-
-        <div class="setting">
-
-            <div class="setting-left">
-
-                <div class="setting-icon">🖼️</div>
-
-                <div>
-                    <b>خلفية التطبيق</b>
-                    <div class="muted">
-                        اختاري صورة من ألبوم الصور
-                    </div>
-                </div>
-
-            </div>
-
-            <label>
-                <button onclick="document.getElementById('backgroundInput').click()">
-                    اختيار
-                </button>
-
-                <input
-                    id="backgroundInput"
-                    type="file"
-                    accept="image/*"
-                    onchange="changeBackground(event)"
-                >
-            </label>
-
-        </div>
-
-
-        <!-- اللغة -->
-
-        <div class="setting">
-
-            <div class="setting-left">
-
-                <div class="setting-icon">🌐</div>
-
-                <div>
-                    <b>اللغة</b>
-                    <div class="muted">العربية</div>
-                </div>
-
-            </div>
-
-            <button onclick="toast('العربية مفعلة حالياً')">
-                العربية
-            </button>
-
-        </div>
-
-
-        <!-- حذف البيانات -->
-
-        <div class="setting">
-
-            <div class="setting-left">
-
-                <div class="setting-icon">🗑️</div>
-
-                <div>
-                    <b>حذف البيانات</b>
-                    <div class="muted">
-                        إعادة التطبيق للوضع الأساسي
-                    </div>
-                </div>
-
-            </div>
-
-            <button
-                style="background:#e75b68"
-                onclick="resetApp()"
-            >
-                حذف
-            </button>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- شريط التنقل السفلي -->
-
-<nav class="bottom">
-
-    <button class="nav active" onclick="openPage('home',this)">
-        <div class="nav-icon">💧</div>
-        الماء
+    <button class="hero-image-btn" onclick="openInterfaceImage()">
+      🖼️ تغيير صورة الواجهة
     </button>
 
-    <button class="nav" onclick="openMeals(this)">
-        <div class="nav-icon">🍽️</div>
-        الوجبات
+  </div>
+
+
+  <!-- الاختصارات -->
+
+  <div class="section-title">
+    الاختصارات
+  </div>
+
+  <div class="grid">
+
+    <button class="action" onclick="openCamera()">
+      <div class="action-icon">📸</div>
+      <div class="action-title">تصوير الأكل</div>
+      <div class="action-sub">اختاري الكاميرا</div>
     </button>
 
-    <button class="nav" onclick="openPage('calendarPage',this)">
-        <div class="nav-icon">📅</div>
-        التقويم
+    <button class="action" onclick="openAlbum()">
+      <div class="action-icon">🖼️</div>
+      <div class="action-title">من الألبوم</div>
+      <div class="action-sub">اختاري صورة</div>
     </button>
 
-    <button class="nav" onclick="openPage('progressPage',this)">
-        <div class="nav-icon">📈</div>
-        التقدم
+    <button class="action" onclick="scrollToFood()">
+      <div class="action-icon">🍽️</div>
+      <div class="action-title">إضافة أكلة</div>
+      <div class="action-sub">اختاري من القائمة</div>
     </button>
 
-    <button class="nav" onclick="openPage('settings',this)">
-        <div class="nav-icon">⚙️</div>
-        الإعدادات
+    <button class="action" onclick="scrollToWater()">
+      <div class="action-icon">💧</div>
+      <div class="action-title">الماء</div>
+      <div class="action-sub">تتبعي شرب الماء</div>
     </button>
 
-</nav>
+  </div>
 
 
-<!-- نافذة إضافة وجبة -->
+  <!-- تحليل الصورة -->
 
-<div class="modal" id="mealModal">
+  <div class="section-title">
+    🤖 التحليل الذكي
+  </div>
 
-    <div class="modal-box">
+  <div class="card">
 
-        <h2>إضافة وجبة 🍽️</h2>
+    <div class="camera">
 
-        <label>اسم الأكل</label>
+      <button class="primary" onclick="openCamera()">
+        📷 التقاط صورة الأكل
+      </button>
 
-        <input
-            class="input"
-            id="mealName"
-            type="text"
-            placeholder="مثلاً: دجاج مع رز"
-        >
+      <button class="secondary" onclick="openAlbum()">
+        🖼️ اختيار صورة من الألبوم
+      </button>
 
-        <label>السعرات</label>
+      <input
+        id="cameraInput"
+        type="file"
+        accept="image/*"
+        capture="environment"
+        hidden
+        onchange="showPhoto(event)"
+      >
 
-        <input
-            class="input"
-            id="mealCalories"
-            type="number"
-            placeholder="مثلاً: 500"
-        >
+      <input
+        id="albumInput"
+        type="file"
+        accept="image/*"
+        hidden
+        onchange="showPhoto(event)"
+      >
 
-        <label>
-            <button
-                class="add"
-                type="button"
-                onclick="document.getElementById('mealImage').click()"
-            >
-                📷 اختيار صورة من الألبوم
-            </button>
+      <img id="preview">
 
-            <input
-                id="mealImage"
-                type="file"
-                accept="image/*"
-                onchange="previewImage(event)"
-            >
-        </label>
+      <p id="cameraText" class="food-info">
+        صوّري الأكلة أو اختاري صورة من الألبوم.
+      </p>
 
-        <img
-            id="preview"
-            class="preview"
-        >
+      <button
+        id="analyzeButton"
+        class="primary hidden"
+        onclick="analyzePhoto()"
+      >
+        ✨ تحليل الصورة
+      </button>
 
-        <div class="modal-buttons">
-
-            <button
-                class="cancel"
-                onclick="closeMeal()"
-            >
-                إلغاء
-            </button>
-
-            <button
-                class="confirm"
-                onclick="addMeal()"
-            >
-                إضافة
-            </button>
-
-        </div>
+      <div
+        id="analysisResult"
+        class="notice hidden"
+        style="margin-top:12px"
+      ></div>
 
     </div>
 
-</div>
+  </div>
 
 
-<div class="toast" id="toast"></div>
+  <!-- إضافة أكلة -->
+
+  <div class="section-title" id="foodSection">
+    🍽️ إضافة أكلة
+  </div>
+
+  <div class="card">
+
+    <label>الأكلة</label>
+
+    <select id="food">
+
+      <option value="70,6,0.5,5,0">
+        🥚 بيضة مسلوقة — 70
+      </option>
+
+      <option value="90,6,0.5,7,0">
+        🍳 بيضة مقلية — 90
+      </option>
+
+      <option value="165,31,0,4,0">
+        🍗 صدر دجاج 100غ — 165
+      </option>
+
+      <option value="209,26,0,11,0">
+        🍗 فخذ دجاج 100غ — 209
+      </option>
+
+      <option value="130,2.7,28,0.3,0.4">
+        🍚 رز 100غ — 130
+      </option>
+
+      <option value="150,5,30,1,2">
+        🍝 معكرونة 100غ — 150
+      </option>
+
+      <option value="350,8,50,14,2">
+        🍜 أندومي — 350
+      </option>
+
+      <option value="250,3,33,12,3">
+        🍟 بطاطا مقلية 100غ — 250
+      </option>
+
+      <option value="52,0.3,14,0.2,2.4">
+        🍎 تفاحة — 52
+      </option>
+
+      <option value="89,1.1,23,0.3,2.6">
+        🍌 موزة — 89
+      </option>
+
+      <option value="25,1,6,0.2,1">
+        🥒 خيار — 25
+      </option>
+
+      <option value="41,2,9,0.2,1.5">
+        🍅 طماطم — 41
+      </option>
+
+      <option value="120,7,9,5,0">
+        🥛 لبن 225مل — 120
+      </option>
+
+      <option value="100,3,20,1,2">
+        🫓 خبز عربي — 100
+      </option>
+
+      <option value="250,15,20,12,2">
+        🍔 برغر — 250
+      </option>
+
+      <option value="300,12,35,12,2">
+        🍕 بيتزا — 300
+      </option>
+
+    </select>
+
+
+    <label>الكمية</label>
+
+    <input
+      id="quantity"
+      type="number"
+      value="1"
+      min="1"
+    >
+
+
+    <label>
+      صورة الأكلة
+      <span style="color:var(--muted);font-weight:500">
+        (اختياري)
+      </span>
+    </label>
+
+    <button class="secondary" onclick="openFoodPhoto()">
+      🖼️ إضافة صورة من الألبوم
+    </button>
+
+    <input
+      id="foodPhotoInput"
+      type="file"
+      accept="image/*"
+      hidden
+      onchange="previewFoodPhoto(event)"
+    >
+
+    <div
+      id="foodPhotoPreview"
+      class="preview-grid"
+    ></div>
+
+
+    <button class="primary" onclick="addFood()">
+      إضافة إلى يومي ✨
+    </button>
+
+  </div>
+
+
+  <!-- الماكروز -->
+
+  <div class="section-title">
+    📊 الماكروز
+  </div>
+
+  <div class="card">
+
+    <div class="macro-grid">
+
+      <div class="macro">
+        🥩 البروتين
+        <b><span id="protein">0</span> g</b>
+        <div class="bar">
+          <span id="proteinBar"></span>
+        </div>
+      </div>
+
+      <div class="macro">
+        🍞 الكارب
+        <b><span id="carbs">0</span> g</b>
+        <div class="bar">
+          <span id="carbsBar"></span>
+        </div>
+      </div>
+
+      <div class="macro">
+        🥑 الدهون
+        <b><span id="fat">0</span> g</b>
+        <div class="bar">
+          <span id="fatBar"></span>
+        </div>
+      </div>
+
+      <div class="macro">
+        🌾 الألياف
+        <b><span id="fiber">0</span> g</b>
+        <div class="bar">
+          <span id="fiberBar"></span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- أكل اليوم -->
+
+  <div class="section-title">
+    🍴 أكل اليوم
+  </div>
+
+  <div class="card" id="foodList">
+
+    <div class="empty">
+      ماكو أكلات مسجلة لحد الآن 🌷
+    </div>
+
+  </div>
+
+
+  <!-- الماء -->
+
+  <div class="section-title" id="waterSection">
+    💧 الماء
+  </div>
+
+  <div class="card">
+
+    <div class="water-count">
+      <span id="waterCount">0</span> كوب
+    </div>
+
+    <div class="water">
+
+      <button onclick="addWater()">
+        + 💧
+      </button>
+
+      <button onclick="removeWater()">
+        −
+      </button>
+
+      <button onclick="clearWater()">
+        تصفير
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- النشاط -->
+
+  <div class="section-title">
+    🏃 النشاط
+  </div>
+
+  <div class="card">
+
+    <label>الخطوات</label>
+
+    <input
+      id="steps"
+      type="number"
+      min="0"
+      placeholder="مثال: 5000"
+    >
+
+    <label>نوع النشاط</label>
+
+    <select id="activity">
+      <option>مشي</option>
+      <option>ركض</option>
+      <option>دراجة</option>
+      <option>نشاط آخر</option>
+    </select>
+
+    <button class="primary" onclick="saveActivity()">
+      حفظ النشاط
+    </button>
+
+    <div
+      id="activityResult"
+      class="notice"
+      style="margin-top:12px"
+    ></div>
+
+  </div>
+
+
+  <!-- الكالندر -->
+
+  <div class="section-title">
+    📅 التقويم
+  </div>
+
+  <div class="card">
+
+    <div
+      id="monthTitle"
+      style="font-weight:800"
+    ></div>
+
+    <div
+      class="calendar"
+      id="calendar"
+    ></div>
+
+  </div>
+
+
+  <button
+    class="primary"
+    style="background:#eee;color:#555"
+    onclick="clearAll()"
+  >
+    🗑️ مسح بيانات اليوم
+  </button>
+
+
+  <div class="footer">
+    NutriLens ✦
+  </div>
+
+</main>
+
+
+<!-- القائمة الجانبية -->
+
+<div
+  id="backdrop"
+  class="drawer-backdrop"
+  onclick="closeSettings()"
+></div>
+
+
+<aside
+  id="settingsDrawer"
+  class="drawer"
+>
+
+  <div class="drawer-head">
+
+    <h2>⚙️ الإعدادات</h2>
+
+    <button
+      class="close"
+      onclick="closeSettings()"
+    >
+      ×
+    </button>
+
+  </div>
+
+
+  <!-- اللغة -->
+
+  <details class="setting" open>
+
+    <summary>
+      🌐 اللغة
+    </summary>
+
+    <div class="setting-body">
+
+      <select
+        id="language"
+        onchange="changeLanguage(this.value)"
+      >
+
+        <option value="ar">
+          🇮🇶 العربية
+        </option>
+
+        <option value="en">
+          🇬🇧 English
+        </option>
+
+        <option value="tr">
+          🇹🇷 Türkçe
+        </option>
+
+        <option value="fr">
+          🇫🇷 Français
+        </option>
+
+        <option value="es">
+          🇪🇸 Español
+        </option>
+
+      </select>
+
+    </div>
+
+  </details>
+
+
+  <!-- اللون -->
+
+  <details class="setting">
+
+    <summary>
+      🎨 لون التطبيق
+    </summary>
+
+    <div class="setting-body">
+
+      <div class="colors">
+
+        <button
+          class="color"
+          style="background:#8b5cf6"
+          onclick="setColor('#8b5cf6','#c084fc')"
+        ></button>
+
+        <button
+          class="color"
+          style="background:#ec4899"
+          onclick="setColor('#ec4899','#f9a8d4')"
+        ></button>
+
+        <button
+          class="color"
+          style="background:#06b6d4"
+          onclick="setColor('#06b6d4','#67e8f9')"
+        ></button>
+
+        <button
+          class="color"
+          style="background:#10b981"
+          onclick="setColor('#10b981','#6ee7b7')"
+        ></button>
+
+        <button
+          class="color"
+          style="background:#f59e0b"
+          onclick="setColor('#f59e0b','#fcd34d')"
+        ></button>
+
+        <button
+          class="color"
+          style="background:#ef4444"
+          onclick="setColor('#ef4444','#fca5a5')"
+        ></button>
+
+        <button
+          class="color"
+          style="background:#3b82f6"
+          onclick="setColor('#3b82f6','#93c5fd')"
+        ></button>
+
+      </div>
+
+      <input
+        type="color"
+        value="#8b5cf6"
+        onchange="customColor(this.value)"
+      >
+
+    </div>
+
+  </details>
+
+
+  <!-- المظهر -->
+
+  <details class="setting">
+
+    <summary>
+      🌙 المظهر
+    </summary>
+
+    <div class="setting-body">
+
+      <button
+        class="primary"
+        onclick="toggleDark()"
+      >
+        تبديل الوضع الليلي
+      </button>
+
+    </div>
+
+  </details>
+
+
+  <!-- صورة الواجهة -->
+
+  <details class="setting">
+
+    <summary>
+      🖼️ صورة الواجهة
+    </summary>
+
+    <div class="setting-body">
+
+      <div
+        class="interface-preview"
+        id="interfacePreview"
+      >
+        NutriLens ✦
+      </div>
+
+      <button
+        class="secondary"
+        onclick="openInterfaceImage()"
+      >
+        🖼️ اختيار صورة من الألبوم
+      </button>
+
+      <button
+        class="secondary"
+        onclick="removeInterfaceImage()"
+      >
+        إزالة صورة الواجهة
+      </button>
+
+      <input
+        id="interfaceInput"
+        type="file"
+        accept="image/*"
+        hidden
+        onchange="setInterfaceImage(event)"
+      >
+
+    </div>
+
+  </details>
+
+
+  <!-- معلومات -->
+
+  <details class="setting">
+
+    <summary>
+      ℹ️ عن التطبيق
+    </summary>
+
+    <div class="setting-body">
+
+      <div class="notice">
+
+        NutriLens يساعدك على تسجيل الأطعمة
+        والصور والماء والنشاط.
+
+        <br><br>
+
+        ملاحظة: التعرف الحقيقي على مكونات
+        الطعام والسعرات من الصورة يحتاج
+        ربط خدمة ذكاء اصطناعي حقيقية.
+
+      </div>
+
+    </div>
+
+  </details>
+
+</aside>
 
 
 <script>
 
-/* =========================
-   البيانات
-========================= */
+let foods=[];
+let totalCalories=0;
+let protein=0;
+let carbs=0;
+let fat=0;
+let fiber=0;
+let water=0;
 
-let data = JSON.parse(
-    localStorage.getItem("nutrilens")
-) || {
-    water:0,
-    meals:[],
-    background:""
+let currentFoodPhoto="";
+
+
+/* الإعدادات */
+
+function openSettings(){
+
+  document
+    .getElementById("settingsDrawer")
+    .classList.add("open");
+
+  document
+    .getElementById("backdrop")
+    .classList.add("open");
+
+}
+
+
+function closeSettings(){
+
+  document
+    .getElementById("settingsDrawer")
+    .classList.remove("open");
+
+  document
+    .getElementById("backdrop")
+    .classList.remove("open");
+
+}
+
+
+/* الوضع الليلي */
+
+function toggleDark(){
+
+  document.body.classList.toggle("dark");
+
+  localStorage.setItem(
+    "dark",
+    document.body.classList.contains("dark")
+  );
+
+}
+
+
+/* الألوان */
+
+function setColor(main,second){
+
+  document.documentElement.style.setProperty(
+    "--main",
+    main
+  );
+
+  document.documentElement.style.setProperty(
+    "--second",
+    second
+  );
+
+  localStorage.setItem("main",main);
+  localStorage.setItem("second",second);
+
+}
+
+
+function customColor(color){
+
+  setColor(color,color);
+
+}
+
+
+/* الكاميرا */
+
+function openCamera(){
+
+  document
+    .getElementById("cameraInput")
+    .click();
+
+}
+
+
+/* الألبوم */
+
+function openAlbum(){
+
+  document
+    .getElementById("albumInput")
+    .click();
+
+}
+
+
+/* عرض الصورة */
+
+function showPhoto(event){
+
+  const file=event.target.files[0];
+
+  if(!file)return;
+
+  const url=URL.createObjectURL(file);
+
+  const preview=document.getElementById("preview");
+
+  preview.src=url;
+
+  preview.style.display="block";
+
+  document.getElementById("cameraText").textContent=
+    "✅ تم اختيار صورة الأكلة";
+
+  document
+    .getElementById("analyzeButton")
+    .classList.remove("hidden");
+
+}
+
+
+/* التحليل */
+
+function analyzePhoto(){
+
+  const result=
+    document.getElementById("analysisResult");
+
+  result.classList.remove("hidden");
+
+  result.innerHTML=
+    "🤖 <b>الصورة جاهزة للتحليل.</b><br>" +
+    "للتعرف الحقيقي على مكونات الطبق " +
+    "والسعرات نحتاج ربط خدمة ذكاء اصطناعي.";
+
+}
+
+
+/* صورة الأكلة */
+
+function openFoodPhoto(){
+
+  document
+    .getElementById("foodPhotoInput")
+    .click();
+
+}
+
+
+function previewFoodPhoto(event){
+
+  const file=event.target.files[0];
+
+  if(!file)return;
+
+  const reader=new FileReader();
+
+  reader.onload=function(){
+
+    currentFoodPhoto=reader.result;
+
+    document
+      .getElementById("foodPhotoPreview")
+      .innerHTML=
+      "<img src='"+currentFoodPhoto+"' alt='صورة الأكلة'>";
+
+  };
+
+  reader.readAsDataURL(file);
+
+}
+
+
+/* إضافة الأكلة */
+
+function addFood(){
+
+  const select=
+    document.getElementById("food");
+
+  const quantity=
+    Number(
+      document.getElementById("quantity").value
+    );
+
+  if(quantity<1){
+
+    alert("اكتبي كمية صحيحة");
+
+    return;
+
+  }
+
+
+  const values=
+    select.value
+    .split(",")
+    .map(Number);
+
+  const cal=values[0];
+  const p=values[1];
+  const c=values[2];
+  const fa=values[3];
+  const fi=values[4];
+
+  const name=
+    select.options[
+      select.selectedIndex
+    ].text;
+
+
+  const item={
+    name:name,
+    quantity:quantity,
+    calories:cal*quantity,
+    protein:p*quantity,
+    carbs:c*quantity,
+    fat:fa*quantity,
+    fiber:fi*quantity,
+    image:currentFoodPhoto
+  };
+
+
+  foods.push(item);
+
+  totalCalories+=item.calories;
+  protein+=item.protein;
+  carbs+=item.carbs;
+  fat+=item.fat;
+  fiber+=item.fiber;
+
+
+  currentFoodPhoto="";
+
+  document
+    .getElementById("foodPhotoPreview")
+    .innerHTML="";
+
+  document
+    .getElementById("foodPhotoInput")
+    .value="";
+
+
+  updateScreen();
+  saveData();
+  buildCalendar();
+
+}
+
+
+/* تحديث الشاشة */
+
+function updateScreen(){
+
+  document.getElementById("total").textContent=
+    Math.round(totalCalories);
+
+  document.getElementById("protein").textContent=
+    protein.toFixed(1);
+
+  document.getElementById("carbs").textContent=
+    carbs.toFixed(1);
+
+  document.getElementById("fat").textContent=
+    fat.toFixed(1);
+
+  document.getElementById("fiber").textContent=
+    fiber.toFixed(1);
+
+
+  document.getElementById("proteinBar")
+    .style.width=
+    Math.min(protein,100)+"%";
+
+  document.getElementById("carbsBar")
+    .style.width=
+    Math.min(carbs,100)+"%";
+
+  document.getElementById("fatBar")
+    .style.width=
+    Math.min(fat,100)+"%";
+
+  document.getElementById("fiberBar")
+    .style.width=
+    Math.min(fiber*4,100)+"%";
+
+
+  const list=
+    document.getElementById("foodList");
+
+
+  if(!foods.length){
+
+    list.innerHTML=
+      '<div class="empty">ماكو أكلات مسجلة لحد الآن 🌷</div>';
+
+    return;
+
+  }
+
+
+  list.innerHTML="";
+
+
+  foods.forEach(
+    function(food,index){
+
+      const item=
+        document.createElement("div");
+
+      item.className="food";
+
+
+      const image=
+        food.image
+        ?
+        `<img class="food-thumb" src="${food.image}">`
+        :
+        `<div class="food-thumb"
+          style="
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-size:25px
+          ">
+          🍽️
+        </div>`;
+
+
+      item.innerHTML=`
+
+        <div class="food-main">
+
+          ${image}
+
+          <div>
+
+            <div class="food-name">
+              ${food.name}
+            </div>
+
+            <div class="food-info">
+              × ${food.quantity}
+              • ${Math.round(food.calories)} سعرة
+              • P ${food.protein.toFixed(1)}g
+              • C ${food.carbs.toFixed(1)}g
+              • F ${food.fat.toFixed(1)}g
+            </div>
+
+          </div>
+
+        </div>
+
+        <button
+          class="delete"
+          onclick="deleteFood(${index})"
+        >
+          🗑️
+        </button>
+
+      `;
+
+
+      list.appendChild(item);
+
+    }
+  );
+
+}
+
+
+/* حذف الأكلة */
+
+function deleteFood(index){
+
+  const food=foods[index];
+
+  totalCalories-=food.calories;
+  protein-=food.protein;
+  carbs-=food.carbs;
+  fat-=food.fat;
+  fiber-=food.fiber;
+
+  foods.splice(index,1);
+
+  updateScreen();
+  saveData();
+  buildCalendar();
+
+}
+
+
+/* الماء */
+
+function addWater(){
+
+  water++;
+
+  document
+    .getElementById("waterCount")
+    .textContent=water;
+
+  saveData();
+
+}
+
+
+function removeWater(){
+
+  if(water>0){
+    water--;
+  }
+
+  document
+    .getElementById("waterCount")
+    .textContent=water;
+
+  saveData();
+
+}
+
+
+function clearWater(){
+
+  water=0;
+
+  document
+    .getElementById("waterCount")
+    .textContent=water;
+
+  saveData();
+
+}
+
+
+/* النشاط */
+
+function saveActivity(){
+
+  const steps=
+    Number(
+      document.getElementById("steps").value
+    )||0;
+
+  const activity=
+    document.getElementById("activity").value;
+
+
+  document
+    .getElementById("activityResult")
+    .textContent=
+      "✅ تم تسجيل "
+      +steps+
+      " خطوة — "
+      +activity;
+
+}
+
+
+/* التنقل */
+
+function scrollToFood(){
+
+  document
+    .getElementById("foodSection")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+
+function scrollToWater(){
+
+  document
+    .getElementById("waterSection")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+
+/* اللغات */
+
+const translations={
+
+  ar:{
+    dir:"rtl",
+    hello:"أهلًا بكِ ✨"
+  },
+
+  en:{
+    dir:"ltr",
+    hello:"Welcome ✨"
+  },
+
+  tr:{
+    dir:"ltr",
+    hello:"Hoş geldin ✨"
+  },
+
+  fr:{
+    dir:"ltr",
+    hello:"Bienvenue ✨"
+  },
+
+  es:{
+    dir:"ltr",
+    hello:"Bienvenida ✨"
+  }
+
 };
 
-let selectedImage = "";
+
+function changeLanguage(lang){
+
+  const t=
+    translations[lang]
+    ||
+    translations.ar;
+
+  document.documentElement.lang=lang;
+
+  document.documentElement.dir=t.dir;
+
+  document.getElementById("hello")
+    .textContent=t.hello;
+
+  localStorage.setItem(
+    "language",
+    lang
+  );
+
+  buildCalendar();
+
+}
 
 
-/* =========================
-   الحفظ
-========================= */
+/* الكالندر */
 
-function save(){
+function buildCalendar(){
+
+  const calendar=
+    document.getElementById("calendar");
+
+  const now=new Date();
+
+  const year=now.getFullYear();
+
+  const month=now.getMonth();
+
+  const today=now.getDate();
+
+
+  document.getElementById("monthTitle")
+    .textContent=
+      now.toLocaleDateString(
+        document.documentElement.lang,
+        {
+          month:"long",
+          year:"numeric"
+        }
+      );
+
+
+  calendar.innerHTML="";
+
+
+  const names=
+    document.documentElement.lang==="ar"
+    ?
+    ["أحد","اثن","ثلا","أرب","خمي","جمع","سبت"]
+    :
+    ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+
+  names.forEach(
+    function(name){
+
+      const element=
+        document.createElement("div");
+
+      element.className="day-name";
+
+      element.textContent=name;
+
+      calendar.appendChild(element);
+
+    }
+  );
+
+
+  const first=
+    new Date(
+      year,
+      month,
+      1
+    ).getDay();
+
+
+  const days=
+    new Date(
+      year,
+      month+1,
+      0
+    ).getDate();
+
+
+  for(let i=0;i<first;i++){
+
+    calendar.appendChild(
+      document.createElement("div")
+    );
+
+  }
+
+
+  for(let d=1;d<=days;d++){
+
+    const element=
+      document.createElement("div");
+
+    element.className=
+      "day"
+      +
+      (
+        d===today
+        ?
+        " today"
+        :
+        ""
+      );
+
+    element.textContent=d;
+
+    calendar.appendChild(element);
+
+  }
+
+}
+
+
+/* التخزين */
+
+function saveData(){
+
+  localStorage.setItem(
+    "calorieData",
+    JSON.stringify({
+
+      foods,
+      totalCalories,
+      protein,
+      carbs,
+      fat,
+      fiber,
+      water
+
+    })
+  );
+
+}
+
+
+function loadData(){
+
+  try{
+
+    const data=
+      JSON.parse(
+        localStorage.getItem(
+          "calorieData"
+        )||"{}"
+      );
+
+
+    foods=data.foods||[];
+
+    totalCalories=
+      data.totalCalories||0;
+
+    protein=
+      data.protein||0;
+
+    carbs=
+      data.carbs||0;
+
+    fat=
+      data.fat||0;
+
+    fiber=
+      data.fiber||0;
+
+    water=
+      data.water||0;
+
+  }
+
+  catch(error){}
+
+
+  document
+    .getElementById("waterCount")
+    .textContent=water;
+
+  updateScreen();
+
+}
+
+
+/* مسح البيانات */
+
+function clearAll(){
+
+  foods=[];
+
+  totalCalories=0;
+  protein=0;
+  carbs=0;
+  fat=0;
+  fiber=0;
+
+  updateScreen();
+
+  saveData();
+
+  buildCalendar();
+
+}
+
+
+/* صورة الواجهة */
+
+function openInterfaceImage(){
+
+  document
+    .getElementById("interfaceInput")
+    .click();
+
+}
+
+
+function setInterfaceImage(event){
+
+  const file=
+    event.target.files[0];
+
+  if(!file)return;
+
+
+  const reader=
+    new FileReader();
+
+
+  reader.onload=function(){
+
+    const image=reader.result;
 
     localStorage.setItem(
-        "nutrilens",
-        JSON.stringify(data)
+      "interfaceImage",
+      image
+    );
+
+    applyInterfaceImage(image);
+
+  };
+
+
+  reader.readAsDataURL(file);
+
+}
+
+
+function applyInterfaceImage(image){
+
+  const hero=
+    document.getElementById("hero");
+
+  const preview=
+    document.getElementById(
+      "interfacePreview"
+    );
+
+
+  hero.classList.add("has-image");
+
+  hero.style.backgroundImage=
+    `url("${image}")`;
+
+
+  preview.style.backgroundImage=
+    `url("${image}")`;
+
+  preview.textContent="";
+
+}
+
+
+function removeInterfaceImage(){
+
+  localStorage.removeItem(
+    "interfaceImage"
+  );
+
+
+  const hero=
+    document.getElementById("hero");
+
+  const preview=
+    document.getElementById(
+      "interfacePreview"
+    );
+
+
+  hero.classList.remove(
+    "has-image"
+  );
+
+  hero.style.backgroundImage="";
+
+  preview.style.backgroundImage="";
+
+  preview.textContent=
+    "NutriLens ✦";
+
+}
+
+
+/* تحميل الإعدادات المحفوظة */
+
+const savedMain=
+  localStorage.getItem("main");
+
+const savedSecond=
+  localStorage.getItem("second");
+
+
+if(savedMain){
+
+  document.documentElement
+    .style
+    .setProperty(
+      "--main",
+      savedMain
+    );
+
+  document.documentElement
+    .style
+    .setProperty(
+      "--second",
+      savedSecond||savedMain
     );
 
 }
 
 
-/* =========================
-   الصفحات
-========================= */
+if(
+  localStorage.getItem("dark")
+  ===
+  "true"
+){
 
-function openPage(id,button){
-
-    document.querySelectorAll(".page")
-        .forEach(p => p.classList.remove("active"));
-
-    document.getElementById(id)
-        .classList.add("active");
-
-    document.querySelectorAll(".nav")
-        .forEach(n => n.classList.remove("active"));
-
-    if(button){
-        button.classList.add("active");
-    }
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
+  document.body.classList.add(
+    "dark"
+  );
 
 }
 
 
-function openMeals(button){
-
-    openPage("home",button);
-
-    setTimeout(() => {
-
-        document.getElementById("mealsSection")
-            .scrollIntoView({
-                behavior:"smooth",
-                block:"center"
-            });
-
-    },100);
-
-}
+const savedLanguage=
+  localStorage.getItem("language")
+  ||
+  "ar";
 
 
-/* =========================
-   الماء
-========================= */
-
-function waterChange(amount){
-
-    data.water += amount;
-
-    if(data.water < 0)
-        data.water = 0;
-
-    if(data.water > 8)
-        data.water = 8;
-
-    save();
-    update();
-
-}
+document.getElementById(
+  "language"
+).value=savedLanguage;
 
 
-/* =========================
-   إضافة وجبة
-========================= */
+changeLanguage(
+  savedLanguage
+);
 
-function openMeal(){
 
-    document.getElementById("mealModal")
-        .classList.add("show");
+loadData();
+
+buildCalendar();
+
+
+const savedInterfaceImage=
+  localStorage.getItem(
+    "interfaceImage"
+  );
+
+
+if(savedInterfaceImage){
+
+  applyInterfaceImage(
+    savedInterfaceImage
+  );
 
 }
-
-
-function closeMeal(){
-
-    document.getElementById("mealModal")
-        .classList.remove("show");
-
-    document.getElementById("mealName").value = "";
-
-    document.getElementById("mealCalories").value = "";
-
-    document.getElementById("mealImage").value = "";
-
-    selectedImage = "";
-
-    document.getElementById("preview").style.display = "none";
-
-}
-
-
-function previewImage(event){
-
-    const file = event.target.files[0];
-
-    if(!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = function(e){
-
-        selectedImage = e.target.result;
-
-        const preview =
-            document.getElementById("preview");
-
-        preview.src = selectedImage;
-
-        preview.style.display = "block";
-
-    };
-
-    reader.readAsDataURL(file);
-
-}
-
-
-function addMeal(){
-
-    const name =
-        document.getElementById("mealName")
-        .value.trim();
-
-    const calories =
-        Number(
-            document.getElementById("mealCalories")
-            .value
-        );
-
-    if(!name){
-
-        toast("اكتبي اسم الوجبة");
-
-        return;
-    }
-
-    if(!calories){
-
-        toast("اكتبي السعرات");
-
-        return;
-    }
-
-    data.meals.push({
-
-        id:Date.now(),
-
-        name:name,
-
-        calories:calories,
-
-        image:selectedImage
-
-    });
-
-    save();
-
-    closeMeal();
-
-    update();
-
-    toast("تمت إضافة الوجبة 🍽️");
-
-}
-
-
-/* =========================
-   حذف وجبة
-========================= */
-
-function deleteMeal(id){
-
-    data.meals =
-        data.meals.filter(
-            meal => meal.id !== id
-        );
-
-    save();
-
-    update();
-
-}
-
-
-/* =========================
-   الخلفية
-========================= */
-
-function changeBackground(event){
-
-    const file =
-        event.target.files[0];
-
-    if(!file) return;
-
-    const reader =
-        new FileReader();
-
-    reader.onload =
-        function(e){
-
-            data.background =
-                e.target.result;
-
-            save();
-
-            applyBackground();
-
-            toast("تم تغيير الخلفية 🖼️");
-
-        };
-
-    reader.readAsDataURL(file);
-
-}
-
-
-function applyBackground(){
-
-    if(data.background){
-
-        document.body.style.backgroundImage =
-            `url("${data.background}")`;
-
-    }else{
-
-        document.body.style.backgroundImage =
-            "linear-gradient(135deg,#eee9ff,#faf9ff)";
-
-    }
-
-}
-
-
-/* =========================
-   تحديث الواجهة
-========================= */
-
-function update(){
-
-    document.getElementById("water")
-        .textContent = data.water;
-
-
-    let calories =
-        data.meals.reduce(
-            (sum,meal) =>
-                sum + Number(meal.calories),
-            0
-        );
-
-
-    document.getElementById("calories")
-        .textContent = calories;
-
-
-    document.getElementById("pCalories")
-        .textContent = calories;
-
-    document.getElementById("pWater")
-        .textContent = data.water;
-
-    document.getElementById("pMeals")
-        .textContent = data.meals.length;
-
-
-    /* ماكروز تقريبية للعرض */
-
-    document.getElementById("protein")
-        .textContent =
-        Math.round(calories * .25 / 4) + "g";
-
-    document.getElementById("carbs")
-        .textContent =
-        Math.round(calories * .45 / 4) + "g";
-
-    document.getElementById("fat")
-        .textContent =
-        Math.round(calories * .30 / 9) + "g";
-
-
-    /* دائرة السعرات */
-
-    const percent =
-        Math.min(calories / 2000,1);
-
-    const degree =
-        percent * 360;
-
-    document.getElementById("calorieCircle")
-        .style.background =
-        `conic-gradient(
-            #7657e8 ${degree}deg,
-            #e9e7f2 ${degree}deg
-        )`;
-
-
-    document.getElementById("progress")
-        .style.width =
-        (percent * 100) + "%";
-
-
-    renderMeals();
-
-}
-
-
-/* =========================
-   عرض الوجبات
-========================= */
-
-function renderMeals(){
-
-    const container =
-        document.getElementById("meals");
-
-    if(data.meals.length === 0){
-
-        container.innerHTML = `
-            <div style="
-                text-align:center;
-                padding:25px;
-                color:#999;
-            ">
-                🍽️<br>
-                لا توجد وجبات مضافة
-            </div>
-        `;
-
-        return;
-    }
-
-
-    container.innerHTML =
-        data.meals.map(meal => {
-
-            const image =
-                meal.image ||
-                "data:image/svg+xml," +
-                encodeURIComponent(`
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         width="100" height="100">
-                        <rect width="100" height="100"
-                              fill="#eee9ff"/>
-                        <text x="50" y="62"
-                              text-anchor="middle"
-                              font-size="38">
-                            🍽️
-                        </text>
-                    </svg>
-                `);
-
-
-            return `
-                <div class="meal">
-
-                    <img
-                        class="meal-img"
-                        src="${image}"
-                    >
-
-                    <div class="meal-info">
-
-                        <div class="meal-name">
-                            ${safe(meal.name)}
-                        </div>
-
-                        <div class="meal-cal">
-                            ${meal.calories} سعرة حرارية
-                        </div>
-
-                    </div>
-
-                    <button
-                        class="delete"
-                        onclick="deleteMeal(${meal.id})"
-                    >
-                        ×
-                    </button>
-
-                </div>
-            `;
-
-        }).join("");
-
-}
-
-
-function safe(text){
-
-    return String(text)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
-
-/* =========================
-   التقويم
-========================= */
-
-function makeCalendar(){
-
-    const box =
-        document.getElementById("calendar");
-
-    const now =
-        new Date();
-
-    const year =
-        now.getFullYear();
-
-    const month =
-        now.getMonth();
-
-    const days =
-        new Date(
-            year,
-            month + 1,
-            0
-        ).getDate();
-
-    const first =
-        new Date(
-            year,
-            month,
-            1
-        ).getDay();
-
-    box.innerHTML = "";
-
-    for(let i=0;i<first;i++){
-
-        box.innerHTML += "<div></div>";
-
-    }
-
-    for(let d=1;d<=days;d++){
-
-        const today =
-            d === now.getDate();
-
-        box.innerHTML += `
-            <div class="day ${today ? "today":""}">
-                ${d}
-            </div>
-        `;
-
-    }
-
-}
-
-
-/* =========================
-   إشعار
-========================= */
-
-function toast(message){
-
-    const t =
-        document.getElementById("toast");
-
-    t.textContent = message;
-
-    t.classList.add("show");
-
-    clearTimeout(window.toastTimeout);
-
-    window.toastTimeout =
-        setTimeout(() => {
-
-            t.classList.remove("show");
-
-        },2200);
-
-}
-
-
-/* =========================
-   إعادة ضبط
-========================= */
-
-function resetApp(){
-
-    if(!confirm("متأكد تريد حذف كل البيانات؟"))
-        return;
-
-    data = {
-        water:0,
-        meals:[],
-        background:""
-    };
-
-    save();
-
-    applyBackground();
-
-    update();
-
-    toast("تم حذف البيانات");
-
-}
-
-
-/* =========================
-   تشغيل
-========================= */
-
-applyBackground();
-
-makeCalendar();
-
-update();
 
 </script>
 
