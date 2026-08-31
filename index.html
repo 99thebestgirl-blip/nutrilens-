@@ -1,258 +1,216 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>حاسبة السعرات</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حاسبة السعرات</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      margin: 0;
-      background: #f7f7f7;
-      color: #222;
-    }
-
-    header {
-      background: #7c4dff;
-      color: white;
-      padding: 25px 15px;
-      text-align: center;
-      border-radius: 0 0 25px 25px;
-    }
-
-    header h1 {
-      margin: 0 0 8px;
-      font-size: 28px;
-    }
-
-    header p {
-      margin: 0;
-      opacity: 0.9;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    .card {
-      background: white;
-      padding: 18px;
-      margin-bottom: 15px;
-      border-radius: 18px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-    }
-
-    h2 {
-      margin-top: 0;
-    }
-
-    select, input, button {
-      width: 100%;
-      padding: 13px;
-      margin-top: 8px;
-      border-radius: 12px;
-      border: 1px solid #ddd;
-      font-size: 16px;
-    }
-
-    button {
-      background: #7c4dff;
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    button:active {
-      transform: scale(0.98);
-    }
-
-    .total {
-      text-align: center;
-      font-size: 32px;
-      font-weight: bold;
-      color: #7c4dff;
-    }
-
-    .food-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .food-item:last-child {
-      border-bottom: none;
-    }
-
-    .delete {
-      width: auto;
-      padding: 7px 12px;
-      background: #eee;
-      color: #333;
-      margin: 0;
-    }
-
-    .empty {
-      text-align: center;
-      color: #888;
-      padding: 15px;
-    }
-  </style>
+<style>
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{margin:0;background:#f7f7f7;color:#222}
+header{background:#7c4dff;color:white;padding:25px 15px;text-align:center;border-radius:0 0 25px 25px}
+header h1{margin:0 0 8px}
+.container{max-width:600px;margin:auto;padding:20px}
+.card{background:white;padding:18px;margin-bottom:15px;border-radius:18px;box-shadow:0 3px 12px #00000012}
+h2{margin-top:0}
+select,input,button{width:100%;padding:13px;margin-top:8px;border-radius:12px;border:1px solid #ddd;font-size:16px}
+button{background:#7c4dff;color:white;border:0;font-weight:bold;cursor:pointer}
+.camera{
+border:2px dashed #7c4dff;
+padding:25px;
+text-align:center;
+border-radius:18px;
+}
+#preview{
+width:100%;
+max-height:350px;
+object-fit:cover;
+border-radius:15px;
+margin-top:15px;
+display:none;
+}
+.total{text-align:center;font-size:30px;font-weight:bold;color:#7c4dff}
+.food-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eee}
+.delete{width:auto;padding:7px 12px;background:#eee;color:#333;margin:0}
+.empty{text-align:center;color:#888;padding:15px}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>🍽️ حاسبة السعرات</h1>
-  <p>احسبي سعرات أكلك بسهولة</p>
+<h1>🍽️ حاسبة السعرات</h1>
+<p>صوّري أكلك وسجّلي وجبتك</p>
 </header>
 
 <div class="container">
 
-  <div class="card">
-    <h2>➕ أضيفي أكلة</h2>
+<div class="card">
+<h2>📸 تصوير الأكل</h2>
 
-    <label>اختاري الأكلة:</label>
-    <select id="food">
-      <option value="70">بيضة مسلوقة — 70 سعرة</option>
-      <option value="90">بيضة مقلية — 90 سعرة</option>
-      <option value="165">صدر دجاج مشوي 100غ — 165 سعرة</option>
-      <option value="209">فخذ دجاج 100غ — 209 سعرة</option>
-      <option value="130">رز مطبوخ 100غ — 130 سعرة</option>
-      <option value="150">معكرونة مطبوخة 100غ — 150 سعرة</option>
-      <option value="350">كوب أندومي — 350 سعرة</option>
-      <option value="250">بطاطا مقلية 100غ — 250 سعرة</option>
-      <option value="52">تفاحة متوسطة — 52 سعرة</option>
-      <option value="89">موزة متوسطة — 89 سعرة</option>
-      <option value="25">خيار متوسط — 25 سعرة</option>
-      <option value="41">طماطم متوسطة — 41 سعرة</option>
-      <option value="120">لبن 225 مل — 120 سعرة</option>
-      <option value="100">خبز عربي صغير — 100 سعرة</option>
-      <option value="250">برغر متوسط — 250 سعرة</option>
-      <option value="300">قطعة بيتزا — 300 سعرة</option>
-      <option value="150">شوربة دجاج — 150 سعرة</option>
-      <option value="200">تونة 100غ — 200 سعرة</option>
-    </select>
+<div class="camera">
+<label for="cameraInput">
+<button type="button" onclick="document.getElementById('cameraInput').click()">
+📷 تصوير الأكلة
+</button>
+</label>
 
-    <label>الكمية:</label>
-    <input type="number" id="quantity" value="1" min="1">
+<input
+id="cameraInput"
+type="file"
+accept="image/*"
+capture="environment"
+style="display:none"
+onchange="showPhoto(event)"
+>
 
-    <button onclick="addFood()">إضافة للأكل 🍴</button>
-  </div>
+<img id="preview" alt="صورة الأكلة">
 
-  <div class="card">
-    <h2>📋 أكلك اليوم</h2>
+<p id="photoText">اضغطي الزر حتى تصورين وجبتچ</p>
+</div>
+</div>
 
-    <div id="foodList">
-      <div class="empty">ما ضفتي أي أكل لحد الآن</div>
-    </div>
-  </div>
+<div class="card">
+<h2>➕ أضيفي الأكلة</h2>
 
-  <div class="card">
-    <h2>🔥 مجموع السعرات</h2>
-    <div class="total">
-      <span id="total">0</span> سعرة
-    </div>
-  </div>
+<select id="food">
+<option value="70">🥚 بيضة مسلوقة — 70 سعرة</option>
+<option value="90">🍳 بيضة مقلية — 90 سعرة</option>
+<option value="165">🍗 صدر دجاج مشوي 100غ — 165 سعرة</option>
+<option value="209">🍗 فخذ دجاج 100غ — 209 سعرة</option>
+<option value="130">🍚 رز مطبوخ 100غ — 130 سعرة</option>
+<option value="150">🍝 معكرونة مطبوخة 100غ — 150 سعرة</option>
+<option value="350">🍜 كوب أندومي — 350 سعرة</option>
+<option value="250">🍟 بطاطا مقلية 100غ — 250 سعرة</option>
+<option value="52">🍎 تفاحة متوسطة — 52 سعرة</option>
+<option value="89">🍌 موزة متوسطة — 89 سعرة</option>
+<option value="25">🥒 خيار متوسط — 25 سعرة</option>
+<option value="41">🍅 طماطم متوسطة — 41 سعرة</option>
+<option value="120">🥛 لبن 225 مل — 120 سعرة</option>
+<option value="100">🫓 خبز عربي صغير — 100 سعرة</option>
+<option value="250">🍔 برغر متوسط — 250 سعرة</option>
+<option value="300">🍕 قطعة بيتزا — 300 سعرة</option>
+<option value="150">🥣 شوربة دجاج — 150 سعرة</option>
+<option value="200">🐟 تونة 100غ — 200 سعرة</option>
+</select>
 
-  <div class="card">
-    <button onclick="clearAll()">🗑️ مسح كل الأكلات</button>
-  </div>
+<input id="quantity" type="number" value="1" min="1" placeholder="الكمية">
+
+<button onclick="addFood()">إضافة للأكل 🍴</button>
+</div>
+
+<div class="card">
+<h2>📋 أكلي اليوم</h2>
+<div id="foodList">
+<div class="empty">ما ضفتي أي أكل لحد الآن</div>
+</div>
+</div>
+
+<div class="card">
+<h2>🔥 مجموع السعرات</h2>
+<div class="total"><span id="total">0</span> سعرة</div>
+</div>
+
+<div class="card">
+<button onclick="clearAll()">🗑️ مسح كل الأكلات</button>
+</div>
 
 </div>
 
 <script>
 
-  let foods = [];
-  let totalCalories = 0;
+let foods=[];
+let totalCalories=0;
 
-  function addFood() {
+function showPhoto(event){
 
-    const select = document.getElementById("food");
-    const quantity = Number(document.getElementById("quantity").value);
+const file=event.target.files[0];
 
-    if (quantity < 1) {
-      alert("اكتبي كمية صحيحة");
-      return;
-    }
+if(!file)return;
 
-    const name = select.options[select.selectedIndex].text;
-    const calories = Number(select.value);
-    const total = calories * quantity;
+const image=document.getElementById("preview");
+const text=document.getElementById("photoText");
 
-    foods.push({
-      name: name,
-      quantity: quantity,
-      calories: total
-    });
+image.src=URL.createObjectURL(file);
+image.style.display="block";
 
-    totalCalories += total;
+text.textContent="✅ تم التقاط صورة الأكلة";
+}
 
-    updateScreen();
-  }
+function addFood(){
 
-  function updateScreen() {
+const select=document.getElementById("food");
+const quantity=Number(document.getElementById("quantity").value);
 
-    const list = document.getElementById("foodList");
-    const total = document.getElementById("total");
+if(quantity<1){
+alert("اكتبي كمية صحيحة");
+return;
+}
 
-    total.textContent = totalCalories;
+const name=select.options[select.selectedIndex].text;
+const calories=Number(select.value);
+const total=calories*quantity;
 
-    if (foods.length === 0) {
-      list.innerHTML =
-        '<div class="empty">ما ضفتي أي أكل لحد الآن</div>';
-      return;
-    }
+foods.push({
+name:name,
+quantity:quantity,
+calories:total
+});
 
-    list.innerHTML = "";
+totalCalories+=total;
 
-    foods.forEach((food, index) => {
+updateScreen();
+}
 
-      const item = document.createElement("div");
+function updateScreen(){
 
-      item.className = "food-item";
+const list=document.getElementById("foodList");
 
-      item.innerHTML = `
-        <div>
-          <strong>${food.name}</strong><br>
-          × ${food.quantity}
-          — ${food.calories} سعرة
-        </div>
+document.getElementById("total").textContent=totalCalories;
 
-        <button class="delete" onclick="deleteFood(${index})">
-          حذف
-        </button>
-      `;
+if(foods.length===0){
+list.innerHTML='<div class="empty">ما ضفتي أي أكل لحد الآن</div>';
+return;
+}
 
-      list.appendChild(item);
-    });
-  }
+list.innerHTML="";
 
-  function deleteFood(index) {
+foods.forEach((food,index)=>{
 
-    totalCalories -= foods[index].calories;
+const item=document.createElement("div");
+item.className="food-item";
 
-    foods.splice(index, 1);
+item.innerHTML=`
+<div>
+<strong>${food.name}</strong><br>
+× ${food.quantity} — ${food.calories} سعرة
+</div>
 
-    updateScreen();
-  }
+<button class="delete" onclick="deleteFood(${index})">
+حذف
+</button>
+`;
 
-  function clearAll() {
+list.appendChild(item);
 
-    foods = [];
-    totalCalories = 0;
+});
+}
 
-    updateScreen();
-  }
+function deleteFood(index){
+
+totalCalories-=foods[index].calories;
+foods.splice(index,1);
+
+updateScreen();
+}
+
+function clearAll(){
+
+foods=[];
+totalCalories=0;
+
+updateScreen();
+}
 
 </script>
 
