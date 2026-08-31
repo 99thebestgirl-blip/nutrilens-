@@ -2,564 +2,500 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NutriLens</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
 
-:root {
-    --primary: #7c5cff;
-    --secondary: #a98cff;
-    --text: #24222d;
-    --muted: #777484;
-    --card: rgba(255,255,255,.86);
-    --nav: rgba(255,255,255,.94);
-    --shadow: 0 10px 35px rgba(0,0,0,.12);
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    min-height:100vh;
+    background:#f7f5ff;
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+    color:#252331;
 }
 
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-    color: var(--text);
+body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:rgba(255,255,255,.25);
+    z-index:-1;
 }
 
-body {
-    min-height: 100vh;
-    background: linear-gradient(135deg,#eee9ff,#faf9ff);
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    transition: background-image .4s ease;
+header{
+    padding:25px 20px 10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-/* طبقة حتى تبقى الكتابة واضحة فوق الخلفية */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(255,255,255,.25);
-    backdrop-filter: blur(2px);
-    pointer-events: none;
-    z-index: -1;
+.logo{
+    font-size:27px;
+    font-weight:800;
+    color:#7657e8;
 }
 
-/* HEADER */
-
-header {
-    padding: 22px 18px 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.subtitle{
+    color:#777;
+    font-size:13px;
+    margin-top:5px;
 }
 
-.logo {
-    font-size: 25px;
-    font-weight: 800;
-    color: var(--primary);
+.settings-top{
+    border:0;
+    background:white;
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    font-size:20px;
+    box-shadow:0 5px 20px #0002;
 }
 
-.header-sub {
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 3px;
+.page{
+    display:none;
+    padding:10px 18px 120px;
+    max-width:650px;
+    margin:auto;
 }
 
-.profile-btn {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    border: none;
-    background: white;
-    box-shadow: var(--shadow);
-    font-size: 20px;
+.page.active{
+    display:block;
 }
 
-/* PAGES */
-
-.page {
-    display: none;
-    padding: 8px 16px 120px;
-    max-width: 700px;
-    margin: auto;
+.card{
+    background:rgba(255,255,255,.9);
+    border-radius:25px;
+    padding:20px;
+    margin:15px 0;
+    box-shadow:0 8px 30px #00000012;
+    backdrop-filter:blur(12px);
 }
 
-.page.active {
-    display: block;
+.title{
+    font-size:19px;
+    font-weight:800;
 }
 
-/* CARDS */
-
-.card {
-    background: var(--card);
-    border-radius: 25px;
-    padding: 18px;
-    margin: 13px 0;
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(15px);
+.muted{
+    color:#888;
+    font-size:13px;
 }
 
-.card-title {
-    font-size: 18px;
-    font-weight: 800;
-    margin-bottom: 5px;
+.calorie{
+    text-align:center;
 }
 
-.small {
-    color: var(--muted);
-    font-size: 13px;
+.calorie-circle{
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    margin:20px auto;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:conic-gradient(#7657e8 0deg,#7657e8 0deg,#e9e7f2 0deg);
 }
 
-/* CALORIES */
-
-.calorie-card {
-    text-align: center;
-    padding: 25px 18px;
+.calorie-inner{
+    width:137px;
+    height:137px;
+    background:white;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
 }
 
-.circle-progress {
-    width: 185px;
-    height: 185px;
-    margin: 15px auto;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background:
-        radial-gradient(circle at center, rgba(255,255,255,.95) 62%, transparent 63%),
-        conic-gradient(var(--primary) 0deg, var(--primary) 110deg, #e9e6f3 110deg);
+.calorie-number{
+    font-size:34px;
+    font-weight:800;
 }
 
-.circle-inner strong {
-    display: block;
-    font-size: 34px;
+.macros{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
 }
 
-.circle-inner span {
-    font-size: 13px;
-    color: var(--muted);
+.macro{
+    background:#f5f2ff;
+    padding:13px 5px;
+    border-radius:18px;
+    text-align:center;
 }
 
-/* MACROS */
-
-.macros {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 10px;
+.macro b{
+    display:block;
+    margin-top:5px;
 }
 
-.macro {
-    background: rgba(255,255,255,.75);
-    border-radius: 18px;
-    padding: 13px 7px;
-    text-align: center;
+.water{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 }
 
-.macro-icon {
-    font-size: 22px;
+.water-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
-.macro strong {
-    display: block;
-    margin-top: 4px;
+.water-circle{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    background:#e6f6ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
 }
 
-/* WATER */
-
-.water-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+.water-buttons{
+    display:flex;
+    gap:7px;
 }
 
-.water-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+.water-buttons button{
+    width:38px;
+    height:38px;
+    border:0;
+    border-radius:50%;
+    background:#7657e8;
+    color:white;
+    font-size:20px;
 }
 
-.water-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: #e7f6ff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 26px;
+.add{
+    width:100%;
+    border:0;
+    padding:14px;
+    border-radius:16px;
+    background:#7657e8;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    margin-top:15px;
 }
 
-.water-count {
-    font-size: 22px;
-    font-weight: 800;
+.meal{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 0;
+    border-bottom:1px solid #eee;
 }
 
-.water-buttons {
-    display: flex;
-    gap: 7px;
+.meal:last-child{
+    border-bottom:0;
 }
 
-.water-buttons button {
-    border: none;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: var(--primary);
-    color: white;
-    font-size: 20px;
+.meal-img{
+    width:65px;
+    height:65px;
+    border-radius:17px;
+    object-fit:cover;
+    background:#eee;
 }
 
-/* MEALS */
-
-.meal {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(0,0,0,.07);
+.meal-info{
+    flex:1;
 }
 
-.meal:last-child {
-    border-bottom: none;
+.meal-name{
+    font-weight:bold;
 }
 
-.meal-image {
-    width: 64px;
-    height: 64px;
-    border-radius: 18px;
-    object-fit: cover;
-    background: #eee;
+.meal-cal{
+    color:#888;
+    font-size:13px;
+    margin-top:5px;
 }
 
-.meal-info {
-    flex: 1;
+.delete{
+    border:0;
+    background:#ffe8e8;
+    color:#d44;
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    font-size:20px;
 }
 
-.meal-name {
-    font-weight: 800;
+.bottom{
+    position:fixed;
+    bottom:10px;
+    left:10px;
+    right:10px;
+    max-width:650px;
+    margin:auto;
+    height:78px;
+    background:rgba(255,255,255,.94);
+    border-radius:28px;
+    box-shadow:0 8px 35px #0003;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    z-index:100;
+    backdrop-filter:blur(18px);
 }
 
-.meal-cal {
-    color: var(--muted);
-    font-size: 13px;
-    margin-top: 3px;
+.nav{
+    border:0;
+    background:transparent;
+    color:#777;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+    font-size:10px;
 }
 
-.delete-meal {
-    border: none;
-    background: #ffe8e8;
-    color: #e04c4c;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
+.nav-icon{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:21px;
 }
 
-/* ADD BUTTON */
-
-.add-btn {
-    width: 100%;
-    border: none;
-    padding: 15px;
-    border-radius: 17px;
-    background: var(--primary);
-    color: white;
-    font-size: 16px;
-    font-weight: 700;
-    margin-top: 8px;
+.nav.active{
+    color:#7657e8;
 }
 
-/* PROGRESS */
-
-.progress-bar {
-    height: 13px;
-    background: #e9e7f1;
-    border-radius: 20px;
-    overflow: hidden;
-    margin-top: 12px;
+.nav.active .nav-icon{
+    background:#7657e8;
+    color:white;
 }
 
-.progress-fill {
-    height: 100%;
-    width: 45%;
-    background: linear-gradient(90deg,var(--primary),var(--secondary));
-    border-radius: inherit;
+.setting{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:15px 0;
+    border-bottom:1px solid #eee;
 }
 
-/* SETTINGS */
-
-.setting {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 4px;
-    border-bottom: 1px solid rgba(0,0,0,.07);
+.setting:last-child{
+    border-bottom:0;
 }
 
-.setting:last-child {
-    border-bottom: none;
+.setting-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
-.setting-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+.setting-icon{
+    width:45px;
+    height:45px;
+    border-radius:15px;
+    background:#f0ecff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
 }
 
-.setting-icon {
-    width: 43px;
-    height: 43px;
-    border-radius: 14px;
-    background: #eeeaff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 21px;
+.setting button{
+    border:0;
+    background:#7657e8;
+    color:white;
+    padding:9px 14px;
+    border-radius:12px;
+    font-weight:bold;
 }
 
-.setting button {
-    border: none;
-    background: var(--primary);
-    color: white;
-    padding: 9px 13px;
-    border-radius: 12px;
-    font-weight: 700;
+input[type=file]{
+    display:none;
 }
 
-input[type="file"] {
-    display: none;
+.calendar{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:9px;
+    margin-top:20px;
 }
 
-/* BOTTOM NAV */
-
-.bottom-nav {
-    position: fixed;
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    height: 78px;
-    background: var(--nav);
-    backdrop-filter: blur(22px);
-    border-radius: 28px;
-    box-shadow: 0 12px 40px rgba(0,0,0,.18);
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    z-index: 1000;
-    padding: 7px 5px;
+.day{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#f4f1ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:auto;
+    font-weight:bold;
 }
 
-.nav-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-    color: #777484;
-    font-size: 10px;
-    font-weight: 600;
-    border: none;
-    background: transparent;
-    height: 68px;
+.day.today{
+    background:#7657e8;
+    color:white;
 }
 
-.nav-circle {
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 21px;
-    transition: .2s;
+.progress{
+    height:12px;
+    background:#e9e7ef;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:12px;
 }
 
-.nav-item.active {
-    color: var(--primary);
+.progress-fill{
+    height:100%;
+    width:0;
+    background:#7657e8;
+    border-radius:20px;
 }
 
-.nav-item.active .nav-circle {
-    background: var(--primary);
-    color: white;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 18px rgba(124,92,255,.35);
+.modal{
+    position:fixed;
+    inset:0;
+    background:#0007;
+    display:none;
+    align-items:flex-end;
+    z-index:500;
 }
 
-/* MODAL */
-
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.45);
-    z-index: 2000;
-    align-items: flex-end;
-    justify-content: center;
+.modal.show{
+    display:flex;
 }
 
-.modal.show {
-    display: flex;
+.modal-box{
+    width:100%;
+    max-width:650px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:28px 28px 0 0;
 }
 
-.modal-box {
-    width: 100%;
-    max-width: 650px;
-    background: white;
-    border-radius: 30px 30px 0 0;
-    padding: 24px;
-    animation: slideUp .25s ease;
+.modal-box h2{
+    margin-top:0;
 }
 
-@keyframes slideUp {
-    from {
-        transform: translateY(100%);
-    }
-    to {
-        transform: translateY(0);
-    }
+.input{
+    width:100%;
+    padding:14px;
+    border:1px solid #ddd;
+    border-radius:14px;
+    margin:7px 0 14px;
+    font-size:15px;
 }
 
-.modal-title {
-    font-size: 21px;
-    font-weight: 800;
-    margin-bottom: 18px;
+.modal-buttons{
+    display:flex;
+    gap:10px;
 }
 
-.form-group {
-    margin-bottom: 14px;
+.modal-buttons button{
+    flex:1;
+    padding:14px;
+    border:0;
+    border-radius:14px;
+    font-weight:bold;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 6px;
-    font-size: 13px;
-    color: var(--muted);
+.cancel{
+    background:#eee;
 }
 
-.form-group input,
-.form-group select {
-    width: 100%;
-    border: 1px solid #e4e1ed;
-    padding: 13px;
-    border-radius: 14px;
-    outline: none;
-    font-size: 15px;
+.confirm{
+    background:#7657e8;
+    color:white;
 }
 
-.modal-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 18px;
+.preview{
+    width:100px;
+    height:100px;
+    object-fit:cover;
+    border-radius:18px;
+    display:none;
+    margin:10px auto;
 }
 
-.modal-actions button {
-    flex: 1;
-    border: none;
-    padding: 14px;
-    border-radius: 15px;
-    font-size: 15px;
-    font-weight: 700;
+.toast{
+    position:fixed;
+    top:20px;
+    left:50%;
+    transform:translate(-50%,-100px);
+    background:#222;
+    color:white;
+    padding:13px 20px;
+    border-radius:15px;
+    transition:.3s;
+    z-index:1000;
 }
 
-.cancel {
-    background: #eeeef3;
-}
-
-.confirm {
-    background: var(--primary);
-    color: white;
-}
-
-/* TOAST */
-
-.toast {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-100px);
-    background: #25232e;
-    color: white;
-    padding: 13px 20px;
-    border-radius: 14px;
-    z-index: 3000;
-    transition: .3s;
-    font-size: 14px;
-}
-
-.toast.show {
-    transform: translateX(-50%) translateY(0);
-}
-
-/* RESPONSIVE */
-
-@media (min-width: 700px) {
-    .bottom-nav {
-        max-width: 680px;
-        left: 50%;
-        right: auto;
-        transform: translateX(-50%);
-        width: calc(100% - 30px);
-    }
+.toast.show{
+    transform:translate(-50%,0);
 }
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-
 <header>
     <div>
         <div class="logo">NutriLens</div>
-        <div class="header-sub">تابعي يومك الغذائي بسهولة ✨</div>
+        <div class="subtitle">تابعي يومك الغذائي بسهولة ✨</div>
     </div>
 
-    <button class="profile-btn" onclick="showPage('settings')">⚙️</button>
+    <button class="settings-top" onclick="openPage('settings')">
+        ⚙️
+    </button>
 </header>
 
 
-<!-- HOME -->
+<!-- الصفحة الرئيسية -->
 
 <section id="home" class="page active">
 
-    <div class="card calorie-card">
+    <div class="card calorie">
 
-        <div class="card-title">سعرات اليوم</div>
-        <div class="small">متابعة السعرات اليومية</div>
+        <div class="title">سعرات اليوم</div>
+        <div class="muted">مجموع السعرات المضافة اليوم</div>
 
-        <div class="circle-progress" id="calorieCircle">
-            <div class="circle-inner">
-                <strong id="caloriesValue">0</strong>
-                <span>من 2000 سعرة</span>
+        <div class="calorie-circle" id="calorieCircle">
+
+            <div class="calorie-inner">
+                <div class="calorie-number" id="calories">0</div>
+                <div class="muted">سعرة</div>
             </div>
+
         </div>
 
         <div class="macros">
 
             <div class="macro">
-                <div class="macro-icon">🥩</div>
-                <strong id="proteinValue">0g</strong>
-                <span class="small">بروتين</span>
+                🥩
+                <b id="protein">0g</b>
+                <span class="muted">بروتين</span>
             </div>
 
             <div class="macro">
-                <div class="macro-icon">🍚</div>
-                <strong id="carbsValue">0g</strong>
-                <span class="small">كارب</span>
+                🍚
+                <b id="carbs">0g</b>
+                <span class="muted">كارب</span>
             </div>
 
             <div class="macro">
-                <div class="macro-icon">🥑</div>
-                <strong id="fatValue">0g</strong>
-                <span class="small">دهون</span>
+                🥑
+                <b id="fat">0g</b>
+                <span class="muted">دهون</span>
             </div>
 
         </div>
@@ -567,59 +503,59 @@ input[type="file"] {
     </div>
 
 
-    <!-- WATER -->
+    <!-- الماء -->
 
-    <div class="card water-card">
+    <div class="card water">
 
         <div class="water-left">
 
-            <div class="water-icon">💧</div>
+            <div class="water-circle">💧</div>
 
             <div>
-                <div class="card-title">الماء</div>
-                <div class="water-count">
-                    <span id="waterValue">0</span> / 8 أكواب
+                <div class="title">الماء</div>
+                <div>
+                    <b id="water">0</b> / 8 أكواب
                 </div>
             </div>
 
         </div>
 
         <div class="water-buttons">
-            <button onclick="changeWater(-1)">−</button>
-            <button onclick="changeWater(1)">+</button>
+            <button onclick="waterChange(-1)">−</button>
+            <button onclick="waterChange(1)">+</button>
         </div>
 
     </div>
 
 
-    <!-- MEALS -->
+    <!-- الوجبات -->
 
-    <div class="card">
+    <div class="card" id="mealsSection">
 
-        <div class="card-title">وجبات اليوم 🍽️</div>
-        <div class="small">أضيفي وجباتك وصور الأكل</div>
+        <div class="title">وجبات اليوم 🍽️</div>
+        <div class="muted">أضيفي وجباتك وصور الأكل</div>
 
-        <div id="mealsList"></div>
+        <div id="meals"></div>
 
-        <button class="add-btn" onclick="openMealModal()">
+        <button class="add" onclick="openMeal()">
             ＋ إضافة وجبة
         </button>
 
     </div>
 
 
-    <!-- DAILY PROGRESS -->
+    <!-- التقدم -->
 
     <div class="card">
 
-        <div class="card-title">تقدم اليوم</div>
+        <div class="title">تقدم اليوم</div>
 
-        <div class="small">
-            هدفك اليومي
+        <div class="muted">
+            نسبة السعرات المضافة من هدف 2000
         </div>
 
-        <div class="progress-bar">
-            <div class="progress-fill" id="dailyProgress"></div>
+        <div class="progress">
+            <div class="progress-fill" id="progress"></div>
         </div>
 
     </div>
@@ -627,50 +563,43 @@ input[type="file"] {
 </section>
 
 
-<!-- CALENDAR -->
+<!-- التقويم -->
 
-<section id="calendar" class="page">
+<section id="calendarPage" class="page">
 
     <div class="card">
 
-        <div class="card-title">📅 التقويم</div>
-        <div class="small">تابعي أيامك وتقدمك</div>
+        <div class="title">📅 التقويم</div>
+        <div class="muted">أيام الشهر</div>
 
-        <div style="
-            display:grid;
-            grid-template-columns:repeat(7,1fr);
-            gap:10px;
-            margin-top:20px;
-        " id="calendarDays"></div>
+        <div class="calendar" id="calendar"></div>
 
     </div>
 
 </section>
 
 
-<!-- PROGRESS -->
+<!-- التقدم -->
 
-<section id="progress" class="page">
+<section id="progressPage" class="page">
 
     <div class="card">
 
-        <div class="card-title">📈 التقدم</div>
+        <div class="title">📈 التقدم</div>
 
-        <div class="card" style="background:#f4f1ff;box-shadow:none;">
-            <div class="small">السعرات اليوم</div>
-            <strong style="font-size:28px;" id="progressCalories">0</strong>
-            <span> سعرة</span>
+        <div class="card">
+            <div class="muted">السعرات</div>
+            <h2><span id="pCalories">0</span> سعرة</h2>
         </div>
 
-        <div class="card" style="background:#f4f1ff;box-shadow:none;">
-            <div class="small">الماء</div>
-            <strong style="font-size:28px;" id="progressWater">0</strong>
-            <span> أكواب</span>
+        <div class="card">
+            <div class="muted">الماء</div>
+            <h2><span id="pWater">0</span> أكواب</h2>
         </div>
 
-        <div class="card" style="background:#f4f1ff;box-shadow:none;">
-            <div class="small">عدد الوجبات</div>
-            <strong style="font-size:28px;" id="progressMeals">0</strong>
+        <div class="card">
+            <div class="muted">الوجبات</div>
+            <h2><span id="pMeals">0</span></h2>
         </div>
 
     </div>
@@ -678,25 +607,26 @@ input[type="file"] {
 </section>
 
 
-<!-- SETTINGS -->
+<!-- الإعدادات -->
 
 <section id="settings" class="page">
 
     <div class="card">
 
-        <div class="card-title">⚙️ الإعدادات</div>
+        <div class="title">⚙️ الإعدادات</div>
 
-        <!-- BACKGROUND -->
+
+        <!-- اختيار الخلفية -->
 
         <div class="setting">
 
-            <div class="setting-info">
+            <div class="setting-left">
 
                 <div class="setting-icon">🖼️</div>
 
                 <div>
-                    <strong>خلفية التطبيق</strong>
-                    <div class="small">
+                    <b>خلفية التطبيق</b>
+                    <div class="muted">
                         اختاري صورة من ألبوم الصور
                     </div>
                 </div>
@@ -709,8 +639,8 @@ input[type="file"] {
                 </button>
 
                 <input
-                    type="file"
                     id="backgroundInput"
+                    type="file"
                     accept="image/*"
                     onchange="changeBackground(event)"
                 >
@@ -719,47 +649,47 @@ input[type="file"] {
         </div>
 
 
-        <!-- LANGUAGE -->
+        <!-- اللغة -->
 
         <div class="setting">
 
-            <div class="setting-info">
+            <div class="setting-left">
 
                 <div class="setting-icon">🌐</div>
 
                 <div>
-                    <strong>اللغة</strong>
-                    <div class="small">العربية</div>
+                    <b>اللغة</b>
+                    <div class="muted">العربية</div>
                 </div>
 
             </div>
 
-            <button onclick="showToast('اللغة العربية مفعلة حالياً')">
+            <button onclick="toast('العربية مفعلة حالياً')">
                 العربية
             </button>
 
         </div>
 
 
-        <!-- RESET -->
+        <!-- حذف البيانات -->
 
         <div class="setting">
 
-            <div class="setting-info">
+            <div class="setting-left">
 
-                <div class="setting-icon">🔄</div>
+                <div class="setting-icon">🗑️</div>
 
                 <div>
-                    <strong>إعادة ضبط البيانات</strong>
-                    <div class="small">
-                        حذف الوجبات والماء والخلفية
+                    <b>حذف البيانات</b>
+                    <div class="muted">
+                        إعادة التطبيق للوضع الأساسي
                     </div>
                 </div>
 
             </div>
 
             <button
-                style="background:#ff5c6c;"
+                style="background:#e75b68"
                 onclick="resetApp()"
             >
                 حذف
@@ -772,106 +702,91 @@ input[type="file"] {
 </section>
 
 
-<!-- BOTTOM NAVIGATION -->
+<!-- شريط التنقل السفلي -->
 
-<nav class="bottom-nav">
+<nav class="bottom">
 
-    <!-- الماء -->
-    <button class="nav-item active" onclick="showPage('home',this)">
-        <div class="nav-circle">💧</div>
-        <span>الماء</span>
+    <button class="nav active" onclick="openPage('home',this)">
+        <div class="nav-icon">💧</div>
+        الماء
     </button>
 
-    <!-- الوجبات -->
-    <button class="nav-item" onclick="showPage('home',this); scrollToMeals()">
-        <div class="nav-circle">🍽️</div>
-        <span>الوجبات</span>
+    <button class="nav" onclick="openMeals(this)">
+        <div class="nav-icon">🍽️</div>
+        الوجبات
     </button>
 
-    <!-- التقويم -->
-    <button class="nav-item" onclick="showPage('calendar',this)">
-        <div class="nav-circle">📅</div>
-        <span>التقويم</span>
+    <button class="nav" onclick="openPage('calendarPage',this)">
+        <div class="nav-icon">📅</div>
+        التقويم
     </button>
 
-    <!-- التقدم -->
-    <button class="nav-item" onclick="showPage('progress',this)">
-        <div class="nav-circle">📈</div>
-        <span>التقدم</span>
+    <button class="nav" onclick="openPage('progressPage',this)">
+        <div class="nav-icon">📈</div>
+        التقدم
     </button>
 
-    <!-- الإعدادات -->
-    <button class="nav-item" onclick="showPage('settings',this)">
-        <div class="nav-circle">⚙️</div>
-        <span>الإعدادات</span>
+    <button class="nav" onclick="openPage('settings',this)">
+        <div class="nav-icon">⚙️</div>
+        الإعدادات
     </button>
 
 </nav>
 
 
-<!-- ADD MEAL MODAL -->
+<!-- نافذة إضافة وجبة -->
 
 <div class="modal" id="mealModal">
 
     <div class="modal-box">
 
-        <div class="modal-title">
-            إضافة وجبة 🍽️
-        </div>
+        <h2>إضافة وجبة 🍽️</h2>
 
-        <div class="form-group">
-            <label>اسم الوجبة</label>
-            <input
-                id="mealName"
-                type="text"
-                placeholder="مثلاً: دجاج مع رز"
-            >
-        </div>
+        <label>اسم الأكل</label>
 
-        <div class="form-group">
-            <label>السعرات</label>
-            <input
-                id="mealCalories"
-                type="number"
-                placeholder="مثلاً: 500"
-            >
-        </div>
+        <input
+            class="input"
+            id="mealName"
+            type="text"
+            placeholder="مثلاً: دجاج مع رز"
+        >
 
-        <div class="form-group">
-            <label>صورة الأكل</label>
+        <label>السعرات</label>
 
-            <label
-                style="
-                    display:block;
-                    padding:15px;
-                    border:2px dashed #ddd;
-                    border-radius:15px;
-                    text-align:center;
-                    cursor:pointer;
-                "
+        <input
+            class="input"
+            id="mealCalories"
+            type="number"
+            placeholder="مثلاً: 500"
+        >
+
+        <label>
+            <button
+                class="add"
+                type="button"
+                onclick="document.getElementById('mealImage').click()"
             >
                 📷 اختيار صورة من الألبوم
+            </button>
 
-                <input
-                    type="file"
-                    id="mealImage"
-                    accept="image/*"
-                    onchange="previewMealImage(event)"
-                >
-            </label>
+            <input
+                id="mealImage"
+                type="file"
+                accept="image/*"
+                onchange="previewImage(event)"
+            >
+        </label>
 
-            <div
-                id="mealPreview"
-                style="text-align:center;margin-top:10px;"
-            ></div>
+        <img
+            id="preview"
+            class="preview"
+        >
 
-        </div>
-
-        <div class="modal-actions">
+        <div class="modal-buttons">
 
             <button
                 class="cancel"
-                onclick="closeMealModal()"
+                onclick="closeMeal()"
             >
                 إلغاء
             </button>
@@ -890,149 +805,152 @@ input[type="file"] {
 </div>
 
 
-<!-- TOAST -->
-
 <div class="toast" id="toast"></div>
 
 
 <script>
 
-/* ================================
-   DATA
-================================ */
+/* =========================
+   البيانات
+========================= */
 
-let appData = JSON.parse(
-    localStorage.getItem("nutrilensData")
+let data = JSON.parse(
+    localStorage.getItem("nutrilens")
 ) || {
-    water: 0,
-    meals: [],
-    background: ""
+    water:0,
+    meals:[],
+    background:""
 };
 
-let selectedMealImage = "";
+let selectedImage = "";
 
 
-/* ================================
-   SAVE
-================================ */
+/* =========================
+   الحفظ
+========================= */
 
-function saveData() {
+function save(){
 
     localStorage.setItem(
-        "nutrilensData",
-        JSON.stringify(appData)
+        "nutrilens",
+        JSON.stringify(data)
     );
 
 }
 
 
-/* ================================
-   PAGE NAVIGATION
-================================ */
+/* =========================
+   الصفحات
+========================= */
 
-function showPage(pageId, button) {
+function openPage(id,button){
 
-    document.querySelectorAll(".page").forEach(page => {
-        page.classList.remove("active");
-    });
+    document.querySelectorAll(".page")
+        .forEach(p => p.classList.remove("active"));
 
-    const page = document.getElementById(pageId);
+    document.getElementById(id)
+        .classList.add("active");
 
-    if (page) {
-        page.classList.add("active");
-    }
+    document.querySelectorAll(".nav")
+        .forEach(n => n.classList.remove("active"));
 
-    document.querySelectorAll(".nav-item").forEach(item => {
-        item.classList.remove("active");
-    });
-
-    if (button) {
+    if(button){
         button.classList.add("active");
     }
 
     window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+        top:0,
+        behavior:"smooth"
     });
 
 }
 
 
-/* ================================
-   WATER
-================================ */
+function openMeals(button){
 
-function changeWater(amount) {
+    openPage("home",button);
 
-    appData.water += amount;
+    setTimeout(() => {
 
-    if (appData.water < 0) {
-        appData.water = 0;
-    }
+        document.getElementById("mealsSection")
+            .scrollIntoView({
+                behavior:"smooth",
+                block:"center"
+            });
 
-    if (appData.water > 8) {
-        appData.water = 8;
-    }
-
-    saveData();
-    updateUI();
+    },100);
 
 }
 
 
-/* ================================
-   MEALS
-================================ */
+/* =========================
+   الماء
+========================= */
 
-function openMealModal() {
+function waterChange(amount){
+
+    data.water += amount;
+
+    if(data.water < 0)
+        data.water = 0;
+
+    if(data.water > 8)
+        data.water = 8;
+
+    save();
+    update();
+
+}
+
+
+/* =========================
+   إضافة وجبة
+========================= */
+
+function openMeal(){
 
     document.getElementById("mealModal")
         .classList.add("show");
 
 }
 
-function closeMealModal() {
+
+function closeMeal(){
 
     document.getElementById("mealModal")
         .classList.remove("show");
 
     document.getElementById("mealName").value = "";
+
     document.getElementById("mealCalories").value = "";
 
     document.getElementById("mealImage").value = "";
 
-    selectedMealImage = "";
+    selectedImage = "";
 
-    document.getElementById("mealPreview").innerHTML = "";
+    document.getElementById("preview").style.display = "none";
 
 }
 
 
-/* اختيار صورة الوجبة */
-
-function previewMealImage(event) {
+function previewImage(event){
 
     const file = event.target.files[0];
 
-    if (!file) return;
+    if(!file) return;
 
     const reader = new FileReader();
 
-    reader.onload = function(e) {
+    reader.onload = function(e){
 
-        selectedMealImage = e.target.result;
+        selectedImage = e.target.result;
 
-        document.getElementById("mealPreview").innerHTML = `
-            <img
-                src="${selectedMealImage}"
-                style="
-                    width:100px;
-                    height:100px;
-                    object-fit:cover;
-                    border-radius:18px;
-                "
-            >
-        `;
+        const preview =
+            document.getElementById("preview");
+
+        preview.src = selectedImage;
+
+        preview.style.display = "block";
 
     };
 
@@ -1041,129 +959,114 @@ function previewMealImage(event) {
 }
 
 
-/* إضافة الوجبة */
-
-function addMeal() {
+function addMeal(){
 
     const name =
-        document.getElementById("mealName").value.trim();
+        document.getElementById("mealName")
+        .value.trim();
 
     const calories =
         Number(
-            document.getElementById("mealCalories").value
+            document.getElementById("mealCalories")
+            .value
         );
 
-    if (!name) {
+    if(!name){
 
-        showToast("اكتبي اسم الوجبة أولاً");
-
-        return;
-    }
-
-    if (!calories || calories < 0) {
-
-        showToast("اكتبي عدد السعرات");
+        toast("اكتبي اسم الوجبة");
 
         return;
     }
 
-    const meal = {
+    if(!calories){
 
-        id: Date.now(),
+        toast("اكتبي السعرات");
 
-        name: name,
+        return;
+    }
 
-        calories: calories,
+    data.meals.push({
 
-        image: selectedMealImage || "",
+        id:Date.now(),
 
-        date: new Date().toLocaleDateString("ar-IQ")
+        name:name,
 
-    };
+        calories:calories,
 
-    appData.meals.push(meal);
+        image:selectedImage
 
-    saveData();
+    });
 
-    closeMealModal();
+    save();
 
-    updateUI();
+    closeMeal();
 
-    showToast("تمت إضافة الوجبة 🍽️");
+    update();
+
+    toast("تمت إضافة الوجبة 🍽️");
 
 }
 
 
-/* حذف وجبة */
+/* =========================
+   حذف وجبة
+========================= */
 
-function deleteMeal(id) {
+function deleteMeal(id){
 
-    appData.meals =
-        appData.meals.filter(
+    data.meals =
+        data.meals.filter(
             meal => meal.id !== id
         );
 
-    saveData();
+    save();
 
-    updateUI();
-
-    showToast("تم حذف الوجبة");
+    update();
 
 }
 
 
-/* ================================
-   BACKGROUND IMAGE
-================================ */
+/* =========================
+   الخلفية
+========================= */
 
-function changeBackground(event) {
+function changeBackground(event){
 
-    const file = event.target.files[0];
+    const file =
+        event.target.files[0];
 
-    if (!file) return;
+    if(!file) return;
 
-    if (!file.type.startsWith("image/")) {
+    const reader =
+        new FileReader();
 
-        showToast("اختاري صورة فقط");
+    reader.onload =
+        function(e){
 
-        return;
-    }
+            data.background =
+                e.target.result;
 
-    const reader = new FileReader();
+            save();
 
-    reader.onload = function(e) {
+            applyBackground();
 
-        const image = e.target.result;
+            toast("تم تغيير الخلفية 🖼️");
 
-        appData.background = image;
-
-        saveData();
-
-        applyBackground();
-
-        showToast("تم تغيير خلفية التطبيق 🖼️");
-
-    };
+        };
 
     reader.readAsDataURL(file);
 
 }
 
 
-/* تطبيق الخلفية */
+function applyBackground(){
 
-function applyBackground() {
-
-    if (appData.background) {
+    if(data.background){
 
         document.body.style.backgroundImage =
-            `url("${appData.background}")`;
+            `url("${data.background}")`;
 
-        document.body.style.backgroundSize = "cover";
-        document.body.style.backgroundPosition = "center";
-        document.body.style.backgroundAttachment = "fixed";
-
-    } else {
+    }else{
 
         document.body.style.backgroundImage =
             "linear-gradient(135deg,#eee9ff,#faf9ff)";
@@ -1173,127 +1076,98 @@ function applyBackground() {
 }
 
 
-/* ================================
-   UPDATE UI
-================================ */
+/* =========================
+   تحديث الواجهة
+========================= */
 
-function updateUI() {
+function update(){
 
-    document.getElementById("waterValue")
-        .textContent = appData.water;
+    document.getElementById("water")
+        .textContent = data.water;
 
 
-    /* مجموع السعرات */
-
-    const totalCalories =
-        appData.meals.reduce(
-            (sum, meal) =>
+    let calories =
+        data.meals.reduce(
+            (sum,meal) =>
                 sum + Number(meal.calories),
             0
         );
 
-    document.getElementById("caloriesValue")
-        .textContent = totalCalories;
 
-    document.getElementById("progressCalories")
-        .textContent = totalCalories;
+    document.getElementById("calories")
+        .textContent = calories;
 
 
-    /* الماكروز - قيم تقديرية بسيطة للعرض */
+    document.getElementById("pCalories")
+        .textContent = calories;
 
-    const protein =
-        Math.round(totalCalories * 0.25 / 4);
+    document.getElementById("pWater")
+        .textContent = data.water;
 
-    const carbs =
-        Math.round(totalCalories * 0.45 / 4);
+    document.getElementById("pMeals")
+        .textContent = data.meals.length;
 
-    const fat =
-        Math.round(totalCalories * 0.30 / 9);
 
-    document.getElementById("proteinValue")
-        .textContent = protein + "g";
+    /* ماكروز تقريبية للعرض */
 
-    document.getElementById("carbsValue")
-        .textContent = carbs + "g";
+    document.getElementById("protein")
+        .textContent =
+        Math.round(calories * .25 / 4) + "g";
 
-    document.getElementById("fatValue")
-        .textContent = fat + "g";
+    document.getElementById("carbs")
+        .textContent =
+        Math.round(calories * .45 / 4) + "g";
+
+    document.getElementById("fat")
+        .textContent =
+        Math.round(calories * .30 / 9) + "g";
 
 
     /* دائرة السعرات */
 
-    const percentage =
-        Math.min(
-            totalCalories / 2000,
-            1
-        );
+    const percent =
+        Math.min(calories / 2000,1);
 
-    const degrees =
-        percentage * 360;
+    const degree =
+        percent * 360;
 
     document.getElementById("calorieCircle")
-        .style.background = `
-            radial-gradient(
-                circle at center,
-                rgba(255,255,255,.95) 62%,
-                transparent 63%
-            ),
-            conic-gradient(
-                var(--primary) ${degrees}deg,
-                #e9e6f3 ${degrees}deg
-            )
-        `;
+        .style.background =
+        `conic-gradient(
+            #7657e8 ${degree}deg,
+            #e9e7f2 ${degree}deg
+        )`;
 
 
-    /* تقدم اليوم */
-
-    document.getElementById("dailyProgress")
+    document.getElementById("progress")
         .style.width =
-            Math.min(
-                percentage * 100,
-                100
-            ) + "%";
+        (percent * 100) + "%";
 
-
-    /* التقدم */
-
-    document.getElementById("progressWater")
-        .textContent = appData.water;
-
-    document.getElementById("progressMeals")
-        .textContent = appData.meals.length;
-
-
-    /* الوجبات */
 
     renderMeals();
 
 }
 
 
-/* ================================
-   RENDER MEALS
-================================ */
+/* =========================
+   عرض الوجبات
+========================= */
 
-function renderMeals() {
+function renderMeals(){
 
-    const list =
-        document.getElementById("mealsList");
+    const container =
+        document.getElementById("meals");
 
-    if (appData.meals.length === 0) {
+    if(data.meals.length === 0){
 
-        list.innerHTML = `
-            <div
-                style="
-                    text-align:center;
-                    padding:25px 5px;
-                    color:#888;
-                "
-            >
+        container.innerHTML = `
+            <div style="
+                text-align:center;
+                padding:25px;
+                color:#999;
+            ">
                 🍽️<br>
-                <span style="font-size:13px;">
-                    ماكو وجبات مضافة اليوم
-                </span>
+                لا توجد وجبات مضافة
             </div>
         `;
 
@@ -1301,47 +1175,38 @@ function renderMeals() {
     }
 
 
-    list.innerHTML =
-        appData.meals.map(meal => {
+    container.innerHTML =
+        data.meals.map(meal => {
 
             const image =
                 meal.image ||
-                "data:image/svg+xml;charset=UTF-8," +
+                "data:image/svg+xml," +
                 encodeURIComponent(`
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="100"
-                        height="100"
-                    >
-                        <rect
-                            width="100"
-                            height="100"
-                            fill="#eeeaff"
-                        />
-                        <text
-                            x="50"
-                            y="58"
-                            text-anchor="middle"
-                            font-size="35"
-                        >
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="100" height="100">
+                        <rect width="100" height="100"
+                              fill="#eee9ff"/>
+                        <text x="50" y="62"
+                              text-anchor="middle"
+                              font-size="38">
                             🍽️
                         </text>
                     </svg>
                 `);
 
+
             return `
                 <div class="meal">
 
                     <img
-                        class="meal-image"
+                        class="meal-img"
                         src="${image}"
-                        alt="${escapeHTML(meal.name)}"
                     >
 
                     <div class="meal-info">
 
                         <div class="meal-name">
-                            ${escapeHTML(meal.name)}
+                            ${safe(meal.name)}
                         </div>
 
                         <div class="meal-cal">
@@ -1351,7 +1216,7 @@ function renderMeals() {
                     </div>
 
                     <button
-                        class="delete-meal"
+                        class="delete"
                         onclick="deleteMeal(${meal.id})"
                     >
                         ×
@@ -1365,34 +1230,35 @@ function renderMeals() {
 }
 
 
-/* حماية النص */
-
-function escapeHTML(text) {
+function safe(text){
 
     return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
 }
 
 
-/* ================================
-   CALENDAR
-================================ */
+/* =========================
+   التقويم
+========================= */
 
-function createCalendar() {
+function makeCalendar(){
 
-    const container =
-        document.getElementById("calendarDays");
+    const box =
+        document.getElementById("calendar");
 
-    const today = new Date();
+    const now =
+        new Date();
 
-    const year = today.getFullYear();
+    const year =
+        now.getFullYear();
 
-    const month = today.getMonth();
+    const month =
+        now.getMonth();
 
     const days =
         new Date(
@@ -1401,173 +1267,97 @@ function createCalendar() {
             0
         ).getDate();
 
-    const firstDay =
+    const first =
         new Date(
             year,
             month,
             1
         ).getDay();
 
-    container.innerHTML = "";
+    box.innerHTML = "";
 
-    /* فراغات البداية */
+    for(let i=0;i<first;i++){
 
-    for (
-        let i = 0;
-        i < firstDay;
-        i++
-    ) {
-
-        const empty =
-            document.createElement("div");
-
-        container.appendChild(empty);
+        box.innerHTML += "<div></div>";
 
     }
 
+    for(let d=1;d<=days;d++){
 
-    for (
-        let day = 1;
-        day <= days;
-        day++
-    ) {
+        const today =
+            d === now.getDate();
 
-        const item =
-            document.createElement("div");
-
-        const isToday =
-            day === today.getDate();
-
-        item.style.width = "42px";
-        item.style.height = "42px";
-        item.style.margin = "auto";
-        item.style.borderRadius = "50%";
-        item.style.display = "flex";
-        item.style.alignItems = "center";
-        item.style.justifyContent = "center";
-        item.style.fontWeight = "700";
-        item.style.background =
-            isToday
-            ? "var(--primary)"
-            : "rgba(255,255,255,.8)";
-        item.style.color =
-            isToday
-            ? "white"
-            : "var(--text)";
-
-        item.textContent = day;
-
-        container.appendChild(item);
+        box.innerHTML += `
+            <div class="day ${today ? "today":""}">
+                ${d}
+            </div>
+        `;
 
     }
 
 }
 
 
-/* ================================
-   SCROLL TO MEALS
-================================ */
+/* =========================
+   إشعار
+========================= */
 
-function scrollToMeals() {
+function toast(message){
 
-    showPage("home");
-
-    setTimeout(() => {
-
-        const cards =
-            document.querySelectorAll("#home .card");
-
-        if (cards.length >= 3) {
-
-            cards[2].scrollIntoView({
-                behavior: "smooth",
-                block: "center"
-            });
-
-        }
-
-    }, 100);
-
-}
-
-
-/* ================================
-   TOAST
-================================ */
-
-function showToast(message) {
-
-    const toast =
+    const t =
         document.getElementById("toast");
 
-    toast.textContent = message;
+    t.textContent = message;
 
-    toast.classList.add("show");
+    t.classList.add("show");
 
-    clearTimeout(window.toastTimer);
+    clearTimeout(window.toastTimeout);
 
-    window.toastTimer =
+    window.toastTimeout =
         setTimeout(() => {
 
-            toast.classList.remove("show");
+            t.classList.remove("show");
 
-        }, 2200);
+        },2200);
 
 }
 
 
-/* ================================
-   RESET
-================================ */
+/* =========================
+   إعادة ضبط
+========================= */
 
-function resetApp() {
+function resetApp(){
 
-    const confirmed =
-        confirm(
-            "متأكدة تريدين حذف كل البيانات والخلفية؟"
-        );
+    if(!confirm("متأكد تريد حذف كل البيانات؟"))
+        return;
 
-    if (!confirmed) return;
-
-    localStorage.removeItem("nutrilensData");
-
-    appData = {
-
-        water: 0,
-
-        meals: [],
-
-        background: ""
-
+    data = {
+        water:0,
+        meals:[],
+        background:""
     };
 
+    save();
+
     applyBackground();
 
-    updateUI();
+    update();
 
-    showToast("تمت إعادة ضبط التطبيق");
+    toast("تم حذف البيانات");
 
 }
 
 
-/* ================================
-   START APP
-================================ */
+/* =========================
+   تشغيل
+========================= */
 
-function initApp() {
+applyBackground();
 
-    applyBackground();
+makeCalendar();
 
-    updateUI();
-
-    createCalendar();
-
-}
-
-
-/* تشغيل التطبيق */
-
-initApp();
+update();
 
 </script>
 
